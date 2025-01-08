@@ -5,12 +5,12 @@ $imagesPath = "photos/index_images/";
 <header class="header" style="background: linear-gradient(-135deg, rgb(63, 63, 63), rgb(182, 165, 132));">
   
     <!-- Login Button -->
-    <a href="signin.php" target="main" class="button" style="position: relative; right:20px;">
+    <a href="log_in.php" target="main" class="button" style="position: relative; right:20px;">
         Login
     </a>
     
     <!-- Sign Up Button -->
-    <a href="sign_Up.php" target="main" class="button" style="position: relative; right:60px;">
+    <a href="sign_up.php" target="main" class="button" style="position: relative; right:60px;">
         Sign Up
     </a>
     
@@ -21,10 +21,7 @@ $imagesPath = "photos/index_images/";
     <img src="photos/logo_Images/Logo99.png" id="logo" />
     
     <!-- Navbar Background Image on Right -->
-    <img src="<?= $imagesPath ?>navBarBackground.png" id="right" style="max-width:250px; max-height:250px; margin-right: 420px;"/>
-    <a href="cart.php" target="main" class="button" style="position: relative; right:60px;">
-        Cart
-    </a>
+    
 </header>
 <style>
     /* Buttons */

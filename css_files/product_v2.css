@@ -1,0 +1,48 @@
+     /* Styling Each Item Container */
+     .item {
+        position: relative;
+        background-color: rgba(0, 0, 0, 0.7); /* Slight transparency */
+        border-radius: 10px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        width: 200px;
+        height: 400px;
+        text-align: center;
+        padding: 20px 10px; /* Increase padding to give space for tooltip */
+        transition: transform 0.3s ease;
+        backdrop-filter: blur(10px); /* Adding blur effect behind the items */
+    }
+
+   
+
+    /* Tooltip Styling */
+    .tooltip {
+        position: absolute;
+        bottom: 10px; /* Adjust position to ensure tooltip doesn't go below the item */
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+        white-space: nowrap;
+        z-index: 999;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s, visibility 0s 0.3s;
+        border: 1px solid rgb(172, 156, 120);
+    }
+   
+
+
+    button {
+        cursor: pointer;
+        background: linear-gradient(-135deg, rgb(46, 42, 28), rgb(82, 74, 61));
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 16px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        width: 50%; /* Same width as select for consistency */
+    }
+
+    

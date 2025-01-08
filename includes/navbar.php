@@ -16,7 +16,7 @@
           <a href="includes/location.php" target="main">
             <button class="button button4">Our Place</button>
           </a><br /><br />
-          <a href="contact-us.php" target="main">
+          <a href="contact_us.php" target="main">
             <button class="button button6">Contact Us</button>
           </a>
         </div>
