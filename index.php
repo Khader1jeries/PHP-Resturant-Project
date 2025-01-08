@@ -1,7 +1,7 @@
 <?php
 // Define the path for images and resources
 $imagesPath = "photos/index_images/";
-$cssPath = "css_files/maincss.css";
+$cssPath = "css_files/index.css";
 ?>
 
 <!DOCTYPE html>

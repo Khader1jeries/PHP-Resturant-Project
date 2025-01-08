@@ -29,7 +29,7 @@ if (isset($_SESSION['username'])) {
 
 // Define paths for resources
 $imagesPath = "../photos/index_images/";
-$cssPath = "../css_files/maincss.css";
+$cssPath = "../css_files/index.css";
 ?>
 
 <!DOCTYPE html>
@@ -43,16 +43,9 @@ $cssPath = "../css_files/maincss.css";
 <body id="restaurantBody">
     <div class="Project">
         <?php include 'header.php'; ?>
-        <?php include '../includes/navbar.php'; ?>
-        
-        <div class="mainContent">
-            <?php if ($user): ?>
-                <h2>Welcome, <?= htmlspecialchars($user['firstname']) ?> <?= htmlspecialchars($user['lastname']) ?></h2>
-                <p><strong>Username:</strong> <?= htmlspecialchars($user['username']) ?></p>
-                <p><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></p>
-                <p><strong>Phone:</strong> <?= htmlspecialchars($user['phone']) ?></p>
-            <?php endif; ?>
-        </div>
+        <?php require 'navbar.php'; ?>
+        <?php require 'iframe.php'; ?>
+      
         
         <?php include '../includes/footer.php'; ?>
     </div>
