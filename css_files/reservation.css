@@ -1,0 +1,126 @@
+body {
+  margin-top: 200px;
+  font-family: Arial, sans-serif;
+
+  color: #333;
+}
+
+.container {
+  width: 450px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+  padding-bottom: 30px;
+}
+
+h2 {
+  font-size: 35px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 100px;
+  color: black;
+  user-select: none;
+  border-radius: 15px 15px 0 0;
+  background: linear-gradient(-135deg, wheat, gray);
+}
+
+label {
+  background: wheat;
+}
+
+select {
+  background: black;
+  color: wheat;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+form {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+input[type="email"],
+input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+input[type="text"] {
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+input[type="tel"] {
+  margin-left: 23px;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+input[type="time"] {
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  width: 49%;
+}
+
+input[type="number"] {
+  padding: 11px;
+  width: 49%;
+  margin-bottom: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  color: black;
+  border: none;
+  width: 100%;
+  border-radius: 20px;
+  padding: 15px;
+  padding-left: 0;
+  margin-top: -10px;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  background: linear-gradient(-135deg, wheat, gray);
+  transition: all 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  box-shadow: rgba(49, 49, 49, 0.35) 0 -25px 18px -14px inset,
+    rgba(49, 49, 49, 0.35) 0 1px 2px, rgba(49, 49, 49, 0.35) 0 2px 4px,
+    rgba(49, 49, 49, 0.35) 0 4px 8px, rgba(81, 81, 81, 0.25) 0 8px 16px,
+    rgba(97, 97, 97, 0.25) 0 16px 32px;
+  transform: scale(0.95);
+}
+
+input[type="submit"]:focus {
+  outline: none;
+}
+
+input:focus {
+  border-color: #4caf50;
+}
