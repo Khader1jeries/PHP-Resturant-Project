@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         // Redirect to home.php after successful login using window.top.location.href
                         // If user logged in with temp password, redirect to update password page
                         if (isset($_SESSION['temp_password'])) {
-                            echo "<script>window.location.href = 'change_password.php';</script>";
+                            echo "<script>window.location.href = 'reset_password.php';</script>";
                         } else {
                             echo "<script>window.top.location.href = 'Client/index.php';</script>";
                         }
@@ -78,24 +78,48 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $username = $_POST['username'] ?? null;
 
         if ($username) {
-            // Generate a random temporary password
-            $tempPassword = bin2hex(random_bytes(4)); // 8-character random string
-            $hashedTempPassword = password_hash($tempPassword, PASSWORD_DEFAULT); // Hash the temp password
-
-            // Update the user in the database with the new temporary password
-            $stmt = $conn->prepare("UPDATE users SET password = NULL, temp_password = ?, failed_attempts = 0 WHERE username = ?");
-            $stmt->bind_param("ss", $hashedTempPassword, $username);
+            // Query to fetch the user's email from the database
+            $stmt = $conn->prepare("SELECT email FROM users WHERE username = ?");
+            $stmt->bind_param("s", $username);
             $stmt->execute();
-
-            if ($stmt->affected_rows > 0) {
-                echo "<p style='color: green; text-align: center;'>A temporary password has been generated: $tempPassword</p>";
-                echo "<p style='color: green; text-align: center;'>Use this password to log in and update it.</p>";
+            $result = $stmt->get_result();
+        
+            if ($result && $result->num_rows > 0) {
+                $user = $result->fetch_assoc();
+                $userEmail = $user['email'];
+        
+                // Generate a random temporary password
+                $tempPassword = bin2hex(random_bytes(4)); // 8-character random string
+                $hashedTempPassword = password_hash($tempPassword, PASSWORD_DEFAULT);
+        
+                // Update the user's temporary password
+                $updateStmt = $conn->prepare("UPDATE users SET password = NULL, temp_password = ?, failed_attempts = 0 WHERE username = ?");
+                $updateStmt->bind_param("ss", $hashedTempPassword, $username);
+                $updateStmt->execute();
+        
+                if ($updateStmt->affected_rows > 0) {
+                    // Generate the reset password link
+                    $resetLink = "http://localhost/labs/PHP-Resturant-Project/PHP-Resturant-Project/change_password.php?username=" . urlencode($username);
+        
+                    // Send the reset password link via email
+                    $to = $userEmail;
+                    $subject = "Reset Your Password";
+                    $message = "Hello,\n\nA password reset has been requested for your account. Use the link below to reset your password:\n\n$resetLink\n\nIf you did not request this, please ignore this email.";
+                    $headers = "From: noreply@yourdomain.com";
+        
+                    if (mail($to, $subject, $message, $headers)) {
+                        echo "<p style='color: green; text-align: center;'>A temporary password has been sent to your email.</p>";
+                    } else {
+                        echo "<p style='color: red; text-align: center;'>Failed to send the reset email. Please try again later.</p>";
+                    }
+                } else {
+                    echo "<p style='color: red; text-align: center;'>Failed to generate a temporary password. Please try again later.</p>";
+                }
+                $updateStmt->close();
             } else {
                 echo "<p style='color: red; text-align: center;'>No user found with the username provided.</p>";
             }
             $stmt->close();
-        } else {
-            echo "<p style='color: red; text-align: center;'>Please enter your username.</p>";
         }
     }
 }
@@ -103,6 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 // Close the database connection
 $conn->close();
 ?>
+
 
 
 

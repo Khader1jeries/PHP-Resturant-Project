@@ -10,12 +10,11 @@ $imagesPath = "photos/index_images/";
     </a>
     
     <!-- Sign Up Button -->
-    <a href="sign_up.php" target="main" class="button" style="position: relative; right:60px;">
+    <a href="sign_up.php" target="main" class="button" style="position: relative; right:750px;">
         Sign Up
     </a>
     
     <!-- Navbar Background Images -->
-    <img src="<?= $imagesPath ?>navBarBackground.png" id="left" style="max-width:250px; max-height:250px;"/>
     
     <!-- Logo -->
     <img src="photos/logo_Images/Logo99.png" id="logo" />

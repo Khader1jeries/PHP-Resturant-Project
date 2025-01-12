@@ -57,6 +57,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Execute the statement
         if ($stmt->execute()) {
             $form_success = "Thank you for contacting us! We will get back to you soon.";
+
+            // Send confirmation email to the user
+            $to = $email;
+            $subject = "Contact Form Submission Confirmation";
+
+            $mailMessage = "<h1>Hello $name,</h1>";
+            $mailMessage .= "<p>Thank you for contacting us. We have received your message and will respond to you shortly.</p>";
+            $mailMessage .= "<p><b>Your message:</b> $message</p>";
+            $mailMessage .= "<p>You can visit our website or access your request <a href='http://example.com/simulated-page'>here</a>.</p>";
+            $mailMessage .= "<p>Best regards,<br>Our Team</p>";
+
+            $headers = "From: no-reply@example.com\r\n";
+            $headers .= "Content-type: text/html\r\n";
+
+            // Use PHP's mail() function (Ensure SMTP is configured correctly in php.ini)
+            if (!mail($to, $subject, $mailMessage, $headers)) {
+                $errors[] = "Failed to send confirmation email.";
+            }
         } else {
             $errors[] = "An error occurred while submitting the form. Please try again.";
         }
@@ -69,6 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Close the database connection
 $conn->close();
 ?>
+
 
 
 <!DOCTYPE html>
