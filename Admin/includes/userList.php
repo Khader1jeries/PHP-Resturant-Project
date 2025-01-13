@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "config/userAuthConfig.php"; // Include the database connection
+include "../../config/userAuthConfig.php"; // Include the database connection
 
 // Handle form submission to add a new user
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $lastname = $_POST['lastname'] ?? null;
     $email = $_POST['email'] ?? null;
     $phone = $_POST['phone'] ?? null;
-    $password = $_POST['password'] ??  null; // Hash the password
+    $password = $_POST['password'] ?? null; // No hashing for password here
 
     // Check for null values before proceeding
     if ($username && $firstname && $lastname && $email && $phone && $password) {
@@ -41,69 +41,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-// Handle show/hide users toggle
-if (!isset($_SESSION['show_users'])) {
-    $_SESSION['show_users'] = false;
-}
-
-if (isset($_POST['show_users'])) {
-    $_SESSION['show_users'] = !$_SESSION['show_users'];  // Toggle visibility
-}
-
-$showUsers = $_SESSION['show_users'];
-
-// Initialize the users array to avoid undefined variable warnings
+// Query the database for all users automatically when the page loads
 $sortedUsers = [];
 
-// Query the database for all users if $showUsers is true
-if ($showUsers) {
-    $result = $conn->query("SELECT username, firstname, lastname, email, phone FROM users ORDER BY firstname ASC");
-    if ($result && $result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $sortedUsers[] = $row;
-        }
+// Query the database for all users
+$result = $conn->query("SELECT username, firstname, lastname, email, phone, password FROM users ORDER BY firstname ASC");
+
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $sortedUsers[] = $row;
     }
+} else {
+    echo "<p style='color: red; text-align: center;'>No users found or error in query.</p>";
 }
 
 // Close the connection after all operations
 $conn->close();
 ?>
 
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css_files/sign_up.css" />
-    <title>Sign Up and View Users</title>
-    
+    <link rel="stylesheet" href="../../css_files/sign_up.css" />
+    <title>View Users</title>
 </head>
 <body>
-    <div class="container">
-        <h2>Sign Up</h2>
-        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
-            <input type="text" name="username" required placeholder="Username" />
-            <input type="text" name="firstname" required placeholder="First Name" />
-            <input type="text" name="lastname" required placeholder="Last Name" />
-            <input type="email" name="email" required placeholder="Email" />
-            <input type="text" name="phone" required placeholder="Phone Number" />
-            <input type="password" name="password" required placeholder="Password" />
-            <input type="submit" value="Sign Up" />
-        </form>
-
-        <!-- Button to toggle users list visibility -->
-        <form method="post">
-            <button type="submit" name="show_users">
-                <?php echo $showUsers ? 'Hide All Users' : 'Show All Users'; ?>
-            </button>
-        </form>
-
-        <!-- Display sorted users if the button is clicked -->
-        <?php if ($showUsers): ?>
-            <h3>Signed-Up Users (Sorted by First Name)</h3>
+    <div class="container" style="width: 600px;">
+        <h3>Users (Sorted by First Name)</h3>
+        <?php if (!empty($sortedUsers)): ?>
             <table>
                 <thead>
                     <tr>
@@ -112,6 +79,7 @@ $conn->close();
                         <th>Last Name</th>
                         <th>Email</th>
                         <th>Phone</th>
+                        <th>Password</th> <!-- Add this column for the password -->
                     </tr>
                 </thead>
                 <tbody>
@@ -122,10 +90,13 @@ $conn->close();
                             <td><?php echo htmlspecialchars($user['lastname']); ?></td>
                             <td><?php echo htmlspecialchars($user['email']); ?></td>
                             <td><?php echo htmlspecialchars($user['phone']); ?></td>
+                            <td><?php echo htmlspecialchars($user['password']); ?></td> <!-- Display the password -->
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
+        <?php else: ?>
+            <p style="text-align: center;">No users to display.</p>
         <?php endif; ?>
     </div>
 </body>

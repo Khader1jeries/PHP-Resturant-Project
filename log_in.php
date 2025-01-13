@@ -1,6 +1,7 @@
 <?php
 session_start();
-include "config/userAuthConfig.php"; // Include the database connection
+include "config/adminAuthConfig.php"; // Include admin database connection
+include "config/userAuthConfig.php"; // Include user database connection
 
 // Initialize $lockMessage to avoid undefined variable warnings
 $lockMessage = "";
@@ -12,64 +13,85 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $password = $_POST['password'] ?? null;
 
         if ($username && $password) {
-            // Query to fetch the user from the database
-            $stmt = $conn->prepare("SELECT id, password, failed_attempts, temp_password FROM users WHERE username = ?");
+            // Check in the admins table first
+            $stmt = $adminConn->prepare("SELECT id, password, failed_attempts, temp_password FROM users WHERE username = ?");
             $stmt->bind_param("s", $username);
             $stmt->execute();
             $result = $stmt->get_result();
 
             if ($result && $result->num_rows > 0) {
                 $user = $result->fetch_assoc();
+                $isAdmin = true;
+            } else {
+                // If not found in admins, check in users table
+                $stmt = $conn->prepare("SELECT id, password, failed_attempts, temp_password FROM users WHERE username = ?");
+                $stmt->bind_param("s", $username);
+                $stmt->execute();
+                $result = $stmt->get_result();
 
-                // Lock the account if failed attempts >= 3
-                if ($user['failed_attempts'] >= 3) {
-                    // Set the password to NULL after 3 failed attempts
-                    $stmtUpdate = $conn->prepare("UPDATE users SET password = NULL WHERE id = ?");
-                    $stmtUpdate->bind_param("i", $user['id']);
-                    $stmtUpdate->execute();
-
-                    $lockMessage = "Your account is locked due to too many failed attempts. Please reset your password.";
+                if ($result && $result->num_rows > 0) {
+                    $user = $result->fetch_assoc();
+                    $isAdmin = false;
                 } else {
-                    // Check if password matches the stored password (either the original password or temporary password)
-                    if (
-                        password_verify($password, $user['password']) ||  // Check for the original password
-                        (isset($user['temp_password']) && password_verify($password, $user['temp_password']))  // Check for the temporary password
-                    ) {
-                        // If the temp password is used, set the temp password session flag
-                        if (isset($user['temp_password']) && password_verify($password, $user['temp_password'])) {
-                            $_SESSION['temp_password'] = true; // Temporary password flag
-                        }
+                    echo "<p style='color: red; text-align: center;'>No user found with the username provided.</p>";
+                    exit();
+                }
+            }
 
-                        // Reset failed attempts
-                        $resetStmt = $conn->prepare("UPDATE users SET failed_attempts = 0 WHERE id = ?");
-                        $resetStmt->bind_param("i", $user['id']);
-                        $resetStmt->execute();
+            // Lock the account if failed attempts >= 3
+            if ($user['failed_attempts'] >= 3) {
+                // Set the password to NULL after 3 failed attempts
+                $stmtUpdate = $isAdmin
+                    ? $adminConn->prepare("UPDATE users SET password = NULL WHERE id = ?")
+                    : $conn->prepare("UPDATE users SET password = NULL WHERE id = ?");
 
-                        // Set session variables
-                        $_SESSION['user_id'] = $user['id'];
-                        $_SESSION['username'] = $username;
+                $stmtUpdate->bind_param("i", $user['id']);
+                $stmtUpdate->execute();
 
-                        // Redirect to home.php after successful login using window.top.location.href
-                        // If user logged in with temp password, redirect to update password page
+                $lockMessage = "Your account is locked due to too many failed attempts. Please reset your password.";
+            } else {
+                // Check if password matches the stored password (plain-text comparison)
+                if ($password === $user['password'] || ($user['temp_password'] && $password === $user['temp_password'])) {
+                    // If the temp password is used, set the temp password session flag
+                    if ($user['temp_password'] && $password === $user['temp_password']) {
+                        $_SESSION['temp_password'] = true;
+                    }
+
+                    // Reset failed attempts
+                    $resetStmt = $isAdmin
+                        ? $adminConn->prepare("UPDATE users SET failed_attempts = 0 WHERE id = ?")
+                        : $conn->prepare("UPDATE users SET failed_attempts = 0 WHERE id = ?");
+
+                    $resetStmt->bind_param("i", $user['id']);
+                    $resetStmt->execute();
+
+                    // Set session variables
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['username'] = $username;
+
+                    // Redirect based on admin or user
+                    if ($isAdmin) {
+                        echo "<script>window.top.location.href = 'Admin/index.php';</script>";
+                    } else {
                         if (isset($_SESSION['temp_password'])) {
                             echo "<script>window.location.href = 'reset_password.php';</script>";
                         } else {
                             echo "<script>window.top.location.href = 'Client/index.php';</script>";
                         }
-                        exit(); // Stop script execution to ensure redirect happens
-                    } else {
-                        // Increment failed attempts on invalid login
-                        $incrementStmt = $conn->prepare("UPDATE users SET failed_attempts = failed_attempts + 1 WHERE id = ?");
-                        $incrementStmt->bind_param("i", $user['id']);
-                        $incrementStmt->execute();
-
-                        echo "<p style='color: red; text-align: center;'>Invalid password. Please try again.</p>";
                     }
+                    exit(); // Stop script execution to ensure redirect happens
+                } else {
+                    // Increment failed attempts on invalid login
+                    $incrementStmt = $isAdmin
+                        ? $adminConn->prepare("UPDATE users SET failed_attempts = failed_attempts + 1 WHERE id = ?")
+                        : $conn->prepare("UPDATE users SET failed_attempts = failed_attempts + 1 WHERE id = ?");
+
+                    $incrementStmt->bind_param("i", $user['id']);
+                    $incrementStmt->execute();
+
+                    echo "<p style='color: red; text-align: center;'>Invalid password. Please try again.</p>";
                 }
-            } else {
-                echo "<p style='color: red; text-align: center;'>No user found with the username provided.</p>";
             }
-            $stmt->close();
         } else {
             echo "<p style='color: red; text-align: center;'>Please enter both username and password.</p>";
         }
@@ -78,58 +100,71 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $username = $_POST['username'] ?? null;
 
         if ($username) {
-            // Query to fetch the user's email from the database
-            $stmt = $conn->prepare("SELECT email FROM users WHERE username = ?");
+            // Check in admins table first
+            $stmt = $adminConn->prepare("SELECT email FROM users WHERE username = ?");
             $stmt->bind_param("s", $username);
             $stmt->execute();
             $result = $stmt->get_result();
-        
+
             if ($result && $result->num_rows > 0) {
                 $user = $result->fetch_assoc();
-                $userEmail = $user['email'];
-        
-                // Generate a random temporary password
-                $tempPassword = bin2hex(random_bytes(4)); // 8-character random string
-                $hashedTempPassword = password_hash($tempPassword, PASSWORD_DEFAULT);
-        
-                // Update the user's temporary password
-                $updateStmt = $conn->prepare("UPDATE users SET password = NULL, temp_password = ?, failed_attempts = 0 WHERE username = ?");
-                $updateStmt->bind_param("ss", $hashedTempPassword, $username);
-                $updateStmt->execute();
-        
-                if ($updateStmt->affected_rows > 0) {
-                    // Generate the reset password link
-                    $resetLink = "http://localhost/labs/PHP-Resturant-Project/PHP-Resturant-Project/change_password.php?username=" . urlencode($username);
-        
-                    // Send the reset password link via email
-                    $to = $userEmail;
-                    $subject = "Reset Your Password";
-                    $message = "Hello,\n\nA password reset has been requested for your account. Use the link below to reset your password:\n\n$resetLink\n\nIf you did not request this, please ignore this email.";
-                    $headers = "From: noreply@yourdomain.com";
-        
-                    if (mail($to, $subject, $message, $headers)) {
-                        echo "<p style='color: green; text-align: center;'>A temporary password has been sent to your email.</p>";
-                    } else {
-                        echo "<p style='color: red; text-align: center;'>Failed to send the reset email. Please try again later.</p>";
-                    }
-                } else {
-                    echo "<p style='color: red; text-align: center;'>Failed to generate a temporary password. Please try again later.</p>";
-                }
-                $updateStmt->close();
+                $isAdmin = true;
             } else {
-                echo "<p style='color: red; text-align: center;'>No user found with the username provided.</p>";
+                // Check in users table
+                $stmt = $conn->prepare("SELECT email FROM users WHERE username = ?");
+                $stmt->bind_param("s", $username);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                if ($result && $result->num_rows > 0) {
+                    $user = $result->fetch_assoc();
+                    $isAdmin = false;
+                } else {
+                    echo "<p style='color: red; text-align: center;'>No user found with the username provided.</p>";
+                    exit();
+                }
             }
-            $stmt->close();
+
+            $userEmail = $user['email'];
+
+            // Generate a random temporary password
+            $tempPassword = bin2hex(random_bytes(4)); // 8-character random string
+
+            // Update the user's temporary password
+            $updateStmt = $isAdmin
+                ? $adminConn->prepare("UPDATE users SET password = NULL, temp_password = ?, failed_attempts = 0 WHERE username = ?")
+                : $conn->prepare("UPDATE users SET password = NULL, temp_password = ?, failed_attempts = 0 WHERE username = ?");
+
+            $updateStmt->bind_param("ss", $tempPassword, $username);
+            $updateStmt->execute();
+
+            if ($updateStmt->affected_rows > 0) {
+                // Generate the reset password link
+                $resetLink = "http://localhost/labs/PHP-Resturant-Project/PHP-Resturant-Project/change_password.php?username=" . urlencode($username);
+
+                // Send the reset password link via email
+                $to = $userEmail;
+                $subject = "Reset Your Password";
+                $message = "Hello,\n\nA password reset has been requested for your account. Use the link below to reset your password:\n\n$resetLink\n\nIf you did not request this, please ignore this email.";
+                $headers = "From: noreply@yourdomain.com";
+
+                if (mail($to, $subject, $message, $headers)) {
+                    echo "<p style='color: green; text-align: center;'>A temporary password has been sent to your email.</p>";
+                } else {
+                    echo "<p style='color: red; text-align: center;'>Failed to send the reset email. Please try again later.</p>";
+                }
+            } else {
+                echo "<p style='color: red; text-align: center;'>Failed to generate a temporary password. Please try again later.</p>";
+            }
+            $updateStmt->close();
         }
     }
 }
 
-// Close the database connection
+// Close the database connections
+$adminConn->close();
 $conn->close();
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
