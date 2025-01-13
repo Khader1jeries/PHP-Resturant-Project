@@ -4,9 +4,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Include the database connection file
-include "config/contactUsConfig.php"; // Use the same database connection file
-
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Collect form data
@@ -18,76 +15,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validation
     $errors = [];
 
-    // Validate name (Ensure it's not empty and contains only letters and spaces)
+    // Validate name
     if (empty($name)) {
         $errors[] = "Name is required.";
-    } elseif (!preg_match("/^[a-zA-Z ]*$/", $name)) {
-        $errors[] = "Name can only contain letters and spaces.";
     }
 
-    // Validate phone number (Ensure it's exactly 10 digits)
+    // Validate phone number
     if (empty($phone)) {
         $errors[] = "Phone number is required.";
-    } elseif (!preg_match("/^\d{10}$/", $phone)) {
-        $errors[] = "Phone number must be exactly 10 digits (only numbers).";
     }
 
-    // Validate email (Ensure it's a valid email format)
+    // Validate email
     if (empty($email)) {
         $errors[] = "Email is required.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Invalid email format.";
     }
 
-    // Validate message (Ensure it's not empty)
+    // Validate message
     if (empty($message)) {
         $errors[] = "Message is required.";
     }
 
-    // If there are no errors, process the form (e.g., save data to the database)
+    // If no errors, send the email
     if (empty($errors)) {
-        // Prepare the SQL statement to insert data into the contact_us table
-        $stmt = $conn->prepare("INSERT INTO contact_us (name, phone, email, message) VALUES (?, ?, ?, ?)");
-        if ($stmt === false) {
-            die("Prepare failed: " . $conn->error);
-        }
+        $to = "konanai0699@gmail.com"; // Replace with your email
+        $subject = "Contact Form Submission from $name";
+        $emailMessage = "
+        Name: $name\n
+        Phone: $phone\n
+        Email: $email\n
+        Message:\n$message
+        ";
+        $headers = "From: $email\r\n";
+        $headers .= "Reply-To: $email\r\n";
 
-        $stmt->bind_param("ssss", $name, $phone, $email, $message);
-
-        // Execute the statement
-        if ($stmt->execute()) {
-            $form_success = "Thank you for contacting us! We will get back to you soon.";
-
-            // Send confirmation email to the user
-            $to = $email;
-            $subject = "Contact Form Submission Confirmation";
-
-            $mailMessage = "<h1>Hello $name,</h1>";
-            $mailMessage .= "<p>Thank you for contacting us. We have received your message and will respond to you shortly.</p>";
-            $mailMessage .= "<p><b>Your message:</b> $message</p>";
-            $mailMessage .= "<p>You can visit our website or access your request <a href='http://example.com/simulated-page'>here</a>.</p>";
-            $mailMessage .= "<p>Best regards,<br>Our Team</p>";
-
-            $headers = "From: no-reply@example.com\r\n";
-            $headers .= "Content-type: text/html\r\n";
-
-            // Use PHP's mail() function (Ensure SMTP is configured correctly in php.ini)
-            if (!mail($to, $subject, $mailMessage, $headers)) {
-                $errors[] = "Failed to send confirmation email.";
-            }
+        // Use the built-in mail function
+        if (mail($to, $subject, $emailMessage, $headers)) {
+            $form_success = "Thank you for contacting us! Your message has been sent.";
         } else {
-            $errors[] = "An error occurred while submitting the form. Please try again.";
+            $errors[] = "Failed to send email. Please try again.";
         }
-
-        // Close the statement
-        $stmt->close();
     }
 }
-
-// Close the database connection
-$conn->close();
 ?>
-
 
 
 <!DOCTYPE html>
