@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 05, 2025 at 12:28 PM
+-- Generation Time: Jan 19, 2025 at 01:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -61,7 +61,7 @@ INSERT INTO `products` (`kind`, `id`, `name`, `price`, `stock`, `path`) VALUES
 (1, 60, 'Strawberry Juice', 15.00, 50, 'Strawberry Jucie.jpg'),
 (2, 61, 'Classic Burger', 40.00, 5, 'classic burger.jpg'),
 (2, 62, 'Another Burger', 75.00, 3, 'anotherBurger.jpg'),
-(2, 63, 'Yet Another Burger', 100.00, 7, 'Yet Another Burger.jpg'),
+(2, 63, 'Yet Another Burger', 100.00, 7, 'burgerTest1111.jpg'),
 (2, 64, 'Chicken Burger', 40.00, 8, 'Chicken Burger.jpg'),
 (2, 65, 'Mixed Tortia', 60.00, 10, 'tortia.jpg'),
 (2, 66, 'Trible Taco', 60.00, 4, 'Taco.jpg'),
@@ -76,7 +76,8 @@ INSERT INTO `products` (`kind`, `id`, `name`, `price`, `stock`, `path`) VALUES
 (2, 75, 'Diet meal 3', 45.00, 3, 'Diet3.jpg'),
 (2, 76, 'Fatosh Salad', 30.00, 8, 'fatosh.jpg'),
 (2, 77, 'Arabic Salad', 20.00, 5, 'ArabicSalad.jpg'),
-(2, 78, 'Tabola', 30.00, 6, 'tabola.jpg');
+(2, 78, 'Tabola', 30.00, 6, 'tabola.jpg'),
+(2, 79, 'ali', 100.00, 1, 'burgerTest1111.jpg');
 
 --
 -- Indexes for dumped tables
@@ -96,7 +97,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

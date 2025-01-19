@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 05, 2025 at 12:28 PM
+-- Generation Time: Jan 19, 2025 at 01:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `user_authentication`
+-- Database: `clientuser_authentication`
 --
 
 -- --------------------------------------------------------
@@ -35,6 +35,8 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
   `phone` int(15) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `temp_password` varchar(255) DEFAULT NULL,
+  `temp_password_used` tinyint(1) NOT NULL DEFAULT 0,
   `failed_attempts` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -42,9 +44,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `firstname`, `lastname`, `email`, `phone`, `password`, `failed_attempts`) VALUES
-(6, 'rthg', 'fdgdf', 'dfg', 'khader.jeryes@gmail.com', 56156, '$2y$10$4SyGKq3OV3s/PYetA5RDGeqbYL4cc/VY0kb9EBUc2sFxg6tSgw0yK', 0),
-(9, 'test', 'kha', 'fdg', 'khader.jeryes1@gmail.com', 919512, '$2y$10$FFQCPs7AqmYNsUwr6BZ/Au0PiyioXJp6vP/.jrl4UB9GTYpoeG4ZK', 0);
+INSERT INTO `users` (`id`, `username`, `firstname`, `lastname`, `email`, `phone`, `password`, `temp_password`, `temp_password_used`, `failed_attempts`) VALUES
+(17, 'test10', 'aksdk', 'aksd', 'aaksmd@gmal.com', 539123222, '1234', NULL, 0, 0);
 
 --
 -- Indexes for dumped tables
@@ -66,7 +67,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
