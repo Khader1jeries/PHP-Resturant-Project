@@ -16,7 +16,6 @@ $cssPath = "css_files/index.css";
     <div class="Project">
     <?php require 'includes/header.php'; ?>
     <?php require 'includes/navbar.php'; ?>
-    <?php require 'includes/iframe.php'; ?>
       <?php require 'includes/footer.php'; ?>
     </div>
   </body>
