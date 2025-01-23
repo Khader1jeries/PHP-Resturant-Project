@@ -16,12 +16,11 @@ $conn->close();
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="css_files/product.css" />
-    <link rel="stylesheet" type="text/css" href="css_files/product_v2.css" />
+    <link rel="stylesheet" type="text/css" href="css_files/drink.css" />
     <title>Drink Menu</title>
- 
   </head>
-  <body>
+  <body class="drink-page">
+    <?php require 'includes/navbar.php'; ?>
     <h1>Drink Menu</h1>
     <div class="drink">
       <?php foreach ($products as $product): ?>

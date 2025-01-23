@@ -1,51 +1,40 @@
-<?php
-session_start();
-include "../config/adminAuthConfig.php"; // Include the database connection
-
-// Check if the user is logged in
-$user = null;
-if (isset($_SESSION['username'])) {
-    $username = $_SESSION['username'];
-
-    // Query the database to get the user details
-    $stmt = $adminConn->prepare("SELECT id, username, firstname, lastname, email, phone FROM users WHERE username = ?");
-    $stmt->bind_param("s", $username); // Binding the username to the query
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result && $result->num_rows > 0) {
-        $user = $result->fetch_assoc(); // Fetch the user details
-    } else {
-        // If no user is found, display an error message
-        echo "<p style='color: red;'>No user found with the username provided.</p>";
-    }
-
-    $stmt->close(); // Close the database statement
-} else {
-    // If not logged in, redirect to the login page
-    header("Location: signin.php");
-    exit(); // Stop script execution
-}
-
-// Define paths for resources
-$imagesPath = "../photos/index_images/";
-$cssPath = "../css_files/index.css";
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?= $cssPath ?>" />
-    <title>Home</title>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css_files/index.css"> <!-- Link to the CSS file -->
 </head>
-<body id="restaurantBody">
-    <div class="Project">
-        <?php include 'header.php'; ?>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar (Leftbar) -->
         <?php require 'navbar.php'; ?>
-        <?php require 'iframe.php'; ?>
-        <?php include '../includes/footer.php'; ?>
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <header class="admin-header">
+                <h1>Welcome, <?= htmlspecialchars($user['firstname'] ?? 'Admin') ?></h1>
+                <a href="logout.php" class="logout-btn">Logout</a>
+            </header>
+
+            <div class="content">
+                <h2>Dashboard Overview</h2>
+                <div class="stats">
+                    <div class="stat-card">
+                        <h3>Total Users</h3>
+                        <p>1,234</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Orders</h3>
+                        <p>567</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Products</h3>
+                        <p>89</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

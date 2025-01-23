@@ -164,11 +164,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="css_files/reservation.css" />
     <title>Restaurant Reservation</title>
 </head>
-<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css_files/reservation.css" />
+    <title>Restaurant Reservation</title>
+</head>
+<body class="reservation-page">
+    <!-- Navbar at the top and centered -->
+    <?php require 'includes/navbar.php'; ?>
+
+    <!-- Reservation Form Container -->
     <div class="container" id="container">
         <h2>Restaurant Reservation</h2>
         <?php if (isset($errorMessage)): ?>
-            <p style="color: red;"><?php echo $errorMessage; ?></p>
+            <p class="error-message"><?php echo $errorMessage; ?></p>
         <?php endif; ?>
         <form id="reservationForm" method="POST">
             <input

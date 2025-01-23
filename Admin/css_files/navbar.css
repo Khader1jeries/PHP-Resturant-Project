@@ -1,0 +1,81 @@
+/* Custom premium brown color for admin navbar */
+.leftbar {
+    background-color: #8B4513; /* Premium brown color */
+    padding: 20px; /* Add padding for spacing */
+    height: 100vh; /* Full height */
+    width: 250px; /* Adjust width as needed */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    position: fixed; /* Fixed position to stay in place */
+    top: 0;
+    left: 0;
+    overflow-y: auto; /* Enable scrolling if content overflows */
+}
+
+.leftbar .btn {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between buttons */
+}
+
+.leftbar .btn a {
+    text-decoration: none; /* Remove underline from links */
+}
+
+.leftbar .btn .button {
+    width: 100%; /* Full width buttons */
+    padding: 12px 20px; /* Padding for button size */
+    color: #fff; /* White text */
+    background-color: #A0522D; /* Slightly lighter brown for buttons */
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500; /* Medium font weight */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+.leftbar .btn .button:hover {
+    background-color: #D2691E; /* Lighter brown on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.leftbar .btn .button:active {
+    transform: translateY(0); /* Reset lift effect when clicked */
+}
+
+/* Optional: Add icons to buttons (if you use FontAwesome or similar) */
+.leftbar .btn .button::before {
+    margin-right: 10px; /* Space between icon and text */
+}
+
+/* Specific button colors (if needed) */
+.leftbar .btn .button1 {
+    background-color: #A0522D; /* Custom color for Home button */
+}
+
+.leftbar .btn .button2 {
+    background-color: #A0522D; /* Custom color for View UserList button */
+}
+
+.leftbar .btn .button3 {
+    background-color: #A0522D; /* Custom color for View Orders button */
+}
+
+.leftbar .btn .button4 {
+    background-color: #A0522D; /* Custom color for Support button */
+}
+
+.leftbar .btn .button5 {
+    background-color: #A0522D; /* Custom color for Product button */
+}
+.leftbar .logo {
+    mix-blend-mode: color-burn;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.leftbar .logo img {
+    width: 200px;
+    height: auto;
+}

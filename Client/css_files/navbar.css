@@ -1,0 +1,86 @@
+/* Leftbar (Navbar) Styles */
+.leftbar {
+    background-color: #8B4513; /* Premium brown background */
+    width: 200px; /* Fixed width for the navbar */
+    height: 100vh; /* Full height of the viewport */
+    position: fixed; /* Fix the navbar to the left */
+    top: 0;
+    left: 0;
+    padding: 20px;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
+/* Button Container */
+.leftbar .btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Button Styles */
+.leftbar .button {
+    width: 150px; /* Fixed width for buttons */
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #FFF; /* White text for contrast */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-bottom: 10px; /* Space between buttons */
+}
+
+/* Button Hover Effects */
+.leftbar .button:hover {
+    transform: scale(0.9); /* Slightly enlarge the button */
+}
+
+/* Individual Button Colors */
+.leftbar .button1 {
+    background-color: #A0522D; /* Slightly lighter brown for Home */
+}
+
+.leftbar .button2 {
+    background-color: #D2691E; /* Lighter brown for Food */
+}
+
+.leftbar .button3 {
+    background-color: #CD853F; /* Light brown for Drinks */
+}
+
+.leftbar .button4 {
+    background-color: #8B4513; /* Premium brown for Our Place */
+}
+
+.leftbar .button5 {
+    background-color: #A0522D; /* Slightly lighter brown for Reservation */
+}
+
+.leftbar .button6 {
+    background-color: #D2691E; /* Lighter brown for Contact Us */
+}
+
+/* Button Hover Colors */
+.leftbar .button1:hover {
+    background-color: #8B4513; /* Darker brown on hover */
+}
+
+.leftbar .button2:hover {
+    background-color: #A0522D; /* Slightly lighter brown on hover */
+}
+
+.leftbar .button3:hover {
+    background-color: #8B4513; /* Darker brown on hover */
+}
+
+.leftbar .button4:hover {
+    background-color: #A0522D; /* Slightly lighter brown on hover */
+}
+
+.leftbar .button5:hover {
+    background-color: #8B4513; /* Darker brown on hover */
+}
+
+.leftbar .button6:hover {
+    background-color: #A0522D; /* Slightly lighter brown on hover */
+}

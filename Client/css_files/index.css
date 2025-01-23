@@ -1,0 +1,80 @@
+/* General Styles */
+body.index-page {
+    font-family: 'Georgia', serif;
+    background-color: #F5F5DC; /* Light beige background for contrast */
+    color: #5A3A22; /* Dark brown text color */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Content Section Styles */
+.content-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px 20px;
+    width: 90%;
+    max-width: 1200px;
+    margin-top: 80px; /* Add margin to avoid overlap with the fixed navbar */
+}
+
+.text-content {
+    flex: 1;
+    max-width: 60%;
+    padding-right: 20px;
+}
+
+.image-content {
+    flex: 1;
+    max-width: 40%;
+    text-align: right;
+}
+
+.image-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.content-section h1 {
+    font-size: 2.5rem;
+    color: #8B4513; /* Premium brown for headings */
+    margin-bottom: 20px;
+}
+
+.content-section p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.content-section a {
+    color: #8B4513; /* Premium brown for links */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.content-section a:hover {
+    color: #D2691E; /* Lighter brown on hover */
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #A0522D; /* Slightly lighter brown for buttons */
+    color: #FFF;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.cta-button:hover {
+    background-color: #D2691E; /* Lighter brown on hover */
+}

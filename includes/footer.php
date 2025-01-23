@@ -1,4 +1,4 @@
-<footer class="footer" style="height: 41px">
+<footer class="footer">
     <marquee class="footer-marquee">
         © 2024 Restaurant. All rights reserved.
     </marquee>

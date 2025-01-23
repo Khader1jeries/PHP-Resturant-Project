@@ -1,126 +1,111 @@
-body {
-  margin-top: 200px;
-  font-family: Arial, sans-serif;
-
-  color: #333;
+/* General Styles */
+body.reservation-page {
+  font-family: 'Georgia', serif;
+  background-color: #F5F5DC; /* Light beige background for contrast */
+  color: #5A3A22; /* Dark brown text color */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-.container {
-  width: 450px;
-  margin: 0 auto;
-  background: #fff;
-  border-radius: 15px;
-  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
-  padding-bottom: 30px;
+/* Container for the Reservation Form */
+.reservation-page .container {
+  background-color: #FFF8DC; /* Light cream background for the form */
+  border: 2px solid #D2B48C; /* Light brown border */
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-h2 {
-  font-size: 35px;
-  font-weight: 600;
+/* Heading */
+.reservation-page h2 {
   text-align: center;
-  line-height: 100px;
-  color: black;
-  user-select: none;
-  border-radius: 15px 15px 0 0;
-  background: linear-gradient(-135deg, wheat, gray);
+  color: #8B4513; /* Premium brown for headings */
+  font-size: 2rem;
+  margin-bottom: 20px;
 }
 
-label {
-  background: wheat;
+/* Error Message */
+.reservation-page .error-message {
+  color: #FF0000; /* Red for error messages */
+  text-align: center;
+  margin-bottom: 15px;
 }
 
-select {
-  background: black;
-  color: wheat;
+/* Form Inputs */
+.reservation-page input[type="text"],
+.reservation-page input[type="tel"],
+.reservation-page input[type="email"],
+.reservation-page input[type="date"],
+.reservation-page input[type="time"],
+.reservation-page input[type="number"] {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  border: 1px solid #D2B48C; /* Light brown border */
   border-radius: 5px;
-  margin-bottom: 10px;
+  font-size: 1rem;
+  background-color: #FFF; /* White background for inputs */
+  color: #5A3A22; /* Dark brown text color */
 }
 
-form {
-  margin-left: 20px;
-  margin-right: 20px;
+.reservation-page input[type="text"]::placeholder,
+.reservation-page input[type="tel"]::placeholder,
+.reservation-page input[type="email"]::placeholder,
+.reservation-page input[type="number"]::placeholder {
+  color: #A0522D; /* Slightly lighter brown for placeholders */
 }
 
-input[type="email"],
-input[type="date"] {
+/* Submit Button */
+.reservation-page input[type="submit"] {
   width: 100%;
   padding: 10px;
-  margin-bottom: 10px;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-}
-
-input[type="text"] {
-  padding: 10px;
-  margin-bottom: 10px;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-}
-
-input[type="tel"] {
-  margin-left: 23px;
-  padding: 10px;
-  margin-bottom: 10px;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-}
-
-input[type="time"] {
-  padding: 10px;
-  margin-bottom: 10px;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-  width: 49%;
-}
-
-input[type="number"] {
-  padding: 11px;
-  width: 49%;
-  margin-bottom: 10px;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-}
-
-input[type="submit"] {
-  color: black;
+  background-color: #A0522D; /* Slightly lighter brown for buttons */
+  color: #FFF;
   border: none;
-  width: 100%;
-  border-radius: 20px;
-  padding: 15px;
-  padding-left: 0;
-  margin-top: -10px;
-  font-size: 20px;
-  font-weight: 500;
+  border-radius: 5px;
+  font-size: 1.1rem;
   cursor: pointer;
-  background: linear-gradient(-135deg, wheat, gray);
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
-input[type="submit"]:hover {
-  box-shadow: rgba(49, 49, 49, 0.35) 0 -25px 18px -14px inset,
-    rgba(49, 49, 49, 0.35) 0 1px 2px, rgba(49, 49, 49, 0.35) 0 2px 4px,
-    rgba(49, 49, 49, 0.35) 0 4px 8px, rgba(81, 81, 81, 0.25) 0 8px 16px,
-    rgba(97, 97, 97, 0.25) 0 16px 32px;
-  transform: scale(0.95);
+.reservation-page input[type="submit"]:hover {
+  background-color: #D2691E; /* Lighter brown on hover */
+}
+/* Navbar Styles */
+.reservation-page .navbar {
+  display: flex;
+  justify-content: center; /* Center the navbar horizontally */
+  align-items: center; /* Center the navbar vertically */
+  background-color: #8B4513; /* Premium brown background */
+  padding: 10px 20px;
+  width: 100%;
+  position: fixed; /* Fix the navbar at the top */
+  top: 0; /* Position at the top of the screen */
+  left: 0;
+  z-index: 1000; /* Ensure the navbar is above other content */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
 }
 
-input[type="submit"]:focus {
-  outline: none;
+/* Navbar Links */
+.reservation-page .navbar a {
+  color: #FFF; /* White text for contrast */
+  text-decoration: none;
+  margin: 0 15px; /* Space between links */
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
 }
 
-input:focus {
-  border-color: #4caf50;
+.reservation-page .navbar a:hover {
+  color: #D2B48C; /* Light brown on hover */
+}
+
+/* Container Adjustment for Navbar */
+.reservation-page .container {
+  margin-top: 80px; /* Add margin to avoid overlap with the fixed navbar */
 }

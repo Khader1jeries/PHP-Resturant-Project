@@ -1,23 +1,61 @@
-<div class="leftbar">
-        <br /><br />
-        <div class="btn">
-          <a href="includes/background.php" target="main">
-            <button class="button button1">Home</button>
-          </a><br /><br />
-          <a href="Food.php" target="main">
-            <button class="button button2">Food</button>
-          </a><br /><br />
-          <a href="drink.php" target="main">
-            <button class="button button3">Drinks</button>
-          </a><br /><br />
-          <a href="reservation.php" target="main">
-            <button class="button button5">Reservation</button>
-          </a><br /><br />
-          <a href="includes/location.php" target="main">
-            <button class="button button4">Our Place</button>
-          </a><br /><br />
-          <a href="contact_us.php" target="main">
-            <button class="button button6">Contact Us</button>
-          </a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Navbar</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom premium brown color */
+        .navbar-custom {
+            background-color: #8B4513; /* Premium brown color */
+        }
+
+        .navbar-custom .btn-custom {
+            color: #fff;
+            background-color: #A0522D; /* Slightly lighter brown for buttons */
+            border: none;
+            margin: 0 5px;
+        }
+
+        .navbar-custom .btn-custom:hover {
+            background-color: #D2691E; /* Lighter brown on hover */
+        }
+
+        .navbar-custom .btn-reserve {
+            border: 2px solid #FFD700; /* Gold border for reservation button */
+            border-radius: 5px;
+        }
+
+        .navbar-custom .logo {
+            height: 50px; /* Adjust logo size as needed */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <!-- Logo on the left -->
+            <a class="navbar-brand" href="index.php">
+                <img src="photos/logo_Images/Logo99.png" alt="Logo" class="logo">
+            </a>
+
+            <!-- Buttons on the right -->
+            <div class="d-flex">
+                <a href="Food.php" target="main" class="btn btn-custom">Food</a>
+                <a href="drink.php" target="main" class="btn btn-custom">Drinks</a>
+                <a href="reservation.php" target="main" class="btn btn-custom btn-reserve">Reservation</a>
+                <a href="location.php" target="main" class="btn btn-custom">Our Place</a>
+                <a href="contact_us.php" target="main" class="btn btn-custom">Contact Us</a>
+            </div>
+
+            <!-- Login and Sign Up buttons on the top right -->
+            <div class="ms-auto">
+                <a href="log_in.php" target="main" class="btn btn-custom">Login</a>
+                <a href="sign_up.php" target="main" class="btn btn-custom">Sign Up</a>
+            </div>
         </div>
-</div>
+    </nav>
+</body>
+</html>

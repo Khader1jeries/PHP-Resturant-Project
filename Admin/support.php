@@ -1,6 +1,6 @@
 <?php
 // Include necessary configurations and database connections
-include "../../config/contactUsConfig.php";
+include "../config/contactUsConfig.php";
 
 // Fetch all messages from the contact_us table
 $query = "SELECT id, name, phone, email, message, status, answer, submission_date FROM contact_us ORDER BY submission_date ASC";
@@ -73,14 +73,8 @@ function getStatusText($statusCode) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Support - Contact Messages</title>
-    <link rel="stylesheet" href="../../css_files/sign_up.css" />
+    <link rel="stylesheet" href="../css_files/sign_up.css" />
     <style>/* Global styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
@@ -231,9 +225,10 @@ form input[type="hidden"] {
     }
 }
 </style>
+<link rel="stylesheet" href="css_files/navbar.css">
 </head>
 <body>
-
+    <?php require 'navbar.php'; ?>
     <div class="admin-container">
         <h1>Admin Support - Contact Messages</h1>
         <p>Manage and respond to customer inquiries. You can change the status and provide answers to each message below.</p>

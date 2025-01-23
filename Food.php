@@ -16,15 +16,15 @@ $conn->close();
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="css_files/product.css" />
-    <link rel="stylesheet" type="text/css" href="css_files/product_v2.css" />
+    <link rel="stylesheet" type="text/css" href="css_files/food.css" />
     <title>Food Menu</title>
   </head>
-  <body>
+  <body class="food-page">
+    <?php require 'includes/navbar.php'; ?>
     <h1>Food Menu</h1>
     <div class="food">
       <?php foreach ($products as $product): ?>
-        <?php if (isset($product['kind']) && $product['kind'] == 2): ?> <!-- Check if 'kind' exists and equals 1 -->
+        <?php if (isset($product['kind']) && $product['kind'] == 2): ?> <!-- Check if 'kind' exists and equals 2 -->
           <div class="item">
             <img
               src="photos/food_images/<?= $product['path'] ?>"

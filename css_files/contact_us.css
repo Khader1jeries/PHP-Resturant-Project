@@ -1,189 +1,172 @@
-
-/* Body Scrollbar Styling */
-body {
-background: linear-gradient(-135deg, rgb(104, 93, 61), wheat);
-margin-left: 50px;
-margin-top: 10px;
-overflow-y: scroll; /* Ensure scroll is visible when content exceeds */
+/* General Styles */
+body.contact-page {
+    font-family: 'Georgia', serif;
+    background-color: #F5F5DC; /* Light beige background for contrast */
+    color: #5A3A22; /* Dark brown text color */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
 }
 
-body::-webkit-scrollbar {
-width: 12px; /* Scrollbar width */
+/* Navbar Styles */
+.contact-page .navbar {
+    display: flex;
+    justify-content: center; /* Center the navbar horizontally */
+    align-items: center; /* Center the navbar vertically */
+    background-color: #8B4513; /* Premium brown background */
+    padding: 10px 20px;
+    width: 100%;
+    position: fixed; /* Fix the navbar at the top */
+    top: 0; /* Position at the top of the screen */
+    left: 0;
+    z-index: 1000; /* Ensure the navbar is above other content */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
 }
 
-body::-webkit-scrollbar-track {
-background: rgba(104, 93, 61, 0.2); /* Track background */
-border-radius: 10px;
+/* Navbar Links */
+.contact-page .navbar a {
+    color: #FFF; /* White text for contrast */
+    text-decoration: none;
+    margin: 0 15px; /* Space between links */
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
 }
 
-body::-webkit-scrollbar-thumb {
-background: rgb(104, 93, 61); /* Thumb color */
-border-radius: 10px;
-border: 2px solid rgba(255, 255, 255, 0.6); /* Space around thumb */
+.contact-page .navbar a:hover {
+    color: #D2B48C; /* Light brown on hover */
 }
 
-body::-webkit-scrollbar-thumb:hover {
-background: rgb(63, 58, 42); /* Darker thumb on hover */
+/* Contact Section */
+.contact-page .contact {
+    margin-top: 80px; /* Add margin to avoid overlap with the fixed navbar */
+    text-align: center;
+    max-width: 800px;
+    padding: 20px;
 }
 
-/* Contact Form Scrollbar Styling */
-.contact-form {
-position: relative;
-right: 34%;
-background: linear-gradient(-135deg, rgb(104, 93, 61), wheat);
-border: 1px solid #ddd;
-padding: 20px;
-margin: 30px auto;
-border-radius: 10px;
-box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-max-width: 450px;
-overflow-y: auto; /* Enable scrolling if content exceeds form box */
-max-height: 500px; /* Set a max height for the form box */
+.contact-page .contact h1 {
+    color: #8B4513; /* Premium brown for headings */
+    font-size: 2.5rem;
+    margin-bottom: 10px;
 }
 
-.contact-form::-webkit-scrollbar {
-width: 10px; /* Scrollbar width for form */
+.contact-page .contact h3 {
+    color: #5A3A22; /* Dark brown for subheadings */
+    font-size: 1.5rem;
+    margin-bottom: 20px;
 }
 
-.contact-form::-webkit-scrollbar-track {
-background: rgba(104, 93, 61, 0.1); /* Track background */
-border-radius: 10px;
+.contact-page .contact p {
+    color: #5A3A22; /* Dark brown for text */
+    font-size: 1.1rem;
+    line-height: 1.6;
 }
 
-.contact-form::-webkit-scrollbar-thumb {
-background: rgb(63, 58, 42); /* Thumb color for contact form */
-border-radius: 10px;
+/* Contact Form Box */
+.contact-page .contact-form {
+    background-color: #FFF8DC; /* Light cream background for the form */
+    border: 2px solid #D2B48C; /* Light brown border */
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.contact-form::-webkit-scrollbar-thumb:hover {
-background: rgb(104, 93, 61); /* Darker thumb on hover */
+.contact-page .contact-form h2 {
+    color: #8B4513; /* Premium brown for headings */
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-/* Smooth scrolling behavior */
-html {
-scroll-behavior: smooth; /* Smooth scroll effect */
+.contact-page .contact-form input,
+.contact-page .contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #D2B48C; /* Light brown border */
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #FFF; /* White background for inputs */
+    color: #5A3A22; /* Dark brown text color */
 }
 
-/* Custom Scrollbars for All Browsers */
-* {
-scrollbar-width: thin; /* Firefox */
-scrollbar-color: rgb(104, 93, 61) rgba(104, 93, 61, 0.2); /* Firefox */
+.contact-page .contact-form textarea {
+    height: 150px;
+    resize: vertical;
 }
 
-/* Base styles */
-body {
-background: linear-gradient(-135deg, rgb(104, 93, 61), wheat);
-margin-left: 50px;
-margin-top: 10px;
+.contact-page .contact-form .submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #A0522D; /* Slightly lighter brown for buttons */
+    color: #FFF;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-img {
-width: 20px;
-aspect-ratio: 3/2;
-object-fit: contain;
-mix-blend-mode: color-burn;
+.contact-page .contact-form .submit-btn:hover {
+    background-color: #D2691E; /* Lighter brown on hover */
 }
 
-img:hover {
-scale: 1.1;
-transition: 0.8s ease;
-rotate: -8deg;
+/* Success and Error Messages */
+.contact-page .success-message {
+    color: #228B22; /* Green for success messages */
+    text-align: center;
+    margin-top: 20px;
 }
 
-a {
-color: black;
-text-decoration: none;
+.contact-page .error-messages {
+    color: #FF0000; /* Red for error messages */
+    text-align: center;
+    list-style-type: none;
+    padding: 0;
+}
+/* Hover Animation for Contact Image */
+.contact-page .contact-img {
+    mix-blend-mode: color-burn;
+    width: 280px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-a:hover {
-color: gray;
-scale: 1.1;
+.contact-page .contact-img:hover {
+    transform: scale(0.9); /* Slightly enlarge the image */
+    opacity: 0.9; /* Slightly reduce opacity */
 }
 
-.contact p {
-font-size: large;
+/* Hover Animation for Icons */
+.contact-page .icon {
+    mix-blend-mode: color-burn;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.contact-img {
-width: 400px;
-float: right;
+.contact-page .icon:hover {
+    transform: scale(0.90); /* Slightly enlarge the icon */
+    filter: brightness(1.2); /* Increase brightness */
 }
 
-.icon {
-height: 20px;
-width: 20px;
+/* Hover Animation for Links */
+.contact-page a {
+    color: #8B4513; /* Premium brown for links */
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
-/* Contact Form Styling */
-.contact-form {
-position: relative;
-right: 34%;
-background: linear-gradient(-135deg, rgb(104, 93, 61), wheat);
-border: 1px solid #ddd;
-padding: 20px;
-margin: 30px auto;
-border-radius: 10px;
-box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-max-width: 450px;
+.contact-page a:hover {
+    color: #D2691E; /* Lighter brown on hover */
+    transform: translateY(-2px); /* Slightly move the link up */
 }
-
-.contact-form h2 {
-text-align: center;
-color: rgb(63, 58, 42);
-margin-bottom: 20px;
-}
-
-.contact-form input,
-.contact-form textarea {
-width: 95%;
-padding: 10px;
-margin-bottom: 15px;
-border: none;
-border-radius: 5px;
-background: rgba(212, 212, 212, 0.9);
-box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
-font-size: 1rem;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-outline: none;
-border: 2px solid rgb(104, 93, 61);
-box-shadow: 0px 0px 5px rgb(104, 93, 61);
-}
-
-.contact-form textarea {
-resize: vertical;
-min-height: 100px;
-}
-
-.submit-btn {
-width: 100%;
-padding: 10px;
-background: rgb(63, 58, 42);
-color: wheat;
-font-size: 1rem;
-font-weight: bold;
-text-transform: uppercase;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.submit-btn:hover {
-background: rgb(104, 93, 61);
-transform: scale(1.05);
-}
-
-/* Responsive Design */
-@media screen and (max-width: 540px) {
-img {
-display: none;
-}
-
-.contact-form {
-width: 90%;
-}
-}
-

@@ -1,0 +1,47 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a; /* Dark background */
+    color: white; /* Light text color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin-left: 250px; /* Adjust for the leftbar width */
+}
+
+/* Button Container */
+.button-container {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Shadow for depth */
+}
+
+.button-container button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #8B4513; /* Premium brown color */
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button-container button:hover {
+    background-color: #A0522D; /* Slightly lighter brown on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.button-container button:active {
+    transform: translateY(0); /* Reset lift effect when clicked */
+}

@@ -174,15 +174,16 @@ $conn->close();
     <link rel="stylesheet" href="css_files/sign_in.css" />
     <title>Sign In</title>
 </head>
-<body>
+<body class="signin-page">
+    <?php require 'includes/navbar.php'; ?>
     <?php if ($lockMessage): ?>
-        <div style="text-align:center; margin-top:20%; color:red;">
+        <div class="lock-message">
             <h1><?php echo $lockMessage; ?></h1>
             <button onclick="window.location.href='?reset=true'">Reset and Start Over</button>
         </div>
     <?php else: ?>
         <div class="container" id="container">
-            <h2 style="color: black">Sign In</h2>
+            <h2>Sign In</h2>
             <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
                 <input type="text" id="username" name="username" required placeholder="Username" />
                 <input type="password" id="password" name="password" required placeholder="Password" />
@@ -190,14 +191,14 @@ $conn->close();
             </form>
 
             <!-- Forgot Password Section -->
-            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" style="margin-top: 20px;">
+            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
                 <!-- Default "Forgot your password?" text -->
-                <span id="forgotPasswordText" onclick="toggleForgotPasswordForm()" style="color: black; cursor: pointer;">Forgot your password?</span>
+                <span id="forgotPasswordText" onclick="toggleForgotPasswordForm()">Forgot your password?</span>
 
                 <!-- Hidden form (initially hidden) to input username and reset password -->
                 <div id="forgotPasswordForm" style="display: none;">
                     <br />
-                    <label for="forgotUsername" style="color: black;">Enter your username:</label>
+                    <label for="forgotUsername">Enter your username:</label>
                     <input type="text" id="forgotUsername" name="username" required placeholder="Username" />
                     <input type="submit" name="forgotPassword" value="Reset Password" />
                 </div>

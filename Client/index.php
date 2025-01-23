@@ -40,13 +40,25 @@ $cssPath = "../css_files/index.css";
     <link rel="stylesheet" href="<?= $cssPath ?>" />
     <title>Home</title>
 </head>
-<body id="restaurantBody">
+<body class="index-page">
     <div class="Project">
-        <?php include 'header.php'; ?>
         <?php require 'navbar.php'; ?>
-        <?php require 'iframe.php'; ?>
-      
-        
+
+        <!-- New Content Section -->
+        <div class="content-section">
+            <div class="text-content">
+                <h1>HUMAN CONNECTION IN A DIGITAL-FIRST WORLD.</h1>
+                <p>Resident experiences are designed to deepen relationships.</p>
+                <p>We host events in private luxury apartments and exclusive members-only clubs, featuring top-class culinary talent from renowned restaurants like Blue Hill, Carbone, Eleven Madison Park, Home, and Per Se.</p>
+                <p>Together, we create one-of-a-kind, engaging, and memorable evenings that drive conversation and create connection.</p>
+                <p>Reserve your tickets to a dinner below, or book a private experience <a href="#">here</a>.</p>
+                <a href="Food.php" class="cta-button">VIEW UPCOMING DINNERS</a>
+            </div>
+            <div class="image-content">
+                <img src="<?= $imagesPath ?>indexStaick.jpg" alt="Restaurant Image">
+            </div>
+        </div>
+
         <?php include '../includes/footer.php'; ?>
     </div>
 </body>

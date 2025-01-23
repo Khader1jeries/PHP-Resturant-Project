@@ -1,0 +1,72 @@
+/* General Styles */
+body {
+    
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a; /* Dark background */
+    color: white; /* Light text color */
+}
+
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin-left: 250px; /* Adjust for the leftbar width */
+}
+
+h1 {
+    color: #8B4513; /* Premium brown color */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Create Product Form */
+.create-form {
+    background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Shadow for depth */
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.create-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.create-form input,
+.create-form select,
+.create-form button {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #8B4513; /* Premium brown color */
+    border-radius: 5px;
+    background-color: #333; /* Dark input background */
+    color: white; /* Light text color */
+    font-size: 16px;
+}
+
+.create-form input:focus,
+.create-form select:focus {
+    border-color: #A0522D; /* Slightly lighter brown on focus */
+    outline: none;
+}
+
+.create-form button {
+    background-color: #8B4513; /* Premium brown color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.create-form button:hover {
+    background-color: #A0522D; /* Slightly lighter brown on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.create-form button:active {
+    transform: translateY(0); /* Reset lift effect when clicked */
+}

@@ -1,0 +1,171 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a; /* Dark background */
+    color: white; /* Light text color */
+}
+
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin-left: 250px; /* Adjust for the leftbar width */
+}
+
+h1, h2 {
+    color: #8B4513; /* Premium brown color */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Food and Drink Menu Containers */
+.food, .drink {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Individual Food/Drink Item */
+.item {
+    background-color: #333; /* Dark background for items */
+    border: 2px solid #8B4513; /* Premium brown border */
+    border-radius: 10px;
+    padding: 15px;
+    width: 250px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Food/Drink Image */
+.item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Tooltip Styling */
+.tooltip {
+    visibility: hidden;
+    background-color: #8B4513; /* Premium brown for tooltip */
+    color: #FFF;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 22%; /* Move tooltip 100px further down */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.item:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Edit Form Styling */
+.edit-form {
+    display: none;
+    position: fixed; /* Position the form absolutely */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for exact centering */
+    z-index: 1000; /* Ensure it appears above other elements */
+    background: #000;
+    padding: 20px;
+    border: 1px solid #8B4513; /* Premium brown border */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.95);
+    width: 300px; /* Set a fixed width */
+}
+
+.edit-form.active {
+    display: block; /* Show the form when active */
+}
+
+.edit-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.edit-form input,
+.edit-form select,
+.edit-form button {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #8B4513; /* Premium brown border */
+    border-radius: 5px;
+    background-color: #333; /* Dark input background */
+    color: white; /* Light text color */
+    font-size: 16px;
+}
+
+.edit-form input:focus,
+.edit-form select:focus {
+    border-color: #A0522D; /* Slightly lighter brown on focus */
+    outline: none;
+}
+
+.edit-form button {
+    background-color: #8B4513; /* Premium brown color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-form button:hover {
+    background-color: #A0522D; /* Slightly lighter brown on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.edit-form button:active {
+    transform: translateY(0); /* Reset lift effect when clicked */
+}
+
+/* Close Button Styling */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #A0522D; /* Slightly lighter brown on hover */
+}
+/* Edit Product Button Styling */
+.item button {
+    background-color: #8B4513; /* Premium brown color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.item button:hover {
+    background-color: #A0522D; /* Slightly lighter brown on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.item button:active {
+    transform: translateY(0); /* Reset lift effect when clicked */
+}

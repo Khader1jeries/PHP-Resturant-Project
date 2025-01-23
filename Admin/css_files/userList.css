@@ -1,0 +1,126 @@
+/* General Styles */
+body {
+    margin-left: 10%;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin-left: 250px; /* Adjust for the leftbar width */
+}
+
+h3 {
+    color: #8B4513; /* Premium brown color */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Navbar (Leftbar) Styles */
+.leftbar {
+    width: 250px;
+    background-color: #8B4513; /* Premium brown color */
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.leftbar .btn {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.leftbar .btn a {
+    text-decoration: none;
+}
+
+.leftbar .btn .button {
+    width: 100%;
+    padding: 12px;
+    color: #fff;
+    background-color: #A0522D; /* Slightly lighter brown for buttons */
+    border: none;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.leftbar .btn .button:hover {
+    background-color: #D2691E; /* Lighter brown on hover */
+    transform: translateY(-2px);
+}
+
+.leftbar .btn .button:active {
+    transform: translateY(0);
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+table th,
+table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #8B4513; /* Premium brown color */
+    color: #fff;
+    font-weight: bold;
+}
+
+table tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* No Users Message */
+.no-users {
+    text-align: center;
+    color: #8B4513; /* Premium brown color */
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+/* Error and Success Messages */
+p {
+    text-align: center;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+p[style*="color: red"] {
+    background-color: #ffebee;
+    border: 1px solid #ffcdd2;
+}
+
+p[style*="color: green"] {
+    background-color: #e8f5e9;
+    border: 1px solid #c8e6c9;
+}
+.leftbar .logo {
+    mix-blend-mode: color-burn;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.leftbar .logo img {
+    width: 200px;
+    height: auto;
+}
