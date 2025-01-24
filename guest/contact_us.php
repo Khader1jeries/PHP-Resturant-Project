@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include "config/contactUsConfig.php";
+include "../config/contactUsConfig.php";
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Message is required.";
     }
     
-    include "config/contactUsConfig.php"; // Use the same database connection file
+    include "../config/contactUsConfig.php"; // Use the same database connection file
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css_files/contact_us.css" />
+    <link rel="stylesheet" type="text/css" href="../css_files/contact_us.css" />
     <title>Contact Us</title>
 </head>
 <body class="contact-page">
@@ -141,17 +141,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h1>Contact Us</h1>
         <p>We're here to help and answer any questions you might have.<br>
         We look forward to hearing from you!</p>
-        <img src="photos/contact-us_images/hallo.png" class="contact-img" alt="Contact Image">
+        <img src="../photos/contact-us_images/hallo.png" class="contact-img" alt="Contact Image">
         <br>
-        <img src="photos/contact-us_images/placeicon.jpg" class="icon" alt="Location Icon">
+        <img src="../photos/contact-us_images/placeicon.jpg" class="icon" alt="Location Icon">
         <br><br>
         <a href="https://maps.app.goo.gl/yToY4GeEwLhoiwpPA"> Karmiel, OrtBraude</a>
         <br><br>
-        <img src="photos/contact-us_images/phoneicon.png" class="icon" alt="Phone Icon">
+        <img src="../photos/contact-us_images/phoneicon.png" class="icon" alt="Phone Icon">
         <br><br>
         <a href="tel:04-20111000">04-20111000</a>
         <br><br>
-        <img src="photos/contact-us_images/mailicon.png" class="icon" alt="Email Icon">
+        <img src="../photos/contact-us_images/mailicon.png" class="icon" alt="Email Icon">
         <br><br>
         <a href="mailto:name@name.com">name@name.com</a>
     </div>
@@ -179,6 +179,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 
-    <script src="scripts/contact_us.js"></script>
+    <script src="../scripts/contact_us.js"></script>
 </body>
 </html>

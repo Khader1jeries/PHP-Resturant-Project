@@ -66,170 +66,26 @@ function getStatusText($statusCode) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Support - Contact Messages</title>
-    <link rel="stylesheet" href="../css_files/sign_up.css" />
-    <style>/* Global styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-    padding: 20px;
-}
-
-/* Admin container */
-.admin-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 20px;
-}
-
-p {
-    text-align: center;
-    font-size: 1rem;
-    margin-bottom: 30px;
-}
-
-/* Table styles */
-.messages-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-.messages-table th, .messages-table td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
-}
-
-.messages-table th {
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
-}
-
-.messages-table td {
-    background-color: #f9f9f9;
-}
-
-.messages-table tr:nth-child(even) td {
-    background-color: #f1f1f1;
-}
-
-/* Form styles */
-textarea {
-    width: 100%;
-    height: 100px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-    margin-bottom: 10px;
-}
-
-select {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-    margin-right: 10px;
-}
-
-button {
-    padding: 10px 20px;
-    margin-left: 30px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-button:disabled {
-    background-color: #bbb;
-    cursor: not-allowed;
-}
-
-/* Styling for the Answer section */
-.submit-answer-btn {
-    background-color: #007BFF;
-    margin-top: 10px;
-}
-
-.submit-answer-btn:hover {
-    background-color: #0056b3;
-}
-
-.change-status-btn {
-    background-color: #28a745;
-    margin-top: 10px;
-}
-
-.change-status-btn:hover {
-    background-color: #218838;
-}
-
-/* Centering forms and buttons */
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-form input[type="hidden"] {
-    display: none;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .admin-container {
-        padding: 20px;
-    }
-
-    h1 {
-        font-size: 1.5rem;
-    }
-
-    .messages-table th, .messages-table td {
-        padding: 10px;
-    }
-
-    textarea {
-        height: 80px;
-    }
-
-    select, button {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-}
-</style>
-<link rel="stylesheet" href="css_files/navbar.css">
+    <link rel="stylesheet" href="css_files/support.css"> <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="css_files/navbar.css"> <!-- Link to the navbar CSS file -->
+    <style>.leftbar .btn {
+    position: relative;
+    right: 30px;   
+        
+    }    
+    </style>
 </head>
 <body>
+    <!-- Include Navbar -->
     <?php require 'navbar.php'; ?>
-    <div class="admin-container">
+
+    <div class="admin-container" style="margin-left: 600px;margin-top: 80px;">
         <h1>Admin Support - Contact Messages</h1>
         <p>Manage and respond to customer inquiries. You can change the status and provide answers to each message below.</p>
 
@@ -283,6 +139,5 @@ form input[type="hidden"] {
             </tbody>
         </table>
     </div>
-
 </body>
 </html>

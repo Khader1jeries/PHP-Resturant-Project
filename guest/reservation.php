@@ -156,20 +156,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css_files/reservation.css" />
-    <title>Restaurant Reservation</title>
-</head>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css_files/reservation.css" />
+    <link rel="stylesheet" href="../css_files/reservation.css" />
     <title>Restaurant Reservation</title>
 </head>
 <body class="reservation-page">

@@ -59,7 +59,7 @@ $cssPath = "../css_files/index.css";
             </div>
         </div>
 
-        <?php include '../includes/footer.php'; ?>
+        <?php include '../guest/includes/footer.php'; ?>
     </div>
 </body>
 </html>

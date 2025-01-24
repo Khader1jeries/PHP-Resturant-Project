@@ -1,7 +1,7 @@
 <?php
 // Define the path for images and resources
-$imagesPath = "photos/index_images/";
-$cssPath = "css_files/index.css";
+$imagesPath = "../photos/index_images/";
+$cssPath = "../css_files/index.css";
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +27,7 @@ $cssPath = "css_files/index.css";
           <a href="Food.php" class="cta-button">VIEW UPCOMING DINNERS</a>
         </div>
         <div class="image-content">
-          <img src="photos/index_images/indexStaick.jpg" alt="Restaurant Image">
+          <img src="../photos/index_images/indexStaick.jpg" alt="Restaurant Image">
         </div>
       </div>
 

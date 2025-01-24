@@ -38,22 +38,21 @@
         <div class="container-fluid">
             <!-- Logo on the left -->
             <a class="navbar-brand" href="index.php">
-                <img src="photos/logo_Images/Logo99.png" alt="Logo" class="logo">
+                <img src="../photos/logo_images/Logo99.png" alt="Logo" class="logo">
             </a>
-
             <!-- Buttons on the right -->
             <div class="d-flex">
-                <a href="Food.php" target="main" class="btn btn-custom">Food</a>
-                <a href="drink.php" target="main" class="btn btn-custom">Drinks</a>
-                <a href="reservation.php" target="main" class="btn btn-custom btn-reserve">Reservation</a>
-                <a href="location.php" target="main" class="btn btn-custom">Our Place</a>
-                <a href="contact_us.php" target="main" class="btn btn-custom">Contact Us</a>
+                <a href="../guest/Food.php" target="main" class="btn btn-custom">Food</a>
+                <a href="../guest/drink.php" target="main" class="btn btn-custom">Drinks</a>
+                <a href="../guest/reservation.php" target="main" class="btn btn-custom btn-reserve">Reservation</a>
+                <a href="../guest/location.php" target="main" class="btn btn-custom">Our Place</a>
+                <a href="../guest/contact_us.php" target="main" class="btn btn-custom">Contact Us</a>
             </div>
 
             <!-- Login and Sign Up buttons on the top right -->
             <div class="ms-auto">
-                <a href="log_in.php" target="main" class="btn btn-custom">Login</a>
-                <a href="sign_up.php" target="main" class="btn btn-custom">Sign Up</a>
+                <a href="../guest/log_in.php" target="main" class="btn btn-custom">Login</a>
+                <a href="../guest/sign_up.php" target="main" class="btn btn-custom">Sign Up</a>
             </div>
         </div>
     </nav>

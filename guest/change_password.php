@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "config/userAuthConfig.php"; // Include your database connection
+include "../config/userAuthConfig.php"; // Include your database connection
 
 if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['username'])) {
     $username = $_GET['username'];
@@ -56,7 +56,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css_files/sign_in.css" />
+    <link rel="stylesheet" href="../css_files/sign_in.css" />
     <style>
     </style>
     <title>Update Password</title>

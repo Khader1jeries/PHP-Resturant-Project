@@ -1,7 +1,7 @@
 <?php
 session_start();
-include "config/userAuthConfig.php"; // Include the database connection for users
-include "config/adminAuthConfig.php"; // Include the database connection for admins
+include "../config/userAuthConfig.php"; // Include the database connection for users
+include "../config/adminAuthConfig.php"; // Include the database connection for admins
 
 // Initialize session variables for form data if they don't exist
 if (!isset($_SESSION['form_data'])) {
@@ -122,7 +122,7 @@ $adminConn->close();
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css_files/sign_up.css" />
+    <link rel="stylesheet" href="../css_files/sign_up.css" />
     <title>Sign Up and View Users</title>
 </head>
 <body class="signup-page">

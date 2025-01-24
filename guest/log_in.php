@@ -1,7 +1,7 @@
 <?php
 session_start();
-include "config/adminAuthConfig.php"; // Include admin database connection
-include "config/userAuthConfig.php"; // Include user database connection
+include "../config/adminAuthConfig.php"; // Include admin database connection
+include "../config/userAuthConfig.php"; // Include user database connection
 
 // Initialize $lockMessage to avoid undefined variable warnings
 $lockMessage = "";
@@ -71,12 +71,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                     // Redirect based on admin or user
                     if ($isAdmin) {
-                        echo "<script>window.top.location.href = 'Admin/index.php';</script>";
+                        echo "<script>window.top.location.href = '../Admin/index.php';</script>";
                     } else {
                         if (isset($_SESSION['temp_password'])) {
-                            echo "<script>window.location.href = 'reset_password.php';</script>";
+                            echo "<script>window.location.href = 'change_password.php';</script>";
                         } else {
-                            echo "<script>window.top.location.href = 'Client/index.php';</script>";
+                            echo "<script>window.top.location.href = '../Client/index.php';</script>";
                         }
                     }
                     exit(); // Stop script execution to ensure redirect happens
@@ -171,7 +171,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css_files/sign_in.css" />
+    <link rel="stylesheet" href="../css_files/sign_in.css" />
     <title>Sign In</title>
 </head>
 <body class="signin-page">
@@ -203,7 +203,7 @@ $conn->close();
                     <input type="submit" name="forgotPassword" value="Reset Password" />
                 </div>
             </form>
-            <script src="scripts/log_in.js"></script>
+            <script src="../scripts/log_in.js"></script>
         </div>
     <?php endif; ?>
 </body>

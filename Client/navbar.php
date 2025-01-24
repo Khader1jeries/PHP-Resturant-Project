@@ -77,6 +77,24 @@ if (isset($_SESSION['username'])) {
         .navbar-custom .nav-link:hover {
             color: #D2B48C; /* Light brown on hover */
         }
+
+        /* Modal styling */
+        .modal-content {
+            background-color: #333; /* Dark background for modal */
+            color: white; /* Light text color */
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #8B4513; /* Premium brown border */
+        }
+
+        .modal-footer {
+            border-top: 1px solid #8B4513; /* Premium brown border */
+        }
+
+        .modal-body p {
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
@@ -89,31 +107,65 @@ if (isset($_SESSION['username'])) {
 
             <!-- Navigation links on the left with icons -->
             <div class="d-flex">
-                <a href="../Food.php" target="main" class="nav-link">
+                <a href="food.php" target="main" class="nav-link">
                     <i class="fas fa-utensils"></i> Food
                 </a>
-                <a href="../drink.php" target="main" class="nav-link">
+                <a href="drink.php" target="main" class="nav-link">
                     <i class="fas fa-glass-martini"></i> Drinks
                 </a>
-                <a href="../reservation.php" target="main" class="nav-link">
+                <a href="reservation.php" target="main" class="nav-link">
                     <i class="fas fa-calendar-check"></i> Reservation
                 </a>
-                <a href="../includes/location.php" target="main" class="nav-link">
+                <a href="location.php" target="main" class="nav-link">
                     <i class="fas fa-map-marker-alt"></i> Our Place
                 </a>
-                <a href="../contact_us.php" target="main" class="nav-link">
+                <a href="contact_us.php" target="main" class="nav-link">
                     <i class="fas fa-envelope"></i> Contact Us
                 </a>
             </div>
 
-            <!-- Display username and logout button if user is logged in -->
+            <!-- Display username, My Account button, and logout button if user is logged in -->
             <?php if (isset($_SESSION['username'])): ?>
                 <div class="ms-auto d-flex align-items-center">
                     <span class="username">Welcome, <?php echo htmlspecialchars($user['firstname'] . ' ' . $user['lastname']); ?></span>
+                    <!-- My Account Button -->
+                    <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#accountModal">
+                        <i class="fas fa-user"></i> My Account
+                    </button>
                     <a href="logout.php" class="btn btn-custom">Logout</a>
                 </div>
             <?php endif; ?>
         </div>
     </nav>
+
+    <!-- My Account Modal -->
+    <div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="accountModalLabel">My Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <?php if ($user): ?>
+                        <p><strong>Username:</strong> <?php echo htmlspecialchars($user['username']); ?></p>
+                        <p><strong>First Name:</strong> <?php echo htmlspecialchars($user['firstname']); ?></p>
+                        <p><strong>Last Name:</strong> <?php echo htmlspecialchars($user['lastname']); ?></p>
+                        <p><strong>Email:</strong> <?php echo htmlspecialchars($user['email']); ?></p>
+                        <p><strong>Phone:</strong> <?php echo htmlspecialchars($user['phone']); ?></p>
+                    <?php else: ?>
+                        <p>No user data found.</p>
+                    <?php endif; ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
