@@ -44,6 +44,7 @@ $cssPath = "../css_files/index.css";
     <div class="Project">
         <?php require 'navbar.php'; ?>
 
+       
         <!-- New Content Section -->
         <div class="content-section">
             <div class="text-content">
@@ -53,12 +54,41 @@ $cssPath = "../css_files/index.css";
                 <p>Together, we create one-of-a-kind, engaging, and memorable evenings that drive conversation and create connection.</p>
                 <p>Reserve your tickets to a dinner below, or book a private experience <a href="#">here</a>.</p>
                 <a href="Food.php" class="cta-button">VIEW UPCOMING DINNERS</a>
+                 <!-- User Details Section -->
+        <?php if ($user): ?>
+        <div class="user-profile">
+            <div class="profile-header">
+                <h2>Welcome Back, <?= htmlspecialchars($user['firstname']) ?>!</h2>
+                <p>Here are your account details:</p>
             </div>
+            <div class="profile-details">
+                <div class="detail-item">
+                    <span class="detail-label">Username:</span>
+                    <span class="detail-value"><?= htmlspecialchars($user['username']) ?></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Full Name:</span>
+                    <span class="detail-value"><?= htmlspecialchars($user['firstname'] . ' ' . $user['lastname']) ?></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Email:</span>
+                    <span class="detail-value"><?= htmlspecialchars($user['email']) ?></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Phone:</span>
+                    <span class="detail-value"><?= htmlspecialchars($user['phone']) ?></span>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+
+            </div>
+            
             <div class="image-content">
                 <img src="<?= $imagesPath ?>indexStaick.jpg" alt="Restaurant Image">
             </div>
+            
         </div>
-
         <?php include '../guest/includes/footer.php'; ?>
     </div>
 </body>
