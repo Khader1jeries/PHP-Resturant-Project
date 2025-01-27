@@ -1,7 +1,6 @@
 <?php
 // Include necessary configurations and database connections
-include "../config/contactUsConfig.php";
-
+include "../config/phpdb.php";
 // Fetch all messages from the contact_us table
 $query = "SELECT id, name, phone, email, message, status, answer, submission_date FROM contact_us ORDER BY submission_date ASC";
 $result = $conn->query($query);

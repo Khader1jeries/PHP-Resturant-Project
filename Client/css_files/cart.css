@@ -1,0 +1,145 @@
+/* Full-Screen Cart Page Styles */
+body.index-page {
+    font-family: 'Georgia', serif;
+    background-color: #F5F5DC;
+    color: #5A3A22;
+    margin: 0;
+    margin-right: 11%;
+    padding-left: 220px; /* Add padding to leave space for the navbar */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box; /* Ensure padding is included in the height calculation */
+}
+
+.cart-container {
+    margin-top: 20px; /* Reduced margin for better use of space */
+    width: 100%; /* Full width */
+    height: calc(100vh - 80px); /* Full height minus navbar and margin */
+    background-color: #FFF;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    overflow-y: auto; /* Add scroll if content overflows */
+}
+
+.cart-title {
+    font-size: 2rem;
+    color: #8B4513;
+    margin-bottom: 20px;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cart-table th, .cart-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #DCDCDC;
+}
+
+.cart-table th {
+    background-color: #8B4513;
+    color: #FFF;
+}
+
+.cart-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.cta-button {
+    padding: 10px 20px;
+    background-color: #A0522D;
+    color: #FFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #D2691E;
+}
+
+.total-price {
+    font-size: 1.5rem;
+    color: #8B4513;
+}
+
+/* Navbar Styles */
+.leftbar {
+    background-color: #8B4513;
+    width: 200px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.leftbar .btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.leftbar .button {
+    width: 150px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #FFF;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.leftbar .button:hover {
+    transform: scale(0.9);
+}
+
+/* Individual Button Colors */
+.leftbar .button1 {
+    background-color: #A0522D;
+}
+
+.leftbar .button2 {
+    background-color: #D2691E;
+}
+
+.leftbar .button3 {
+    background-color: #CD853F;
+}
+
+.leftbar .button4 {
+    background-color: #8B4513;
+}
+
+.leftbar .button5 {
+    background-color: #A0522D;
+}
+
+.leftbar .button6 {
+    background-color: #D2691E;
+}
+
+/* Button Hover Colors */
+.leftbar .button1:hover {
+    background-color: #8B4513;
+}
+
+.leftbar .button2:hover {
+    background-color: #A0522D;
+}
+
+.leftbar .button3:hover {
+    background-color: #8B4513;
+}

@@ -1,14 +1,18 @@
 <?php
-session_start(); // Start the session
-include "../config/userAuthConfig.php"; // Include the database connection
+// Check if a session is already active before starting a new one
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+include "../config/phpdb.php"; // Ensure this file initializes $conn correctly
 
 // Fetch user details if logged in
 $user = null;
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 
-    // Query the database to get the user details
-    $stmt = $conn->prepare("SELECT id, username, firstname, lastname, email, phone FROM users WHERE username = ?");
+    // Query the database to get the user details from the clientusers table
+    $stmt = $conn->prepare("SELECT id, username, firstname, lastname, email, phone FROM clientusers WHERE username = ?");
     $stmt->bind_param("s", $username); // Binding the username to the query
     $stmt->execute();
     $result = $stmt->get_result();
@@ -21,10 +25,6 @@ if (isset($_SESSION['username'])) {
     }
 
     $stmt->close(); // Close the database statement
-} else {
-    // If not logged in, redirect to the login page
-    header("Location: signin.php");
-    exit(); // Stop script execution
 }
 ?>
 
@@ -39,73 +39,49 @@ if (isset($_SESSION['username'])) {
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Custom premium brown color */
         .navbar-custom {
             background-color: #8B4513; /* Premium brown color */
         }
 
         .navbar-custom .btn-custom {
             color: #fff;
-            background-color: #A0522D; /* Slightly lighter brown for buttons */
+            background-color: #A0522D;
             border: none;
             margin: 0 5px;
         }
 
         .navbar-custom .btn-custom:hover {
-            background-color: #D2691E; /* Lighter brown on hover */
-        }
-
-        .navbar-custom .btn-reserve {
-            border: 2px solid #FFD700; /* Gold border for reservation button */
-            border-radius: 5px;
-        }
-
-        .navbar-custom .logo {
-            height: 50px; /* Adjust logo size as needed */
+            background-color: #D2691E;
         }
 
         .navbar-custom .username {
-            color: #FFF; /* White text for the username */
-            margin-right: 15px; /* Space between username and logout button */
+            color: #FFF;
+            margin-right: 15px;
         }
 
         .navbar-custom .nav-link {
-            color: #FFF; /* White text for navigation links */
-            margin-right: 15px; /* Space between navigation links */
+            color: #FFF;
+            margin-right: 15px;
         }
 
         .navbar-custom .nav-link:hover {
-            color: #D2B48C; /* Light brown on hover */
+            color: #D2B48C;
         }
 
-        /* Modal styling */
-        .modal-content {
-            background-color: #333; /* Dark background for modal */
-            color: white; /* Light text color */
-        }
-
-        .modal-header {
-            border-bottom: 1px solid #8B4513; /* Premium brown border */
-        }
-
-        .modal-footer {
-            border-top: 1px solid #8B4513; /* Premium brown border */
-        }
-
-        .modal-body p {
-            margin: 10px 0;
+        .navbar-custom .logo {
+            height: 50px;
         }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container-fluid">
-            <!-- Logo on the left -->
+            <!-- Logo -->
             <a class="navbar-brand" href="index.php">
                 <img src="../photos/logo_Images/Logo99.png" alt="Logo" class="logo">
             </a>
 
-            <!-- Navigation links on the left with icons -->
+            <!-- Navigation links -->
             <div class="d-flex">
                 <a href="food.php" target="main" class="nav-link">
                     <i class="fas fa-utensils"></i> Food
@@ -124,17 +100,21 @@ if (isset($_SESSION['username'])) {
                 </a>
             </div>
 
-            <!-- Display username, My Account button, and logout button if user is logged in -->
-            <?php if (isset($_SESSION['username'])): ?>
-                <div class="ms-auto d-flex align-items-center">
+            <!-- Right-side buttons -->
+            <div class="ms-auto d-flex align-items-center">
+                <?php if (isset($_SESSION['username'])): ?>
                     <span class="username">Welcome, <?php echo htmlspecialchars($user['firstname'] . ' ' . $user['lastname']); ?></span>
-                    <!-- My Account Button -->
                     <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#accountModal">
                         <i class="fas fa-user"></i> My Account
                     </button>
+                    <a href="cart.php" class="btn btn-custom">
+                        <i class="fas fa-shopping-cart"></i> Cart
+                    </a>
                     <a href="logout.php" class="btn btn-custom">Logout</a>
-                </div>
-            <?php endif; ?>
+                <?php else: ?>
+                    <a href="login.php" class="btn btn-custom">Login</a>
+                <?php endif; ?>
+            </div>
         </div>
     </nav>
 

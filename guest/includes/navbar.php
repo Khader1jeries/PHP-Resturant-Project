@@ -9,6 +9,7 @@
     <style>
         /* Custom premium brown color */
         .navbar-custom {
+            margin-bottom: 40px;
             background-color: #8B4513; /* Premium brown color */
         }
 

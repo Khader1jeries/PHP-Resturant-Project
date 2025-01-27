@@ -1,7 +1,6 @@
 <?php
 session_start();
-include "../config/userAuthConfig.php"; // Include the database connection
-
+include "../config/phpdb.php";
 // Handle form submission to add a new user
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Safely retrieve form values using null coalescing operator
@@ -15,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Check for null values before proceeding
     if ($username && $firstname && $lastname && $email && $phone && $password) {
         // Check if the username already exists
-        $stmt = $conn->prepare("SELECT username FROM users WHERE username = ?");
+        $stmt = $conn->prepare("SELECT username FROM clientusers WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $stmt->store_result();
@@ -45,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 $sortedUsers = [];
 
 // Query the database for all users
-$result = $conn->query("SELECT username, firstname, lastname, email, phone, password FROM users ORDER BY firstname ASC");
+$result = $conn->query("SELECT username, firstname, lastname, email, phone, password FROM clientusers ORDER BY firstname ASC");
 
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {

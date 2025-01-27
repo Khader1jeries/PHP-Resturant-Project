@@ -1,6 +1,5 @@
 <?php
-include "../config/productsConfig.php"; // Use the new products database connection
-
+include "../config/phpdb.php";
 // Fetch all products from the database
 $photosPath = "../photos/food_images/"; // Path to your images folder
 $stmt = $conn->prepare("SELECT id, name, price, path, kind FROM products"); // Ensure 'kind' is selected

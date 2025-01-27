@@ -1,6 +1,5 @@
 <?php
-include "../config/productsConfig.php"; // Include database connection
-
+include "../config/phpdb.php";
 // Handle form submission for creating a product
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
