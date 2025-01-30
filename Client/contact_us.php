@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Message is required.";
     }
     
-    include "../config/contactUsConfig.php"; // Use the same database connection file
+    include "../config/phpdb.php"; // Use the same database connection file
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     // If no errors, send the email
     if (empty($errors)) {
-        $to = "konanai0699@gmail.com"; // Replace with your email
+        $to = "khader.jeryes@gmail.com"; // Replace with your email
         $subject = "Contact Form Submission from $name";
         $emailMessage = "
         Name: $name\n

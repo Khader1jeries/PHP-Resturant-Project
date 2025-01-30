@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Message is required.";
     }
     
-    include "../config/contactUsConfig.php"; // Use the same database connection file
+    include "../config/phpdb.php"; // Use the same database connection file
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -58,8 +58,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } elseif (strlen($newPassword) < 8) {
         $errorMessage = "Password must be at least 8 characters.";
     } else {
-        $successMessage = "Password validation succeeded! Redirecting...";
-        echo "<script>setTimeout(() => window.location.href='log_in.php', 3000);</script>";
+        // Use plain text password (No hashing)
+        $plainPassword = $newPassword;
+        
+        // Update the database
+        if ($isAdmin) {
+            $stmt = $conn->prepare("UPDATE adminusers SET password = ?, temp_password = NULL, failed_attempts = 0 WHERE username = ?");
+        } else {
+            $stmt = $conn->prepare("UPDATE clientusers SET password = ?, temp_password = NULL, failed_attempts = 0 WHERE username = ?");
+        }
+        $stmt->bind_param("ss", $plainPassword, $username);
+        if ($stmt->execute()) {
+            $successMessage = "Password updated successfully! Redirecting...";
+            unset($_SESSION['temp_password']);
+            echo "<script>setTimeout(() => window.location.href='log_in.php', 3000);</script>";
+        } else {
+            $errorMessage = "Error updating password. Please try again.";
+        }
     }
 }
 
