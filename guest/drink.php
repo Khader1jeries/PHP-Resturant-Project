@@ -2,7 +2,7 @@
 include "../config/phpdb.php";
 // Fetch all products from the database
 $photosPath = "../photos/drinks_images/"; // Path to your images folder
-$stmt = $conn->prepare("SELECT id, name, price, path, kind FROM products"); // Ensure 'kind' is selected
+$stmt = $conn->prepare("SELECT id, name, price, path, kind, stock FROM products"); // Ensure 'kind' is selected
 $stmt->execute();
 $result = $stmt->get_result();
 $products = $result->fetch_all(MYSQLI_ASSOC);
@@ -30,12 +30,9 @@ $conn->close();
               alt="<?= htmlspecialchars($product['name']) ?>"
             />
             <div class="tooltip">
-              <?= htmlspecialchars($product['name']) ?>, Price: <?= $product['price'] ?>₪
+            <?= htmlspecialchars($product['name']) ?>, Price: <?= $product['price'] ?>₪, Stock: <?= $product['stock'] ?>
             </div>
-            <form method="POST">
-              <input type="hidden" name="productDetails" value="ID: <?= $product['id'] ?>, Name: <?= htmlspecialchars($product['name']) ?>, Price: <?= $product['price'] ?>">
-              <button type="submit">Save Product</button>
-            </form>
+           
           </div>
         <?php endif; ?>
       <?php endforeach; ?>

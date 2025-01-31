@@ -58,22 +58,43 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } elseif (strlen($newPassword) < 8) {
         $errorMessage = "Password must be at least 8 characters.";
     } else {
-        // Use plain text password (No hashing)
-        $plainPassword = $newPassword;
-        
-        // Update the database
-        if ($isAdmin) {
-            $stmt = $conn->prepare("UPDATE adminusers SET password = ?, temp_password = NULL, failed_attempts = 0 WHERE username = ?");
+        // Determine user table
+        $table = $isAdmin ? 'adminusers' : 'clientusers';
+
+        // Retrieve current password and previous passwords
+        $stmt = $conn->prepare("SELECT password, password_1, password_2, password_3 FROM $table WHERE username = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 1) {
+            $row = $result->fetch_assoc();
+            $previousPasswords = array($row['password_1'], $row['password_2'], $row['password_3']);
+
+            // Check against previous passwords
+            if (in_array($newPassword, $previousPasswords)) {
+                $errorMessage = "You have used this password before. Please choose another one.";
+            } else {
+                // Prepare new password history values
+                $currentPassword = $row['password'];
+                $new_password_1 = $currentPassword;
+                $new_password_2 = $row['password_1'];
+                $new_password_3 = $row['password_2'];
+
+                // Update password and password history
+                $updateStmt = $conn->prepare("UPDATE $table SET password = ?, password_1 = ?, password_2 = ?, password_3 = ?, temp_password = NULL, failed_attempts = 0 WHERE username = ?");
+                $updateStmt->bind_param("sssss", $newPassword, $new_password_1, $new_password_2, $new_password_3, $username);
+
+                if ($updateStmt->execute()) {
+                    $successMessage = "Password updated successfully! Redirecting...";
+                    unset($_SESSION['temp_password']);
+                    echo "<script>setTimeout(() => window.location.href='log_in.php', 3000);</script>";
+                } else {
+                    $errorMessage = "Error updating password. Please try again.";
+                }
+            }
         } else {
-            $stmt = $conn->prepare("UPDATE clientusers SET password = ?, temp_password = NULL, failed_attempts = 0 WHERE username = ?");
-        }
-        $stmt->bind_param("ss", $plainPassword, $username);
-        if ($stmt->execute()) {
-            $successMessage = "Password updated successfully! Redirecting...";
-            unset($_SESSION['temp_password']);
-            echo "<script>setTimeout(() => window.location.href='log_in.php', 3000);</script>";
-        } else {
-            $errorMessage = "Error updating password. Please try again.";
+            $errorMessage = "Error retrieving user data.";
         }
     }
 }

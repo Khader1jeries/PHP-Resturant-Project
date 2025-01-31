@@ -84,7 +84,7 @@ if (isset($_SESSION['username'])) {
             <div class="cart-actions">
                 <span class="total-price">Total: ₪<?php echo number_format($total, 2); ?></span>
                 <a href="checkout.php" class="cta-button">Proceed to Checkout</a>
-                <a href="view_orders.php" class="cta-button">View Your Orders</a> <!-- New button for viewing orders -->
+                <a href="order_details.php" class="cta-button">View Your Orders</a> <!-- New button for viewing orders -->
             </div>
         <?php else: ?>
             

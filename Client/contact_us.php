@@ -4,75 +4,38 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include "../config/phpdb.php";
+session_start(); // Start the session to access user data
+include "../config/phpdb.php"; // Include the database connection file
+
+// Check if the user is logged in (assuming you store the user's ID in the session)
+if (!isset($_SESSION['user_id'])) {
+    die("You must be logged in to submit the contact form.");
+}
+
+// Fetch the logged-in user's details from the clientusers table
+$user_id = $_SESSION['user_id']; // Assuming the user's ID is stored in the session
+$stmt = $conn->prepare("SELECT username, phone, email FROM clientusers WHERE id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows === 0) {
+    die("User not found in the database.");
+}
+
+$stmt->bind_result($name, $phone, $email);
+$stmt->fetch();
+$stmt->close();
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Collect form data
-    $name = htmlspecialchars(trim($_POST['name']));
-    $phone = htmlspecialchars(trim($_POST['phone']));
-    $email = htmlspecialchars(trim($_POST['email']));
+    // Collect form data (only the message is input by the user)
     $message = htmlspecialchars(trim($_POST['message']));
 
     // Validation
     $errors = [];
-
-    // Validate name
-    if (empty($name)) {
-        $errors[] = "Name is required.";
-    }
-
-    // Validate phone number
-    if (empty($phone)) {
-        $errors[] = "Phone number is required.";
-    }
-
-    // Validate email
-    if (empty($email)) {
-        $errors[] = "Email is required.";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Invalid email format.";
-    }
 
     // Validate message
-    if (empty($message)) {
-        $errors[] = "Message is required.";
-    }
-    
-    include "../config/phpdb.php"; // Use the same database connection file
-
-// Handle form submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Collect form data
-    $name = htmlspecialchars(trim($_POST['name']));
-    $phone = htmlspecialchars(trim($_POST['phone']));
-    $email = htmlspecialchars(trim($_POST['email']));
-    $message = htmlspecialchars(trim($_POST['message']));
-
-    // Validation
-    $errors = [];
-
-    // Validate name (Ensure it's not empty and contains only letters and spaces)
-    if (empty($name)) {
-        $errors[] = "Name is required.";
-    } elseif (!preg_match("/^[a-zA-Z ]*$/", $name)) {
-        $errors[] = "Name can only contain letters and spaces.";
-    }
-
-    // Validate phone number (Ensure it's exactly 10 digits)
-    if (empty($phone)) {
-        $errors[] = "Phone number is required.";
-    } elseif (!preg_match("/^\d{10}$/", $phone)) {
-        $errors[] = "Phone number must be exactly 10 digits (only numbers).";
-    }
-
-    // Validate email (Ensure it's a valid email format)
-    if (empty($email)) {
-        $errors[] = "Email is required.";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Invalid email format.";
-    }
-
-    // Validate message (Ensure it's not empty)
     if (empty($message)) {
         $errors[] = "Message is required.";
     }
@@ -97,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Close the statement
         $stmt->close();
     }
-    }
+
     // If no errors, send the email
     if (empty($errors)) {
         $to = "khader.jeryes@gmail.com"; // Replace with your email
@@ -120,8 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -170,9 +131,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="contact-form">
         <h2>Send us a message</h2>
         <form action="" method="post" id="contactForm">
-            <input type="text" name="name" placeholder="Your Name" id="name" required>
-            <input type="text" name="phone" placeholder="Your Phone Number" id="phone" required>
-            <input type="email" name="email" placeholder="Your Email Address" id="email" required>
+            <!-- Hidden fields to store user data (optional, for debugging) -->
+            <input type="hidden" name="name" value="<?php echo htmlspecialchars($name); ?>">
+            <input type="hidden" name="phone" value="<?php echo htmlspecialchars($phone); ?>">
+            <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
+
+            <!-- Only the message field is input by the user -->
             <textarea name="message" placeholder="Your Message" id="message" required></textarea>
             <button type="submit" class="submit-btn">Submit</button>
         </form>

@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && isse
 }
 
 // Fetch all products from the database
-$stmt = $conn->prepare("SELECT id, name, price, path, kind FROM products");
+$stmt = $conn->prepare("SELECT id, name, price, path, kind, stock FROM products");
 $stmt->execute();
 $result = $stmt->get_result();
 $products = $result->fetch_all(MYSQLI_ASSOC);
@@ -99,13 +99,17 @@ $conn->close();
               alt="<?= htmlspecialchars($product['name']) ?>"
             />
             <div class="tooltip">
-              <?= htmlspecialchars($product['name']) ?>, Price: <?= $product['price'] ?>₪
+            <?= htmlspecialchars($product['name']) ?>, Price: <?= $product['price'] ?>₪, Stock: <?= $product['stock'] ?>
             </div>
             <form method="POST">
               <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
               <label for="quantity_<?= $product['id'] ?>">Quantity:</label>
               <input type="number" id="quantity_<?= $product['id'] ?>" name="quantity" value="1" min="1" required>
-              <button type="submit">Save Product</button>
+              <?php if ($product['stock'] > 0): ?>
+                <button type="submit">Add to cart</button>
+              <?php else: ?>
+                <p style="color: red; font-weight: bold;">Out of Stock</p>
+              <?php endif; ?>
             </form>
           </div>
         <?php endif; ?>
