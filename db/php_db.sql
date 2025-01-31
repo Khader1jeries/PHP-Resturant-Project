@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 27, 2025 at 02:48 PM
+-- Generation Time: Jan 31, 2025 at 07:13 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,15 +40,16 @@ CREATE TABLE `adminusers` (
   `failed_attempts` int(11) NOT NULL DEFAULT 0,
   `password_1` varchar(255) DEFAULT NULL,
   `password_2` varchar(255) DEFAULT NULL,
-  `password_3` varchar(255) DEFAULT NULL
+  `password_3` varchar(255) DEFAULT NULL,
+  `dob` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `adminusers`
 --
 
-INSERT INTO `adminusers` (`id`, `username`, `firstname`, `lastname`, `email`, `phone`, `password`, `temp_password`, `temp_password_used`, `failed_attempts`, `password_1`, `password_2`, `password_3`) VALUES
-(1, 'admin', 'ad', 'min', 'aliasade215@gmail.com', 539513806, 'admin', NULL, 0, 0, NULL, NULL, NULL);
+INSERT INTO `adminusers` (`id`, `username`, `firstname`, `lastname`, `email`, `phone`, `password`, `temp_password`, `temp_password_used`, `failed_attempts`, `password_1`, `password_2`, `password_3`, `dob`) VALUES
+(1, 'admin', 'ad', 'min', 'aliasade215@gmail.com', 539513806, 'admin', NULL, 0, 0, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -91,18 +92,21 @@ CREATE TABLE `clientusers` (
   `failed_attempts` int(11) NOT NULL DEFAULT 0,
   `password_1` varchar(255) DEFAULT NULL,
   `password_2` varchar(255) DEFAULT NULL,
-  `password_3` varchar(255) DEFAULT NULL
+  `password_3` varchar(255) DEFAULT NULL,
+  `dob` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `clientusers`
 --
 
-INSERT INTO `clientusers` (`id`, `username`, `firstname`, `lastname`, `email`, `phone`, `password`, `temp_password`, `temp_password_used`, `failed_attempts`, `password_1`, `password_2`, `password_3`) VALUES
-(17, 'test10', 'aksdk', 'aksd', 'aaksmd@gmal.com', '539123222', '1234', NULL, 0, 0, NULL, NULL, NULL),
-(18, 'test', 'te', 'st', 'test@example.com', '500000000', 'test', NULL, 0, 0, NULL, NULL, NULL),
-(20, 'test12', 'test', 'test', 'test@test.com', '500000000', 'test', NULL, 0, 0, NULL, NULL, NULL),
-(25, 'test3', 'test', 'test', 'aliahwc10@gmail.com', '0501112222', 'test9191', NULL, 0, 0, 'test1230', 'test8989', 'test0101');
+INSERT INTO `clientusers` (`id`, `username`, `firstname`, `lastname`, `email`, `phone`, `password`, `temp_password`, `temp_password_used`, `failed_attempts`, `password_1`, `password_2`, `password_3`, `dob`) VALUES
+(17, 'test10', 'aksdk', 'aksd', 'aaksmd@gmal.com', '539123222', '1234', NULL, 0, 0, NULL, NULL, NULL, NULL),
+(20, 'test12', 'test', 'test', 'test@test.com', '500000000', 'test', NULL, 0, 0, NULL, NULL, NULL, NULL),
+(25, 'test3', 'test', 'test', 'aliahwc10@gmail.com', '0501112222', 'test9191', NULL, 0, 0, 'test1230', 'test8989', 'test0101', NULL),
+(26, 'khader', 'khader', 'khader', 'khader.jeryes@gmail.com', '0533218112', 'khader1231', NULL, 0, 0, 'khader123', 'khader123', '0123456789', NULL),
+(29, 'sadc', 'asd', 'asd', 'sad@fsfdf.asdf', '0533218112', '1234567', NULL, 0, 0, NULL, NULL, NULL, '2025-01-29'),
+(31, 'adssd', 'sfdsfd', 'sddsd', 'sad@fsfdf.asdfs', '0533218112', 'khader', NULL, 0, 0, NULL, NULL, NULL, '2000-01-11');
 
 -- --------------------------------------------------------
 
@@ -127,7 +131,15 @@ CREATE TABLE `contact_us` (
 
 INSERT INTO `contact_us` (`id`, `name`, `phone`, `email`, `message`, `submission_date`, `Status`, `Answer`) VALUES
 (5, 'ali', '0539123222', 'aliahwc@gmail.com', 'hi test mail', '2025-01-06 13:07:53', 0, ''),
-(7, 'ali', '0539513806', 'aliahwc@gmail.com', 'hi', '2025-01-13 10:32:19', 0, '');
+(7, 'ali', '0539513806', 'aliahwc@gmail.com', 'hi', '2025-01-13 10:32:19', 0, ''),
+(10, 'khader', '0533218112', 'khader.jeryes@gmail.com', 'Khader test', '2025-01-30 11:17:43', 0, NULL),
+(11, 'khader', '0533218112', 'khader.jeryes@gmail.com', 'Khader test', '2025-01-30 11:18:39', 0, 'test'),
+(12, 'dsvc', '0546584521', 'khader.jeryes@gmail.com', 'kjdsgfi', '2025-01-30 11:30:24', 0, NULL),
+(13, 'asd', '0532123545', 'khader.jeryes@gmail.com', 'sadcas', '2025-01-30 11:31:10', 0, NULL),
+(14, 'asd', '0532123545', 'khader.jeryes@gmail.com', 'sadcas', '2025-01-30 11:33:55', 0, NULL),
+(15, 'asd', '0533218112', 'khader.jeryes@gmail.com', 'dsfasf', '2025-01-30 11:34:18', 0, NULL),
+(16, 'kha', '0533218112', 'khader.jeryes@gmail.com', '123456', '2025-01-31 14:20:14', 0, NULL),
+(17, 'khader', '0533218112', 'khader.jeryes@gmail.com', 'test', '2025-01-31 16:55:16', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -149,7 +161,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`kind`, `id`, `name`, `price`, `stock`, `path`) VALUES
-(1, 43, 'Coca Cola', 7.00, 100, 'Coca Cola.jpg'),
+(1, 43, 'Coca Cola', 7.00, 1, 'Coca Cola.jpg'),
 (1, 44, 'Fanta Orange', 7.00, 100, 'Fanta Orange.jpg'),
 (1, 45, 'Sprite Extreme', 8.00, 50, 'Sprite Extreme.jpg'),
 (1, 46, 'Fanta Strawberry Kiwi', 10.00, 30, 'Fanta Strawberry Kiwi.jpg'),
@@ -167,8 +179,7 @@ INSERT INTO `products` (`kind`, `id`, `name`, `price`, `stock`, `path`) VALUES
 (1, 58, 'Lemon Juice', 7.00, 100, 'Lemon Jucie.jpg'),
 (1, 59, 'Orange Juice', 10.00, 100, 'Orange Jucie.jpg'),
 (1, 60, 'Strawberry Juice', 15.00, 50, 'Strawberry Jucie.jpg'),
-(2, 61, 'Classic Burger', 40.00, 5, 'classic burger.jpg'),
-(2, 62, 'Another Burger', 75.00, 3, 'anotherBurger.jpg'),
+(2, 62, 'Another Burger', 75.00, 5, 'anotherBurger.jpg'),
 (2, 63, 'Yet Another Burger', 100.00, 7, 'burgerTest1111.jpg'),
 (2, 64, 'Chicken Burger', 40.00, 8, 'Chicken Burger.jpg'),
 (2, 65, 'Mixed Tortia', 60.00, 10, 'tortia.jpg'),
@@ -179,7 +190,6 @@ INSERT INTO `products` (`kind`, `id`, `name`, `price`, `stock`, `path`) VALUES
 (2, 70, 'Napilion Pizza', 70.00, 9, 'Napilion Pizza.jpg'),
 (2, 71, 'Shawrma', 50.00, 5, 'shawrma.jpg'),
 (2, 72, 'Baget', 40.00, 4, 'baget1.jpg'),
-(2, 73, 'Diet meal 1', 45.00, 6, 'Diet1.jpg'),
 (2, 74, 'Diet meal 2', 45.00, 7, 'diet2.jpg'),
 (2, 75, 'Diet meal 3', 45.00, 3, 'Diet3.jpg'),
 (2, 76, 'Fatosh Salad', 30.00, 8, 'fatosh.jpg'),
@@ -204,7 +214,8 @@ CREATE TABLE `purchases` (
 --
 
 INSERT INTO `purchases` (`id`, `user_id`, `total_amount`, `purchase_date`) VALUES
-(1, 25, 1366.00, '2025-01-27 13:24:10');
+(4, 26, 425.00, '2025-01-31 17:10:35'),
+(5, 26, 420.00, '2025-01-31 17:11:09');
 
 -- --------------------------------------------------------
 
@@ -225,9 +236,10 @@ CREATE TABLE `purchase_details` (
 --
 
 INSERT INTO `purchase_details` (`id`, `purchase_id`, `product_id`, `quantity`, `price`) VALUES
-(1, 1, 43, 2, 7.00),
-(2, 1, 61, 1, 40.00),
-(3, 1, 62, 3, 75.00);
+(7, 4, 62, 3, 75.00),
+(8, 4, 63, 2, 100.00),
+(9, 5, 63, 3, 100.00),
+(10, 5, 64, 3, 40.00);
 
 --
 -- Indexes for dumped tables
@@ -294,25 +306,25 @@ ALTER TABLE `purchase_details`
 -- AUTO_INCREMENT for table `adminusers`
 --
 ALTER TABLE `adminusers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `clientusers`
 --
 ALTER TABLE `clientusers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `contact_us`
 --
 ALTER TABLE `contact_us`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -324,13 +336,13 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `purchase_details`
 --
 ALTER TABLE `purchase_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
