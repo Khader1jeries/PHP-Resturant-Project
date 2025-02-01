@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 31, 2025 at 07:13 PM
+-- Generation Time: Feb 01, 2025 at 08:18 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -50,6 +50,31 @@ CREATE TABLE `adminusers` (
 
 INSERT INTO `adminusers` (`id`, `username`, `firstname`, `lastname`, `email`, `phone`, `password`, `temp_password`, `temp_password_used`, `failed_attempts`, `password_1`, `password_2`, `password_3`, `dob`) VALUES
 (1, 'admin', 'ad', 'min', 'aliasade215@gmail.com', 539513806, 'admin', NULL, 0, 0, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_login_history`
+--
+
+CREATE TABLE `admin_login_history` (
+  `id` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `date` datetime NOT NULL,
+  `success` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin_login_history`
+--
+
+INSERT INTO `admin_login_history` (`id`, `username`, `email`, `date`, `success`) VALUES
+(1, 'admin', 'aliasade215@gmail.com', '2025-02-01 16:53:36', 0),
+(2, 'admin', 'aliasade215@gmail.com', '2025-02-01 16:53:46', 1),
+(3, 'admin', 'aliasade215@gmail.com', '2025-02-01 18:23:35', 1),
+(4, 'admin', 'aliasade215@gmail.com', '2025-02-01 18:24:56', 1),
+(5, 'admin', 'aliasade215@gmail.com', '2025-02-01 20:33:24', 1);
 
 -- --------------------------------------------------------
 
@@ -104,9 +129,53 @@ INSERT INTO `clientusers` (`id`, `username`, `firstname`, `lastname`, `email`, `
 (17, 'test10', 'aksdk', 'aksd', 'aaksmd@gmal.com', '539123222', '1234', NULL, 0, 0, NULL, NULL, NULL, NULL),
 (20, 'test12', 'test', 'test', 'test@test.com', '500000000', 'test', NULL, 0, 0, NULL, NULL, NULL, NULL),
 (25, 'test3', 'test', 'test', 'aliahwc10@gmail.com', '0501112222', 'test9191', NULL, 0, 0, 'test1230', 'test8989', 'test0101', NULL),
-(26, 'khader', 'khader', 'khader', 'khader.jeryes@gmail.com', '0533218112', 'khader1231', NULL, 0, 0, 'khader123', 'khader123', '0123456789', NULL),
+(26, 'khader', 'khader', 'khader', 'khader.jeryes@gmail.com', '0533218112', '123123123', NULL, 0, 0, 'khader123321', 'khader123321', 'khader1231', NULL),
 (29, 'sadc', 'asd', 'asd', 'sad@fsfdf.asdf', '0533218112', '1234567', NULL, 0, 0, NULL, NULL, NULL, '2025-01-29'),
 (31, 'adssd', 'sfdsfd', 'sddsd', 'sad@fsfdf.asdfs', '0533218112', 'khader', NULL, 0, 0, NULL, NULL, NULL, '2000-01-11');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `client_login_history`
+--
+
+CREATE TABLE `client_login_history` (
+  `id` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `date` datetime NOT NULL,
+  `success` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `client_login_history`
+--
+
+INSERT INTO `client_login_history` (`id`, `username`, `email`, `date`, `success`) VALUES
+(1, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 16:35:09', 0),
+(2, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 16:35:36', 0),
+(3, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 16:38:27', 1),
+(4, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 16:38:38', 0),
+(6, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 16:43:44', 1),
+(7, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 16:53:20', 0),
+(8, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 16:53:25', 1),
+(9, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 17:16:27', 1),
+(10, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 17:16:35', 0),
+(11, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 17:16:40', 0),
+(12, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 17:16:44', 0),
+(13, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 17:16:50', 0),
+(14, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 17:19:15', 0),
+(15, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 17:22:17', 0),
+(16, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 17:24:26', 1),
+(17, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 17:25:12', 1),
+(18, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 17:25:44', 1),
+(20, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 18:23:18', 1),
+(21, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 18:24:20', 1),
+(22, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 18:24:50', 1),
+(23, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 18:25:17', 1),
+(24, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 18:26:16', 1),
+(25, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 19:00:43', 1),
+(26, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 19:15:23', 1);
 
 -- --------------------------------------------------------
 
@@ -144,6 +213,28 @@ INSERT INTO `contact_us` (`id`, `name`, `phone`, `email`, `message`, `submission
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `conversation_messages`
+--
+
+CREATE TABLE `conversation_messages` (
+  `id` int(11) NOT NULL,
+  `contact_id` int(11) NOT NULL,
+  `sender` enum('admin','client') NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `conversation_messages`
+--
+
+INSERT INTO `conversation_messages` (`id`, `contact_id`, `sender`, `message`, `created_at`) VALUES
+(1, 5, 'admin', 'hi', '2025-02-01 19:09:19'),
+(2, 5, 'admin', 'how are you', '2025-02-01 19:09:29');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `products`
 --
 
@@ -162,7 +253,7 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`kind`, `id`, `name`, `price`, `stock`, `path`) VALUES
 (1, 43, 'Coca Cola', 7.00, 1, 'Coca Cola.jpg'),
-(1, 44, 'Fanta Orange', 7.00, 100, 'Fanta Orange.jpg'),
+(1, 44, 'Fanta Orange', 7.00, 0, 'Fanta Orange.jpg'),
 (1, 45, 'Sprite Extreme', 8.00, 50, 'Sprite Extreme.jpg'),
 (1, 46, 'Fanta Strawberry Kiwi', 10.00, 30, 'Fanta Strawberry Kiwi.jpg'),
 (1, 47, 'Sprite Zero', 7.00, 50, 'Sprite Zero.jpg'),
@@ -179,9 +270,9 @@ INSERT INTO `products` (`kind`, `id`, `name`, `price`, `stock`, `path`) VALUES
 (1, 58, 'Lemon Juice', 7.00, 100, 'Lemon Jucie.jpg'),
 (1, 59, 'Orange Juice', 10.00, 100, 'Orange Jucie.jpg'),
 (1, 60, 'Strawberry Juice', 15.00, 50, 'Strawberry Jucie.jpg'),
-(2, 62, 'Another Burger', 75.00, 5, 'anotherBurger.jpg'),
-(2, 63, 'Yet Another Burger', 100.00, 7, 'burgerTest1111.jpg'),
-(2, 64, 'Chicken Burger', 40.00, 8, 'Chicken Burger.jpg'),
+(2, 62, 'Another Burger', 75.00, 0, 'anotherBurger.jpg'),
+(2, 63, 'Yet Another Burger', 100.00, 0, 'burgerTest1111.jpg'),
+(2, 64, 'Chicken Burger', 40.00, 0, 'Chicken Burger.jpg'),
 (2, 65, 'Mixed Tortia', 60.00, 10, 'tortia.jpg'),
 (2, 66, 'Trible Taco', 60.00, 4, 'Taco.jpg'),
 (2, 67, 'Home Pizza', 40.00, 2, 'HomePizza.jpg'),
@@ -206,16 +297,23 @@ CREATE TABLE `purchases` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `total_amount` decimal(10,2) NOT NULL,
-  `purchase_date` timestamp NOT NULL DEFAULT current_timestamp()
+  `purchase_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `done` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `purchases`
 --
 
-INSERT INTO `purchases` (`id`, `user_id`, `total_amount`, `purchase_date`) VALUES
-(4, 26, 425.00, '2025-01-31 17:10:35'),
-(5, 26, 420.00, '2025-01-31 17:11:09');
+INSERT INTO `purchases` (`id`, `user_id`, `total_amount`, `purchase_date`, `done`) VALUES
+(4, 26, 425.00, '2025-01-31 17:10:35', 0),
+(5, 26, 420.00, '2025-01-31 17:11:09', 0),
+(6, 26, 75.00, '2025-02-01 17:23:32', 1),
+(7, 26, 53.00, '2025-02-01 17:41:35', 1),
+(8, 26, 120.00, '2025-02-01 17:49:27', 1),
+(9, 26, 720.00, '2025-02-01 17:54:49', 1),
+(10, 26, 720.00, '2025-02-01 17:59:08', 1),
+(11, 26, 700.00, '2025-02-01 18:00:35', 1);
 
 -- --------------------------------------------------------
 
@@ -239,7 +337,15 @@ INSERT INTO `purchase_details` (`id`, `purchase_id`, `product_id`, `quantity`, `
 (7, 4, 62, 3, 75.00),
 (8, 4, 63, 2, 100.00),
 (9, 5, 63, 3, 100.00),
-(10, 5, 64, 3, 40.00);
+(10, 5, 64, 3, 40.00),
+(11, 6, 62, 1, 75.00),
+(12, 7, 43, 1, 7.00),
+(13, 7, 44, 2, 7.00),
+(14, 7, 45, 4, 8.00),
+(15, 8, 65, 2, 60.00),
+(16, 9, 64, 18, 40.00),
+(17, 10, 64, 18, 40.00),
+(18, 11, 44, 100, 7.00);
 
 --
 -- Indexes for dumped tables
@@ -252,6 +358,14 @@ ALTER TABLE `adminusers`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
   ADD UNIQUE KEY `username` (`username`);
+
+--
+-- Indexes for table `admin_login_history`
+--
+ALTER TABLE `admin_login_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `username` (`username`),
+  ADD KEY `email` (`email`);
 
 --
 -- Indexes for table `cart`
@@ -270,12 +384,26 @@ ALTER TABLE `clientusers`
   ADD UNIQUE KEY `username` (`username`);
 
 --
+-- Indexes for table `client_login_history`
+--
+ALTER TABLE `client_login_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `username` (`username`),
+  ADD KEY `email` (`email`);
+
+--
 -- Indexes for table `contact_us`
 --
 ALTER TABLE `contact_us`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idx_name` (`name`),
   ADD KEY `idx_phone` (`phone`);
+
+--
+-- Indexes for table `conversation_messages`
+--
+ALTER TABLE `conversation_messages`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `products`
@@ -309,10 +437,16 @@ ALTER TABLE `adminusers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
+-- AUTO_INCREMENT for table `admin_login_history`
+--
+ALTER TABLE `admin_login_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `clientusers`
@@ -321,10 +455,22 @@ ALTER TABLE `clientusers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
+-- AUTO_INCREMENT for table `client_login_history`
+--
+ALTER TABLE `client_login_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
 -- AUTO_INCREMENT for table `contact_us`
 --
 ALTER TABLE `contact_us`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `conversation_messages`
+--
+ALTER TABLE `conversation_messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -336,17 +482,24 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `purchase_details`
 --
 ALTER TABLE `purchase_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `admin_login_history`
+--
+ALTER TABLE `admin_login_history`
+  ADD CONSTRAINT `admin_login_history_ibfk_1` FOREIGN KEY (`username`) REFERENCES `adminusers` (`username`),
+  ADD CONSTRAINT `admin_login_history_ibfk_2` FOREIGN KEY (`email`) REFERENCES `adminusers` (`email`);
 
 --
 -- Constraints for table `cart`
@@ -354,6 +507,13 @@ ALTER TABLE `purchase_details`
 ALTER TABLE `cart`
   ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `clientusers` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `client_login_history`
+--
+ALTER TABLE `client_login_history`
+  ADD CONSTRAINT `client_login_history_ibfk_1` FOREIGN KEY (`username`) REFERENCES `clientusers` (`username`),
+  ADD CONSTRAINT `client_login_history_ibfk_2` FOREIGN KEY (`email`) REFERENCES `clientusers` (`email`);
 
 --
 -- Constraints for table `purchases`

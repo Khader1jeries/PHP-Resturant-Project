@@ -1,11 +1,12 @@
 <?php
 // Include necessary configurations and database connections
 include "../config/phpdb.php";
+
 // Fetch all messages from the contact_us table
-$query = "SELECT id, name, phone, email, message, status, answer, submission_date FROM contact_us ORDER BY submission_date ASC";
+$query = "SELECT id, name, phone, email, message, status, submission_date FROM contact_us ORDER BY submission_date ASC";
 $result = $conn->query($query);
 
-// Handle the status change request and answer update
+// Handle the status change request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['changeStatus'])) {
         $messageId = $_POST['messageId'];
@@ -16,36 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("si", $newStatus, $messageId);
         $stmt->execute();
         $stmt->close();
-    }
 
-    // Handle answer submission
-    if (isset($_POST['submitAnswer'])) {
-        $messageId = $_POST['messageId'];
-        $answer = htmlspecialchars(trim($_POST['answer']));
-
-        // Update the answer in the database
-        $stmt = $conn->prepare("UPDATE contact_us SET answer = ? WHERE id = ?");
-        $stmt->bind_param("si", $answer, $messageId);
-        $stmt->execute();
-        $stmt->close();
-
-        // Send the answer via email
-        $email = $_POST['email'];
-        $subject = "Response to your inquiry";
-        $emailMessage = "
-        Dear Customer,\n\n
-        Thank you for your inquiry. Here is our response:\n
-        $answer\n\n
-        Best regards,\n
-        Your Support Team
-        ";
-        $headers = "From: konanai0699@gmail.com\r\n";
-        $headers .= "Reply-To: $email\r\n";
-
-        // Send the email
-        mail($email, $subject, $emailMessage, $headers);
-
-        // Refresh the page after sending the answer
+        // Redirect to avoid form resubmission
         header("Location: support.php");
         exit();
     }
@@ -73,11 +46,11 @@ function getStatusText($statusCode) {
     <title>Admin Support - Contact Messages</title>
     <link rel="stylesheet" href="css_files/support.css"> <!-- Link to the CSS file -->
     <link rel="stylesheet" href="css_files/navbar.css"> <!-- Link to the navbar CSS file -->
-    <style>.leftbar .btn {
-    position: relative;
-    right: 30px;   
-        
-    }    
+    <style>
+        .leftbar .btn {
+            position: relative;
+            right: 30px;
+        }
     </style>
 </head>
 <body>
@@ -86,7 +59,7 @@ function getStatusText($statusCode) {
 
     <div class="admin-container" style="margin-left: 600px;margin-top: 80px;">
         <h1>Admin Support - Contact Messages</h1>
-        <p>Manage and respond to customer inquiries. You can change the status and provide answers to each message below.</p>
+        <p>Manage and respond to customer inquiries. You can change the status of each message below.</p>
 
         <table class="messages-table">
             <thead>
@@ -96,8 +69,8 @@ function getStatusText($statusCode) {
                     <th>Email</th>
                     <th>Message</th>
                     <th>Status</th>
-                    <th>Answer</th>
                     <th>Actions</th>
+                    <th>Converstion</th>
                 </tr>
             </thead>
             <tbody>
@@ -110,15 +83,8 @@ function getStatusText($statusCode) {
                             <td><?php echo htmlspecialchars($row['message']); ?></td>
                             <td><?php echo getStatusText($row['status']); ?></td>
                             <td>
-                                <form method="POST" action="support.php">
-                                    <textarea name="answer" placeholder="Write your answer here" required><?php echo htmlspecialchars($row['answer']); ?></textarea>
-                            </td>
-                            <td>
-                                <input type="hidden" name="messageId" value="<?php echo $row['id']; ?>" />
-                                <input type="hidden" name="email" value="<?php echo $row['email']; ?>" />
-                                <button type="submit" name="submitAnswer" class="submit-answer-btn">Submit Answer</button>
-                                <br><br>
-                                <form method="POST" action="support.php">
+                                <!-- Form to change status -->
+                                <form method="POST" action="support.php" style="display:inline;">
                                     <input type="hidden" name="messageId" value="<?php echo $row['id']; ?>" />
                                     <select name="status">
                                         <option value="0" <?php echo $row['status'] == 0 ? 'selected' : ''; ?>>Open</option>
@@ -127,12 +93,19 @@ function getStatusText($statusCode) {
                                     </select>
                                     <button type="submit" name="changeStatus" class="change-status-btn">Change Status</button>
                                 </form>
+                    </td><td>
+                                <!-- Go to Conversation Button (Visible only when status is "In Progress") -->
+                                <?php if ($row['status'] == 1): ?>
+                                    <button onclick="window.location.href='conversation.php?id=<?php echo $row['id']; ?>'" class="go-to-conversation-btn">
+    Go to Conversation
+</button>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endwhile; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="7">No contact messages found.</td>
+                        <td colspan="6">No contact messages found.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
