@@ -9,7 +9,7 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$query = "SELECT p.id, p.purchase_date, p.total_amount, c.firstname, c.lastname 
+$query = "SELECT p.id, p.purchase_date, p.total_amount, p.done, c.firstname, c.lastname 
           FROM purchases p 
           JOIN clientusers c ON p.user_id = c.id
           ORDER BY p.purchase_date DESC";
@@ -47,7 +47,9 @@ mysqli_close($conn);
                         <th>Date</th>
                         <th>Total Amount</th>
                         <th>Customer Name</th>
+                        <th>Status</th>
                         <th>Action</th>
+                        <th>Status Button</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,7 +60,19 @@ mysqli_close($conn);
                             <td>$<?php echo number_format($order['total_amount'], 2); ?></td>
                             <td><?php echo htmlspecialchars($order['firstname']) . ' ' . htmlspecialchars($order['lastname']); ?></td>
                             <td>
+                                <?php echo $order['done'] ? 'Done' : 'Not Done'; ?>
+                            </td>
+                            <td>
                                 <a href="view_order.php?order_id=<?php echo htmlspecialchars($order['id']); ?>" class="cta-button">View Details</a>
+                    </td>
+                    <td>
+                                <form action="update_order_status.php" method="POST" style="display:inline;">
+                                    <input type="hidden" name="order_id" value="<?php echo htmlspecialchars($order['id']); ?>">
+                                    <input type="hidden" name="done" value="<?php echo $order['done'] ? 0 : 1; ?>">
+                                    <button type="submit" class="cta-button">
+                                        <?php echo $order['done'] ? 'Mark as Not Done' : 'Mark as Done'; ?>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     <?php endforeach; ?>

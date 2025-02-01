@@ -20,7 +20,7 @@ if ($userResult->num_rows > 0) {
 
     // Fetch cart items for the user
     $cartStmt = $conn->prepare("
-        SELECT c.product_id, c.quantity, p.price 
+        SELECT c.product_id, c.quantity, p.price, p.stock 
         FROM cart c 
         JOIN products p ON c.product_id = p.id 
         WHERE c.user_id = ?
@@ -50,9 +50,22 @@ if ($userResult->num_rows > 0) {
                 VALUES (?, ?, ?, ?)
             ");
 
+            // Update stock for each product in the cart
+            $updateStockStmt = $conn->prepare("UPDATE products SET stock = stock - ? WHERE id = ?");
+
             foreach ($cartItems as $item) {
+                // Check if there's enough stock
+                if ($item['quantity'] > $item['stock']) {
+                    throw new Exception("Not enough stock for product ID " . $item['product_id']);
+                }
+
+                // Insert purchase details
                 $detailsStmt->bind_param("iiid", $purchaseId, $item['product_id'], $item['quantity'], $item['price']);
                 $detailsStmt->execute();
+
+                // Update product stock
+                $updateStockStmt->bind_param("ii", $item['quantity'], $item['product_id']);
+                $updateStockStmt->execute();
             }
 
             // Clear the cart

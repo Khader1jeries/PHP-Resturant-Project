@@ -158,6 +158,7 @@ $conn->close();
                 </button>
             </a>
         </div>
+
         <!-- Client Users Table -->
         <h3>Client Users (Sorted by First Name)</h3>
         <?php if (!empty($clientUsers)): ?>
@@ -171,7 +172,8 @@ $conn->close();
                         <th>Phone</th>
                         <th>Password</th>
                         <th>Age</th>
-                        <th>Delete</th>
+                        <th>Actions</th>
+                        <th>History</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -185,12 +187,18 @@ $conn->close();
                             <td><?php echo htmlspecialchars($user['password']); ?></td>
                             <td><?php echo htmlspecialchars($user['age']); ?></td>
                             <td>
-                                <!-- Delete button for client users -->
+                                <!-- Delete button -->
                                 <form action="" method="POST" style="display:inline;">
                                     <input type="hidden" name="username" value="<?php echo htmlspecialchars($user['username']); ?>">
                                     <button type="submit" name="delete_client_user" onclick="return confirm('Are you sure you want to delete this client user?');">Delete</button>
                                 </form>
-                            </td>
+                                </td>
+                                <td>    
+                                <!-- Login History Button -->
+                                <a href="login_history.php?username=<?php echo urlencode($user['username']); ?>">
+                                    <button>Login History</button>
+                                </a>
+                                </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -212,7 +220,8 @@ $conn->close();
                         <th>Phone</th>
                         <th>Password</th>
                         <th>Age</th>
-                        <th>Delete</th>
+                        <th>Actions</th>
+                        <th>History</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -227,15 +236,20 @@ $conn->close();
                             <td><?php echo htmlspecialchars($user['age']); ?></td>
                             <td>
                                 <?php if ($user['username'] === $currentAdminUsername): ?>
-                                    <!-- Display "You" for the current admin -->
                                     <span>You</span>
                                 <?php else: ?>
-                                    <!-- Delete button for other admin users -->
+                                    <!-- Delete button -->
                                     <form action="" method="POST" style="display:inline;">
                                         <input type="hidden" name="username" value="<?php echo htmlspecialchars($user['username']); ?>">
                                         <button type="submit" name="delete_admin_user" onclick="return confirm('Are you sure you want to delete this admin user?');">Delete</button>
                                     </form>
                                 <?php endif; ?>
+                                </td>
+                                <td>
+                                <!-- Login History Button -->
+                                <a href="login_history.php?username=<?php echo urlencode($user['username']); ?>">
+                                    <button>Login History</button>
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

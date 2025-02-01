@@ -4,6 +4,8 @@ include "../config/phpdb.php"; // Ensure this file initializes $conn correctly
 
 // Fetch cart items for the logged-in user
 $cartItems = [];
+$stockWarnings = [];
+
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 
@@ -16,9 +18,9 @@ if (isset($_SESSION['username'])) {
     if ($userResult->num_rows > 0) {
         $userId = $userResult->fetch_assoc()['id'];
 
-        // Fetch cart items for the user
+        // Fetch cart items and product stock
         $cartStmt = $conn->prepare("
-            SELECT c.id AS cart_id, p.name AS product_name, p.price, c.quantity 
+            SELECT c.id AS cart_id, p.id AS product_id, p.name AS product_name, p.price, c.quantity, p.stock
             FROM cart c 
             JOIN products p ON c.product_id = p.id 
             WHERE c.user_id = ?
@@ -26,6 +28,16 @@ if (isset($_SESSION['username'])) {
         $cartStmt->bind_param("i", $userId);
         $cartStmt->execute();
         $cartItems = $cartStmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+        // Check stock availability
+        foreach ($cartItems as &$item) {
+            if ($item['quantity'] > $item['stock']) {
+                $stockWarnings[$item['cart_id']] = "Not enough stock for " . htmlspecialchars($item['product_name']) . ". Available: " . $item['stock'];
+
+                // Prevent quantity from going above stock limit
+                $item['quantity'] = $item['stock'];
+            }
+        }
     }
 }
 ?>
@@ -67,7 +79,8 @@ if (isset($_SESSION['username'])) {
                             <td>
                                 <form action="update_cart.php" method="POST" style="display: inline;">
                                     <input type="hidden" name="cart_id" value="<?php echo $item['cart_id']; ?>">
-                                    <button type="submit" name="action" value="increase" class="cta-button">+</button>
+                                    <button type="submit" name="action" value="increase" class="cta-button"
+                                        <?php echo isset($stockWarnings[$item['cart_id']]) ? 'disabled' : ''; ?>>+</button>
                                     <button type="submit" name="action" value="decrease" class="cta-button">-</button>
                                 </form>
                                 <form action="update_cart.php" method="POST" style="display: inline;">
@@ -76,6 +89,13 @@ if (isset($_SESSION['username'])) {
                                 </form>
                             </td>
                         </tr>
+                        <?php if (isset($stockWarnings[$item['cart_id']])): ?>
+                            <tr>
+                                <td colspan="5" style="color: red; text-align: center;">
+                                    <?php echo $stockWarnings[$item['cart_id']]; ?>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
                         <?php $total += $item['price'] * $item['quantity']; ?>
                     <?php endforeach; ?>
                 </tbody>
@@ -87,7 +107,6 @@ if (isset($_SESSION['username'])) {
                 <a href="order_details.php" class="cta-button">View Your Orders</a> <!-- New button for viewing orders -->
             </div>
         <?php else: ?>
-            
             <p>Your cart is empty. <a href="food.php" class="cta-button">Shop Now</a><a href="orders.php" class="cta-button" style="margin-left: 5px;">View All Orders</a>
             </p>
         <?php endif; ?>

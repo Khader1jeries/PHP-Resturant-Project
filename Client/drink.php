@@ -30,26 +30,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && isse
     if ($quantity <= 0) {
         $feedback = "Quantity must be greater than 0.";
     } else {
-        // Check if the product is already in the cart
-        $checkStmt = $conn->prepare("SELECT quantity FROM cart WHERE user_id = ? AND product_id = ?");
-        $checkStmt->bind_param("ii", $userId, $productId);
-        $checkStmt->execute();
-        $checkResult = $checkStmt->get_result();
+        // Fetch the product's stock
+        $stockStmt = $conn->prepare("SELECT stock FROM products WHERE id = ?");
+        $stockStmt->bind_param("i", $productId);
+        $stockStmt->execute();
+        $stockResult = $stockStmt->get_result();
+        $stock = $stockResult->fetch_assoc()['stock'];
 
-        if ($checkResult->num_rows > 0) {
-            // If the product is already in the cart, update the quantity
-            $updateStmt = $conn->prepare("UPDATE cart SET quantity = quantity + ? WHERE user_id = ? AND product_id = ?");
-            $updateStmt->bind_param("iii", $quantity, $userId, $productId);
-            $updateStmt->execute();
-            $feedback = "Product quantity updated in your cart.";
+        if ($quantity > $stock) {
+            $feedback = "Requested quantity exceeds available stock. Only $stock items are available.";
         } else {
-            // Otherwise, insert the product into the cart
-            $insertStmt = $conn->prepare("INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)");
-            $insertStmt->bind_param("iii", $userId, $productId, $quantity);
-            $insertStmt->execute();
-            $feedback = "Product has been saved to your cart.";
+            // Check if the product is already in the cart
+            $checkStmt = $conn->prepare("SELECT quantity FROM cart WHERE user_id = ? AND product_id = ?");
+            $checkStmt->bind_param("ii", $userId, $productId);
+            $checkStmt->execute();
+            $checkResult = $checkStmt->get_result();
+
+            if ($checkResult->num_rows > 0) {
+                // If the product is already in the cart, check if the updated quantity exceeds stock
+                $cartItem = $checkResult->fetch_assoc();
+                $newQuantity = $cartItem['quantity'] + $quantity;
+                if ($newQuantity > $stock) {
+                    $feedback = "Adding this quantity would exceed available stock. Only $stock items are available.";
+                } else {
+                    // Update the quantity in the cart
+                    $updateStmt = $conn->prepare("UPDATE cart SET quantity = quantity + ? WHERE user_id = ? AND product_id = ?");
+                    $updateStmt->bind_param("iii", $quantity, $userId, $productId);
+                    $updateStmt->execute();
+                    $feedback = "Product quantity updated in your cart.";
+                }
+            } else {
+                // Otherwise, insert the product into the cart
+                $insertStmt = $conn->prepare("INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)");
+                $insertStmt->bind_param("iii", $userId, $productId, $quantity);
+                $insertStmt->execute();
+                $feedback = "Product has been saved to your cart.";
+            }
+            $checkStmt->close();
         }
-        $checkStmt->close();
+        $stockStmt->close();
     }
 }
 
