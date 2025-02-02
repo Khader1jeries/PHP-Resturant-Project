@@ -164,9 +164,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     password_1 = password, 
                     temp_password = ?, 
                     failed_attempts = 0 WHERE username = ?");
-    
                 $updateStmt->bind_param("ss", $tempPassword, $username);
-    
                 // If the update for `clientusers` fails, try `adminusers`
                 if (!$updateStmt->execute()) {
                     $updateStmt = $conn->prepare("UPDATE adminusers SET 
@@ -178,13 +176,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $updateStmt->bind_param("ss", $tempPassword, $username);
                     $updateStmt->execute();
                 }
-    
                 // Email content
                 $subject = "Password Reset Request";
                 $message = "Your temporary password is: $tempPassword\n\n";
                 $message .= "Please use this link to log in: http://localhost/PHP-Resturant-Project/guest/log_in.php";
                 $headers = "From: no-reply@domain.com";
-    
                 // Send email to the user with the temporary password
                 if (mail($user['email'], $subject, $message, $headers)) {
                     $errorMessage = "Temporary password sent to your email.";
