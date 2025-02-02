@@ -166,3 +166,15 @@ body.signin-page {
 .signin-page #forgotPasswordForm input[type="submit"]:hover {
   background-color: #D2691E; /* Lighter brown on hover */
 }
+
+.forgot-link {
+  color: #007bff; /* Blue color for the link */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  text-decoration: underline; /* Underline to indicate it's a clickable link */
+  font-size: 14px; /* Adjust font size as needed */
+  transition: color 0.3s ease; /* Smooth transition on hover */
+}
+
+.forgot-link:hover {
+  color: #0056b3; /* Darker blue color on hover */
+}
