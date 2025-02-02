@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 01, 2025 at 08:18 PM
+-- Generation Time: Feb 02, 2025 at 04:32 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -74,7 +74,12 @@ INSERT INTO `admin_login_history` (`id`, `username`, `email`, `date`, `success`)
 (2, 'admin', 'aliasade215@gmail.com', '2025-02-01 16:53:46', 1),
 (3, 'admin', 'aliasade215@gmail.com', '2025-02-01 18:23:35', 1),
 (4, 'admin', 'aliasade215@gmail.com', '2025-02-01 18:24:56', 1),
-(5, 'admin', 'aliasade215@gmail.com', '2025-02-01 20:33:24', 1);
+(5, 'admin', 'aliasade215@gmail.com', '2025-02-01 20:33:24', 1),
+(6, 'admin', 'aliasade215@gmail.com', '2025-02-02 15:18:21', 1),
+(7, 'admin', 'aliasade215@gmail.com', '2025-02-02 15:57:02', 1),
+(8, 'admin', 'aliasade215@gmail.com', '2025-02-02 16:25:13', 0),
+(9, 'admin', 'aliasade215@gmail.com', '2025-02-02 16:25:17', 1),
+(10, 'admin', 'aliasade215@gmail.com', '2025-02-02 16:30:07', 1);
 
 -- --------------------------------------------------------
 
@@ -175,7 +180,13 @@ INSERT INTO `client_login_history` (`id`, `username`, `email`, `date`, `success`
 (23, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 18:25:17', 1),
 (24, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 18:26:16', 1),
 (25, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 19:00:43', 1),
-(26, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 19:15:23', 1);
+(26, 'khader', 'khader.jeryes@gmail.com', '2025-02-01 19:15:23', 1),
+(27, 'khader', 'khader.jeryes@gmail.com', '2025-02-02 15:17:01', 0),
+(28, 'khader', 'khader.jeryes@gmail.com', '2025-02-02 15:17:07', 1),
+(29, 'khader', 'khader.jeryes@gmail.com', '2025-02-02 15:23:27', 1),
+(30, 'khader', 'khader.jeryes@gmail.com', '2025-02-02 15:57:28', 1),
+(31, 'khader', 'khader.jeryes@gmail.com', '2025-02-02 16:25:43', 1),
+(32, 'khader', 'khader.jeryes@gmail.com', '2025-02-02 16:56:50', 1);
 
 -- --------------------------------------------------------
 
@@ -199,10 +210,10 @@ CREATE TABLE `contact_us` (
 --
 
 INSERT INTO `contact_us` (`id`, `name`, `phone`, `email`, `message`, `submission_date`, `Status`, `Answer`) VALUES
-(5, 'ali', '0539123222', 'aliahwc@gmail.com', 'hi test mail', '2025-01-06 13:07:53', 0, ''),
+(5, 'ali', '0539123222', 'aliahwc@gmail.com', 'hi test mail', '2025-01-06 13:07:53', 1, ''),
 (7, 'ali', '0539513806', 'aliahwc@gmail.com', 'hi', '2025-01-13 10:32:19', 0, ''),
-(10, 'khader', '0533218112', 'khader.jeryes@gmail.com', 'Khader test', '2025-01-30 11:17:43', 0, NULL),
-(11, 'khader', '0533218112', 'khader.jeryes@gmail.com', 'Khader test', '2025-01-30 11:18:39', 0, 'test'),
+(10, 'khader', '0533218112', 'khader.jeryes@gmail.com', 'Khader test', '2025-01-30 11:17:43', 2, NULL),
+(11, 'khader', '0533218112', 'khader.jeryes@gmail.com', 'Khader test', '2025-01-30 11:18:39', 1, 'test'),
 (12, 'dsvc', '0546584521', 'khader.jeryes@gmail.com', 'kjdsgfi', '2025-01-30 11:30:24', 0, NULL),
 (13, 'asd', '0532123545', 'khader.jeryes@gmail.com', 'sadcas', '2025-01-30 11:31:10', 0, NULL),
 (14, 'asd', '0532123545', 'khader.jeryes@gmail.com', 'sadcas', '2025-01-30 11:33:55', 0, NULL),
@@ -230,7 +241,10 @@ CREATE TABLE `conversation_messages` (
 
 INSERT INTO `conversation_messages` (`id`, `contact_id`, `sender`, `message`, `created_at`) VALUES
 (1, 5, 'admin', 'hi', '2025-02-01 19:09:19'),
-(2, 5, 'admin', 'how are you', '2025-02-01 19:09:29');
+(2, 5, 'admin', 'how are you', '2025-02-01 19:09:29'),
+(3, 11, 'admin', 'sadasd', '2025-02-02 14:23:49'),
+(4, 11, 'admin', 'asdsd', '2025-02-02 14:24:02'),
+(5, 11, 'client', 'as', '2025-02-02 14:25:00');
 
 -- --------------------------------------------------------
 
@@ -440,7 +454,7 @@ ALTER TABLE `adminusers`
 -- AUTO_INCREMENT for table `admin_login_history`
 --
 ALTER TABLE `admin_login_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `cart`
@@ -458,7 +472,7 @@ ALTER TABLE `clientusers`
 -- AUTO_INCREMENT for table `client_login_history`
 --
 ALTER TABLE `client_login_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `contact_us`
@@ -470,7 +484,7 @@ ALTER TABLE `contact_us`
 -- AUTO_INCREMENT for table `conversation_messages`
 --
 ALTER TABLE `conversation_messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `products`
