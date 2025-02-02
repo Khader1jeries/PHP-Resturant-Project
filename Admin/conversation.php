@@ -72,11 +72,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 5px;
         }
         .message.admin {
-            background-color: #e3f2fd;
+            background-color:rgb(0, 0, 0);
             margin-left: 20%;
         }
         .message.client {
-            background-color: #f1f1f1;
+            background-color:rgb(0, 0, 0);
             margin-right: 20%;
         }
         .message .sender {
@@ -117,7 +117,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="message-details">
                 <p><strong>Name:</strong> <?php echo htmlspecialchars($message['name']); ?></p>
                 <p><strong>Email:</strong> <?php echo htmlspecialchars($message['email']); ?></p>
-                <p><strong>Message:</strong> <?php echo htmlspecialchars($message['message']); ?></p>
                 <p><strong>Date:</strong> <?php echo htmlspecialchars($message['submission_date']); ?></p>
             </div>
 

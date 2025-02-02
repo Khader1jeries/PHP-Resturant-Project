@@ -95,8 +95,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Navbar at the top and centered -->
     <?php require 'navbar.php'; ?>
 
+    <!-- "Go to Conversations" Button -->
+    
+
     <!-- Contact Section -->
     <div class="contact">
+    <div style="text-align: center; margin-top: 20px;">
+    <form action="conversation_list.php" method="get">
+        <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
+        <button type="submit" class="conversation-btn">
+            Go to Conversations
+        </button>
+    </form>
+</div>
+
         <h3>How can we help you?</h3>
         <h1>Contact Us</h1>
         <p>We're here to help and answer any questions you might have.<br>
