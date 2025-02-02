@@ -152,3 +152,19 @@ body.drink-page {
 .item button[type="submit"]:active {
     transform: scale(0.95); /* Slight shrink effect */
 }
+
+/* Success Message */
+.success-message {
+    color: green;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Error Message */
+.error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}

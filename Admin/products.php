@@ -10,12 +10,19 @@
 <body>
     <!-- Include Navbar -->
     <?php require 'navbar.php'; ?>
+    <div style="margin-left:11%;margin-top:2%;">
+    <!-- Logo Section -->
+    <div class="logo-container">
+        <img src="../photos/logo_Images/adminicon.png" id="icon" alt="Admin Icon">
+    </div>
 
+    <!-- Buttons Section -->
     <div class="container">
         <div class="button-container">
             <button onclick="window.location.href='createProduct.php'">Create Product</button>
             <button onclick="window.location.href='editProduct.php'">Edit Product</button>
         </div>
+    </div>
     </div>
 </body>
 </html>

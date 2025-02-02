@@ -79,8 +79,10 @@ $conn->close();
                     <option value="2">Food</option>
                 </select>
 
-                <label for="image">Upload Image:</label>
-                <input type="file" id="image" name="image" required>
+                <div class="file-input-container">
+                    <label for="image">Upload New Image:</label>
+                    <input type="file" id="image" name="image">
+                </div>
 
                 <button type="submit">Create Product</button>
             </form>

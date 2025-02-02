@@ -9,23 +9,19 @@ $products = $result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
 // Handle form submission for editing or deleting a product
+$message = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['delete'])) {
         // Handle product deletion
         $id = $_POST['id'];
-
-        // Delete the product from the database
         $stmt = $conn->prepare("DELETE FROM products WHERE id = ?");
         $stmt->bind_param("i", $id);
-
         if ($stmt->execute()) {
-            echo "<script>alert('Product deleted successfully!');</script>";
-            // Refresh the page to reflect changes
-            echo "<script>window.location.href = 'editProduct.php';</script>";
+            $message = "<p class='success'>Product deleted successfully!</p>";
         } else {
-            echo "<script>alert('Error deleting product: " . $stmt->error . "');</script>";
+            $message = "<p class='error'>Error deleting product: " . htmlspecialchars($stmt->error) . "</p>";
         }
-
         $stmt->close();
     } else {
         // Handle product update
@@ -35,44 +31,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $kind = $_POST['kind'];
         $stock = $_POST['stock'];
 
-        // Handle image upload
         if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
             $targetDir = ($kind == 2) ? "../photos/food_images/" : "../photos/drinks_images/";
             $targetFile = $targetDir . basename($_FILES['image']['name']);
             $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-
-            // Validate image file type
             $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+
             if (in_array($imageFileType, $allowedTypes)) {
                 if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
-                    // Update the product's image path in the database
                     $path = basename($_FILES['image']['name']);
                     $stmt = $conn->prepare("UPDATE products SET name = ?, price = ?, path = ?, kind = ?, stock = ? WHERE id = ?");
                     $stmt->bind_param("sdsiii", $name, $price, $path, $kind, $stock, $id);
                 } else {
-                    die("Error uploading image.");
+                    $message = "<p class='error'>Error uploading image.</p>";
                 }
             } else {
-                die("Invalid image file type.");
+                $message = "<p class='error'>Invalid image file type.</p>";
             }
         } else {
-            // No new image uploaded, update only name, price, kind, and stock
             $stmt = $conn->prepare("UPDATE products SET name = ?, price = ?, kind = ?, stock = ? WHERE id = ?");
             $stmt->bind_param("sdiii", $name, $price, $kind, $stock, $id);
         }
 
         if ($stmt->execute()) {
-            echo "<script>alert('Product updated successfully!');</script>";
-            // Refresh the page to reflect changes
-            echo "<script>window.location.href = 'editProduct.php';</script>";
+            $message = "<p class='success'>Product updated successfully!</p>";
         } else {
-            echo "<script>alert('Error updating product: " . $stmt->error . "');</script>";
+            $message = "<p class='error'>Error updating product: " . htmlspecialchars($stmt->error) . "</p>";
         }
-
         $stmt->close();
     }
 }
-
 $conn->close();
 ?>
 
@@ -88,6 +76,11 @@ $conn->close();
 <body style="margin-left: 17%;">
     <!-- Include Navbar -->
     <?php require 'navbar.php'; ?>
+
+    <!-- Message Container -->
+    <div id="message-container" style="text-align: center; margin-top: 20px;">
+        <?php echo $message; ?>
+    </div>
 
     <div class="container">
         <h1>Edit Products</h1>
@@ -123,8 +116,10 @@ $conn->close();
                                     <option value="2" <?= $product['kind'] == 2 ? 'selected' : '' ?>>Food</option>
                                 </select>
 
-                                <label for="image">Upload New Image:</label>
-                                <input type="file" id="image" name="image">
+                                <div class="file-input-container">
+                                    <label for="image">Upload New Image:</label>
+                                    <input type="file" id="image" name="image">
+                                </div>
 
                                 <button type="submit">Update Product</button>
                                 <button type="submit" name="delete" onclick="return confirm('Are you sure you want to delete this product?');">Delete Product</button>

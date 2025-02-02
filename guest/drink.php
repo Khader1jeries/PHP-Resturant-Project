@@ -30,7 +30,7 @@ $conn->close();
               alt="<?= htmlspecialchars($product['name']) ?>"
             />
             <div class="tooltip">
-            <?= htmlspecialchars($product['name']) ?>, Price: <?= $product['price'] ?>₪, Stock: <?= $product['stock'] ?>
+            <?= htmlspecialchars($product['name']) ?>, Price: <?= $product['price'] ?>
             </div>
            
           </div>

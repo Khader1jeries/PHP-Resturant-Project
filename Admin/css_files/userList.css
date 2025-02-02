@@ -114,6 +114,7 @@ p[style*="color: green"] {
     background-color: #e8f5e9;
     border: 1px solid #c8e6c9;
 }
+
 .leftbar .logo {
     mix-blend-mode: color-burn;
     text-align: center;
@@ -123,4 +124,54 @@ p[style*="color: green"] {
 .leftbar .logo img {
     width: 200px;
     height: auto;
+}
+
+/* Button Styles */
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #8B4513; /* Premium brown color */
+    color: #fff;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #A0522D; /* Slightly lighter brown on hover */
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Delete Button Specific Styles */
+button[type="submit"][name="delete_client_user"],
+button[type="submit"][name="delete_admin_user"] {
+    background-color: #ff4d4d; /* Red color for delete buttons */
+}
+
+button[type="submit"][name="delete_client_user"]:hover,
+button[type="submit"][name="delete_admin_user"]:hover {
+    background-color: #ff1a1a; /* Darker red on hover */
+}
+
+/* Login History Button Specific Styles */
+a button {
+    background-color: #4CAF50; /* Green color for login history buttons */
+}
+
+a button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Create New User Button Specific Styles */
+a button[style*="padding: 10px 20px; font-size: 16px; cursor: pointer;"] {
+    background-color: #008CBA; /* Blue color for create new user button */
+}
+
+a button[style*="padding: 10px 20px; font-size: 16px; cursor: pointer;"]:hover {
+    background-color: #007B9E; /* Darker blue on hover */
 }

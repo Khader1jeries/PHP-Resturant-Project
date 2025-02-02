@@ -61,9 +61,10 @@ body.signup-page {
 /* Form Inputs */
 .signup-page input[type="text"],
 .signup-page input[type="email"],
+.signup-page input[type="password"],
 .signup-page input[type="date"],
-.signup-page input[type="password"] {
-    width: 100%;
+.signup-page select {
+    width: 95%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #D2B48C; /* Light brown border */
@@ -89,56 +90,26 @@ body.signup-page {
     border-radius: 5px;
     font-size: 1.1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .signup-page input[type="submit"]:hover {
     background-color: #D2691E; /* Lighter brown on hover */
+    transform: translateY(-2px);
 }
 
-/* Show/Hide Users Button */
-.signup-page button[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    background-color: #A0522D; /* Slightly lighter brown for buttons */
-    color: #FFF;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
+.signup-page input[type="submit"]:active {
+    transform: translateY(0);
 }
 
-.signup-page button[type="submit"]:hover {
-    background-color: #D2691E; /* Lighter brown on hover */
-}
-
-/* Users Table */
-.signup-page table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.signup-page table th,
-.signup-page table td {
-    padding: 10px;
-    border: 1px solid #D2B48C; /* Light brown border */
-    text-align: left;
-}
-
-.signup-page table th {
-    background-color: #8B4513; /* Premium brown for table headers */
-    color: #FFF; /* White text for contrast */
-}
-
-.signup-page table tr:nth-child(even) {
-    background-color: #FFF8DC; /* Light cream background for even rows */
-}
-
-.signup-page table tr:nth-child(odd) {
-    background-color: #FFF; /* White background for odd rows */
+/* User Type Dropdown */
+.signup-page select {
+    width: 99%;
+    appearance: none; /* Remove default arrow */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235A3A22'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
 }
 
 /* Success and Error Messages */
@@ -146,10 +117,34 @@ body.signup-page {
     color: #228B22; /* Green for success messages */
     text-align: center;
     margin-top: 20px;
+    padding: 10px;
+    background-color: #E8F5E9; /* Light green background */
+    border: 1px solid #C8E6C9; /* Light green border */
+    border-radius: 5px;
 }
 
 .signup-page .error-message {
     color: #FF0000; /* Red for error messages */
     text-align: center;
     margin-top: 20px;
+    padding: 10px;
+    background-color: #FFEBEE; /* Light red background */
+    border: 1px solid #FFCDD2; /* Light red border */
+    border-radius: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .signup-page .container {
+        margin-top: 140px; /* Adjust margin for smaller screens */
+    }
+
+    .signup-page .navbar {
+        flex-direction: column; /* Stack navbar links vertically on small screens */
+        padding: 10px;
+    }
+
+    .signup-page .navbar a {
+        margin: 5px 0; /* Reduce space between stacked links */
+    }
 }

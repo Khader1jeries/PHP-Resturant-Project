@@ -49,6 +49,9 @@ h1 {
     font-size: 16px;
 }
 
+.create-form select{
+    width: 101%;
+}
 .create-form input:focus,
 .create-form select:focus {
     border-color: #A0522D; /* Slightly lighter brown on focus */
@@ -56,6 +59,7 @@ h1 {
 }
 
 .create-form button {
+    width: 100%;
     background-color: #8B4513; /* Premium brown color */
     color: white;
     cursor: pointer;
@@ -68,5 +72,55 @@ h1 {
 }
 
 .create-form button:active {
+    transform: translateY(0); /* Reset lift effect when clicked */
+}
+
+/* File Input Container */
+.file-input-container {
+    margin-bottom: 15px;
+}
+
+/* File Input Label */
+.file-input-container label {
+    display: block;
+    margin-bottom: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+/* File Input Styling */
+.file-input-container input[type="file"] {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #8B4513; /* Premium brown border */
+    border-radius: 5px;
+    background-color: #333; /* Dark input background */
+    color: white; /* Light text color */
+    font-size: 16px;
+    cursor: pointer;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.file-input-container input[type="file"]:focus {
+    border-color: #A0522D; /* Slightly lighter brown on focus */
+    outline: none;
+}
+
+.file-input-container input[type="file"]::file-selector-button {
+    padding: 8px 12px;
+    background-color: #8B4513; /* Premium brown color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.file-input-container input[type="file"]::file-selector-button:hover {
+    background-color: #A0522D; /* Slightly lighter brown on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.file-input-container input[type="file"]::file-selector-button:active {
     transform: translateY(0); /* Reset lift effect when clicked */
 }

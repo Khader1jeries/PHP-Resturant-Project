@@ -83,7 +83,7 @@ body.food-page {
     padding: 5px;
     position: absolute;
     z-index: 1;
-    bottom: 22%; /* Move tooltip 100px further down */
+    bottom: -15%; /* Move tooltip 100px further down */
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;

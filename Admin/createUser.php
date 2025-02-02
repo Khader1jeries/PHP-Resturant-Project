@@ -66,7 +66,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['create_user'])) {
             $today = new DateTime(); // Current date
             $birthdate = new DateTime($dob); // User's birthdate
             $age = $today->diff($birthdate)->y; // Calculate age
-
             if ($birthdate > $today) {
                 echo "<p class='error-message'>Error: Date of birth cannot be in the future.</p>";
             } elseif ($age < 18) {
@@ -81,12 +80,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['create_user'])) {
                 $stmt->bind_param("ssss", $username, $email, $username, $email);
                 $stmt->execute();
                 $stmt->store_result();
-
                 if ($stmt->num_rows > 0) {
                     // Fetch the results to determine which table the user exists in
                     $stmt->bind_result($existing_username, $existing_email);
                     $stmt->fetch();
-
                     if ($existing_username === $username) {
                         echo "<p class='error-message'>Error: Username already exists in the system.</p>";
                     } elseif ($existing_email === $email) {
@@ -100,7 +97,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['create_user'])) {
                         $stmt = $conn->prepare("INSERT INTO clientusers (username, firstname, lastname, email, phone, password, dob) VALUES (?, ?, ?, ?, ?, ?, ?)");
                     }
                     $stmt->bind_param("sssssss", $username, $firstname, $lastname, $email, $phone, $password, $dob);
-
                     if ($stmt->execute()) {
                         // Clear form data after successful registration
                         $_SESSION['form_data'] = [
@@ -135,7 +131,7 @@ if (isset($conn) && $conn instanceof mysqli) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css_files/navbar.css">
-    <link rel="stylesheet" href="../css_files/sign_up.css" />
+    <link rel="stylesheet" href="css_files/signup.css" />
     <title>Create User</title>
 </head>
 <body class="signup-page">
@@ -153,8 +149,8 @@ if (isset($conn) && $conn instanceof mysqli) {
             <input type="password" name="repassword" required placeholder="Re-enter Password">
             <label for="user_type">User Type:</label>
             <select name="user_type" id="user_type" required>
-                <option value="client" <?php echo ($_SESSION['form_data']['user_type'] === 'client') ? 'selected' : ''; ?>>Client</option>
-                <option value="admin" <?php echo ($_SESSION['form_data']['user_type'] === 'admin') ? 'selected' : ''; ?>>Admin</option>
+                <option value="client" <?php echo ($_SESSION['form_data']['user_type'] ?? 'client') === 'client' ? 'selected' : ''; ?>>Client</option>
+                <option value="admin" <?php echo ($_SESSION['form_data']['user_type'] ?? 'client') === 'admin' ? 'selected' : ''; ?>>Admin</option>
             </select>
             <input type="submit" name="create_user" value="Create User">
         </form>
