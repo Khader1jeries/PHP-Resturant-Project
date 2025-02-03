@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../config/phpdb.php"; // Ensure this file initializes $conn correctly
+include "../config/phpdb.php";
 
 // Fetch cart items for the logged-in user
 $cartItems = [];
@@ -10,24 +10,21 @@ if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 
     // Fetch user ID based on username
-    $userStmt = $conn->prepare("SELECT id FROM clientusers WHERE username = ?");
-    $userStmt->bind_param("s", $username);
-    $userStmt->execute();
-    $userResult = $userStmt->get_result();
+    $userQuery = "SELECT id FROM clientusers WHERE username = '$username'";
+    $userResult = mysqli_query($conn, $userQuery);
 
-    if ($userResult->num_rows > 0) {
-        $userId = $userResult->fetch_assoc()['id'];
+    if (mysqli_num_rows($userResult) > 0) {
+        $userId = mysqli_fetch_assoc($userResult)['id'];
 
         // Fetch cart items and product stock
-        $cartStmt = $conn->prepare("
+        $cartQuery = "
             SELECT c.id AS cart_id, p.id AS product_id, p.name AS product_name, p.price, c.quantity, p.stock
             FROM cart c 
             JOIN products p ON c.product_id = p.id 
-            WHERE c.user_id = ?
-        ");
-        $cartStmt->bind_param("i", $userId);
-        $cartStmt->execute();
-        $cartItems = $cartStmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            WHERE c.user_id = '$userId'";
+        
+        $cartResult = mysqli_query($conn, $cartQuery);
+        $cartItems = mysqli_fetch_all($cartResult, MYSQLI_ASSOC);
 
         // Check stock availability
         foreach ($cartItems as &$item) {
@@ -104,7 +101,7 @@ if (isset($_SESSION['username'])) {
             <div class="cart-actions">
                 <span class="total-price">Total: ₪<?php echo number_format($total, 2); ?></span>
                 <a href="checkout.php" class="cta-button">Proceed to Checkout</a>
-                <a href="order_details.php" class="cta-button">View Your Orders</a> <!-- New button for viewing orders -->
+                <a href="order_details.php" class="cta-button">View Your Orders</a>
             </div>
         <?php else: ?>
             <p>Your cart is empty. <a href="food.php" class="cta-button">Shop Now</a><a href="orders.php" class="cta-button" style="margin-left: 5px;">View All Orders</a>

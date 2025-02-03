@@ -6,12 +6,8 @@ include "../config/phpdb.php";
 $email = isset($_GET['email']) ? $_GET['email'] : '';
 
 // Fetch messages for the specific email from the contact_us table
-$query = "SELECT id, name, phone, email, message, status, submission_date FROM contact_us WHERE email = ? ORDER BY submission_date ASC";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
-$stmt->close();
+$query = "SELECT id, name, phone, email, message, status, submission_date FROM contact_us WHERE email = '$email' ORDER BY submission_date ASC";
+$result = mysqli_query($conn, $query);
 
 // Function to convert status code to human-readable text
 function getStatusText($statusCode) {
@@ -27,7 +23,7 @@ function getStatusText($statusCode) {
     }
 }
 
-$rows = $result->fetch_all(MYSQLI_ASSOC);
+$rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">

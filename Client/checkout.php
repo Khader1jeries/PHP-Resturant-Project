@@ -10,49 +10,38 @@ if (!isset($_SESSION['username'])) {
 $username = $_SESSION['username'];
 
 // Fetch user ID based on the session username
-$userStmt = $conn->prepare("SELECT id FROM clientusers WHERE username = ?");
-$userStmt->bind_param("s", $username);
-$userStmt->execute();
-$userResult = $userStmt->get_result();
+$userQuery = "SELECT id FROM clientusers WHERE username = '$username'";
+$userResult = mysqli_query($conn, $userQuery);
 
-if ($userResult->num_rows > 0) {
-    $userId = $userResult->fetch_assoc()['id'];
+if (mysqli_num_rows($userResult) > 0) {
+    $userId = mysqli_fetch_assoc($userResult)['id'];
 
     // Fetch cart items for the user
-    $cartStmt = $conn->prepare("
+    $cartQuery = "
         SELECT c.product_id, c.quantity, p.price, p.stock 
         FROM cart c 
         JOIN products p ON c.product_id = p.id 
-        WHERE c.user_id = ?
-    ");
-    $cartStmt->bind_param("i", $userId);
-    $cartStmt->execute();
-    $cartItems = $cartStmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        WHERE c.user_id = '$userId'";
+    
+    $cartResult = mysqli_query($conn, $cartQuery);
+    $cartItems = mysqli_fetch_all($cartResult, MYSQLI_ASSOC);
 
     if (!empty($cartItems)) {
         // Start transaction
-        $conn->begin_transaction();
+        mysqli_begin_transaction($conn);
 
         try {
-            // Insert a new purchase record
+            // Calculate total amount
             $totalAmount = array_reduce($cartItems, function ($sum, $item) {
                 return $sum + ($item['price'] * $item['quantity']);
             }, 0);
 
-            $purchaseStmt = $conn->prepare("INSERT INTO purchases (user_id, total_amount, purchase_date) VALUES (?, ?, NOW())");
-            $purchaseStmt->bind_param("id", $userId, $totalAmount);
-            $purchaseStmt->execute();
-            $purchaseId = $conn->insert_id;
+            // Insert a new purchase record
+            $purchaseQuery = "INSERT INTO purchases (user_id, total_amount, purchase_date) VALUES ('$userId', '$totalAmount', NOW())";
+            mysqli_query($conn, $purchaseQuery);
+            $purchaseId = mysqli_insert_id($conn);
 
-            // Insert cart items into purchase_details
-            $detailsStmt = $conn->prepare("
-                INSERT INTO purchase_details (purchase_id, product_id, quantity, price) 
-                VALUES (?, ?, ?, ?)
-            ");
-
-            // Update stock for each product in the cart
-            $updateStockStmt = $conn->prepare("UPDATE products SET stock = stock - ? WHERE id = ?");
-
+            // Insert cart items into purchase_details and update stock
             foreach ($cartItems as $item) {
                 // Check if there's enough stock
                 if ($item['quantity'] > $item['stock']) {
@@ -60,28 +49,27 @@ if ($userResult->num_rows > 0) {
                 }
 
                 // Insert purchase details
-                $detailsStmt->bind_param("iiid", $purchaseId, $item['product_id'], $item['quantity'], $item['price']);
-                $detailsStmt->execute();
+                $detailsQuery = "INSERT INTO purchase_details (purchase_id, product_id, quantity, price) VALUES ('$purchaseId', '{$item['product_id']}', '{$item['quantity']}', '{$item['price']}')";
+                mysqli_query($conn, $detailsQuery);
 
                 // Update product stock
-                $updateStockStmt->bind_param("ii", $item['quantity'], $item['product_id']);
-                $updateStockStmt->execute();
+                $updateStockQuery = "UPDATE products SET stock = stock - '{$item['quantity']}' WHERE id = '{$item['product_id']}'";
+                mysqli_query($conn, $updateStockQuery);
             }
 
             // Clear the cart
-            $clearCartStmt = $conn->prepare("DELETE FROM cart WHERE user_id = ?");
-            $clearCartStmt->bind_param("i", $userId);
-            $clearCartStmt->execute();
+            $clearCartQuery = "DELETE FROM cart WHERE user_id = '$userId'";
+            mysqli_query($conn, $clearCartQuery);
 
             // Commit transaction
-            $conn->commit();
+            mysqli_commit($conn);
 
             // Redirect to success page
             header("Location: purchase_success.php?purchase_id=" . $purchaseId);
             exit();
         } catch (Exception $e) {
             // Rollback transaction on error
-            $conn->rollback();
+            mysqli_rollback($conn);
             die("Checkout failed: " . $e->getMessage());
         }
     } else {

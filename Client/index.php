@@ -8,19 +8,15 @@ if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 
     // Query the database to get the user details from the clientusers table
-    $stmt = $conn->prepare("SELECT id, username, firstname, lastname, email, phone FROM clientusers WHERE username = ?");
-    $stmt->bind_param("s", $username); // Binding the username to the query
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $query = "SELECT id, username, firstname, lastname, email, phone FROM clientusers WHERE username = '$username'";
+    $result = mysqli_query($conn, $query);
 
-    if ($result && $result->num_rows > 0) {
-        $user = $result->fetch_assoc(); // Fetch the user details
+    if ($result && mysqli_num_rows($result) > 0) {
+        $user = mysqli_fetch_assoc($result); // Fetch the user details
     } else {
         // If no user is found, display an error message
         echo "<p style='color: red;'>No user found with the username provided.</p>";
     }
-
-    $stmt->close(); // Close the database statement
 } else {
     // If not logged in, redirect to the login page
     header("Location: signin.php");

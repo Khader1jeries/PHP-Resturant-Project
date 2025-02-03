@@ -15,13 +15,9 @@ $userId = $_SESSION['user_id'];
 $sql = "SELECT pd.product_id, pd.quantity, pd.price, p.name AS product_name
         FROM purchase_details pd
         JOIN products p ON pd.product_id = p.id
-        WHERE pd.purchase_id = ?";
+        WHERE pd.purchase_id = '$purchaseId'";
 
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $purchaseId);
-$stmt->execute();
-$orderDetails = $stmt->get_result();
-
+$orderDetails = mysqli_query($conn, $sql);
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +33,7 @@ $orderDetails = $stmt->get_result();
     <div class="order-details-container">
         <h1>Order Details</h1>
         
-        <?php if ($orderDetails->num_rows > 0): ?>
+        <?php if (mysqli_num_rows($orderDetails) > 0): ?>
             <table>
                 <thead>
                     <tr>
@@ -50,7 +46,7 @@ $orderDetails = $stmt->get_result();
                 <tbody>
                     <?php
                     $totalAmount = 0;
-                    while ($row = $orderDetails->fetch_assoc()) {
+                    while ($row = mysqli_fetch_assoc($orderDetails)) {
                         $total = $row['quantity'] * $row['price'];
                         $totalAmount += $total;
                         ?>
@@ -83,6 +79,5 @@ $orderDetails = $stmt->get_result();
 
 <?php
 // Close the database connection
-$stmt->close();
-$conn->close();
+mysqli_close($conn);
 ?>

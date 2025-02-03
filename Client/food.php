@@ -9,14 +9,12 @@ if (!isset($_SESSION['username'])) {
 
 // Fetch user ID from session
 $username = $_SESSION['username'];
-$userStmt = $conn->prepare("SELECT id FROM clientusers WHERE username = ?");
-$userStmt->bind_param("s", $username);
-$userStmt->execute();
-$userResult = $userStmt->get_result();
-if ($userResult->num_rows === 0) {
+$userQuery = "SELECT id FROM clientusers WHERE username = '$username'";
+$userResult = mysqli_query($conn, $userQuery);
+if (mysqli_num_rows($userResult) === 0) {
     die("Invalid user.");
 }
-$userId = $userResult->fetch_assoc()['id'];
+$userId = mysqli_fetch_assoc($userResult)['id'];
 
 // Initialize feedback message and type
 $feedback = "";
@@ -33,25 +31,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && isse
         $feedbackType = "error";
     } else {
         // Fetch the product's stock
-        $stockStmt = $conn->prepare("SELECT stock FROM products WHERE id = ?");
-        $stockStmt->bind_param("i", $productId);
-        $stockStmt->execute();
-        $stockResult = $stockStmt->get_result();
-        $stock = $stockResult->fetch_assoc()['stock'];
+        $stockQuery = "SELECT stock FROM products WHERE id = '$productId'";
+        $stockResult = mysqli_query($conn, $stockQuery);
+        $stock = mysqli_fetch_assoc($stockResult)['stock'];
 
         if ($quantity > $stock) {
             $feedback = "Requested quantity exceeds available stock. Only $stock items are available.";
             $feedbackType = "error";
         } else {
             // Check if the product is already in the cart
-            $checkStmt = $conn->prepare("SELECT quantity FROM cart WHERE user_id = ? AND product_id = ?");
-            $checkStmt->bind_param("ii", $userId, $productId);
-            $checkStmt->execute();
-            $checkResult = $checkStmt->get_result();
+            $checkQuery = "SELECT quantity FROM cart WHERE user_id = '$userId' AND product_id = '$productId'";
+            $checkResult = mysqli_query($conn, $checkQuery);
 
-            if ($checkResult->num_rows > 0) {
+            if (mysqli_num_rows($checkResult) > 0) {
                 // If the product is already in the cart, check if the updated quantity exceeds stock
-                $cartItem = $checkResult->fetch_assoc();
+                $cartItem = mysqli_fetch_assoc($checkResult);
                 $newQuantity = $cartItem['quantity'] + $quantity;
 
                 if ($newQuantity > $stock) {
@@ -59,32 +53,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && isse
                     $feedbackType = "error";
                 } else {
                     // Update the quantity in the cart
-                    $updateStmt = $conn->prepare("UPDATE cart SET quantity = quantity + ? WHERE user_id = ? AND product_id = ?");
-                    $updateStmt->bind_param("iii", $quantity, $userId, $productId);
-                    $updateStmt->execute();
+                    $updateQuery = "UPDATE cart SET quantity = quantity + '$quantity' WHERE user_id = '$userId' AND product_id = '$productId'";
+                    mysqli_query($conn, $updateQuery);
                     $feedback = "Product quantity updated in your cart.";
                 }
             } else {
                 // Otherwise, insert the product into the cart
-                $insertStmt = $conn->prepare("INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)");
-                $insertStmt->bind_param("iii", $userId, $productId, $quantity);
-                $insertStmt->execute();
+                $insertQuery = "INSERT INTO cart (user_id, product_id, quantity) VALUES ('$userId', '$productId', '$quantity')";
+                mysqli_query($conn, $insertQuery);
                 $feedback = "Product has been saved to your cart.";
             }
-            $checkStmt->close();
         }
-        $stockStmt->close();
     }
 }
 
 // Fetch all products from the database
-$stmt = $conn->prepare("SELECT id, name, price, path, kind, stock FROM products");
-$stmt->execute();
-$result = $stmt->get_result();
-$products = $result->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
-$conn->close();
+$productQuery = "SELECT id, name, price, path, kind, stock FROM products";
+$result = mysqli_query($conn, $productQuery);
+$products = mysqli_fetch_all($result, MYSQLI_ASSOC);
+mysqli_close($conn);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

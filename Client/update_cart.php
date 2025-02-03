@@ -9,15 +9,13 @@ if (!isset($_SESSION['username'])) {
 
 // Fetch user ID from session
 $username = $_SESSION['username'];
-$userStmt = $conn->prepare("SELECT id FROM clientusers WHERE username = ?");
-$userStmt->bind_param("s", $username);
-$userStmt->execute();
-$userResult = $userStmt->get_result();
+$userQuery = "SELECT id FROM clientusers WHERE username = '$username'";
+$userResult = mysqli_query($conn, $userQuery);
 
-if ($userResult->num_rows === 0) {
+if (mysqli_num_rows($userResult) === 0) {
     die("Invalid user.");
 }
-$userId = $userResult->fetch_assoc()['id'];
+$userId = mysqli_fetch_assoc($userResult)['id'];
 
 // Check if the form was submitted and the required data is present
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cart_id'], $_POST['action'])) {
@@ -25,39 +23,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cart_id'], $_POST['ac
     $action = $_POST['action'];
 
     // Fetch current quantity of the item in the cart
-    $checkStmt = $conn->prepare("SELECT quantity FROM cart WHERE id = ? AND user_id = ?");
-    $checkStmt->bind_param("ii", $cartId, $userId);
-    $checkStmt->execute();
-    $checkResult = $checkStmt->get_result();
+    $checkQuery = "SELECT quantity FROM cart WHERE id = '$cartId' AND user_id = '$userId'";
+    $checkResult = mysqli_query($conn, $checkQuery);
 
-    if ($checkResult->num_rows > 0) {
-        $currentQuantity = $checkResult->fetch_assoc()['quantity'];
+    if (mysqli_num_rows($checkResult) > 0) {
+        $currentQuantity = mysqli_fetch_assoc($checkResult)['quantity'];
 
         if ($action === "increase") {
             // Increase quantity by 1
-            $updateStmt = $conn->prepare("UPDATE cart SET quantity = quantity + 1 WHERE id = ? AND user_id = ?");
-            $updateStmt->bind_param("ii", $cartId, $userId);
-            $updateStmt->execute();
+            $updateQuery = "UPDATE cart SET quantity = quantity + 1 WHERE id = '$cartId' AND user_id = '$userId'";
+            mysqli_query($conn, $updateQuery);
             $message = "Product quantity increased.";
         } elseif ($action === "decrease") {
             // Decrease quantity by 1, remove if quantity reaches 0
             if ($currentQuantity > 1) {
-                $updateStmt = $conn->prepare("UPDATE cart SET quantity = quantity - 1 WHERE id = ? AND user_id = ?");
-                $updateStmt->bind_param("ii", $cartId, $userId);
-                $updateStmt->execute();
+                $updateQuery = "UPDATE cart SET quantity = quantity - 1 WHERE id = '$cartId' AND user_id = '$userId'";
+                mysqli_query($conn, $updateQuery);
                 $message = "Product quantity decreased.";
             } else {
                 // Remove product from cart
-                $deleteStmt = $conn->prepare("DELETE FROM cart WHERE id = ? AND user_id = ?");
-                $deleteStmt->bind_param("ii", $cartId, $userId);
-                $deleteStmt->execute();
+                $deleteQuery = "DELETE FROM cart WHERE id = '$cartId' AND user_id = '$userId'";
+                mysqli_query($conn, $deleteQuery);
                 $message = "Product removed from cart.";
             }
         } elseif ($action === "remove") {
             // Remove product from cart
-            $deleteStmt = $conn->prepare("DELETE FROM cart WHERE id = ? AND user_id = ?");
-            $deleteStmt->bind_param("ii", $cartId, $userId);
-            $deleteStmt->execute();
+            $deleteQuery = "DELETE FROM cart WHERE id = '$cartId' AND user_id = '$userId'";
+            mysqli_query($conn, $deleteQuery);
             $message = "Product removed from cart.";
         } else {
             $message = "Invalid action.";
@@ -65,13 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cart_id'], $_POST['ac
     } else {
         $message = "Product not found in your cart.";
     }
-
-    $checkStmt->close();
 } else {
     $message = "Invalid request.";
 }
 
-$conn->close();
+mysqli_close($conn);
 
 // Redirect back to the cart page with a success or error message
 header("Location: cart.php?message=" . urlencode($message));

@@ -1,31 +1,20 @@
 <?php
 // Include necessary configurations and database connections
 include "../config/phpdb.php";
+include "Service/conversation_service.php";
 
 // Get the message ID from the URL
 $messageId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-// Fetch the message details from the contact_us table
-$query = "SELECT id, name, email, message, status, submission_date FROM contact_us WHERE id = '$messageId'";
-$result = mysqli_query($conn, $query);
-$message = mysqli_fetch_assoc($result);
+// Fetch the message details
+$message = getMessageDetails($conn, $messageId);
 
-// Fetch the conversation messages from the conversation_messages table
-$query = "SELECT sender, message, created_at FROM conversation_messages WHERE contact_id = '$messageId' ORDER BY created_at ASC";
-$conversationResult = mysqli_query($conn, $query);
-$conversationMessages = mysqli_fetch_all($conversationResult, MYSQLI_ASSOC);
+// Fetch the conversation messages
+$conversationMessages = getConversationMessages($conn, $messageId);
 
 // Handle form submission for sending a response
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $response = htmlspecialchars(trim($_POST['response']));
-    
-    // Save the admin's response to the conversation_messages table
-    $insertQuery = "INSERT INTO conversation_messages (contact_id, sender, message) VALUES ('$messageId', 'client', '$response')";
-    mysqli_query($conn, $insertQuery);
-    
-    // Redirect to avoid form resubmission
-    header("Location: conversation.php?id=$messageId");
-    exit();
+    saveResponse($conn, $messageId, $_POST['response']);
 }
 ?>
 <!DOCTYPE html>

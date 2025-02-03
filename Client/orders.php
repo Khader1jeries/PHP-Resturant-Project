@@ -18,34 +18,29 @@ if (!isset($_SESSION['username'])) {
 $username = $_SESSION['username'];
 
 // Fetch user ID based on the session username
-$userStmt = $conn->prepare("SELECT id FROM clientusers WHERE username = ?");
-$userStmt->bind_param("s", $username);
-$userStmt->execute();
-$userResult = $userStmt->get_result();
+$userQuery = "SELECT id FROM clientusers WHERE username = '$username'";
+$userResult = mysqli_query($conn, $userQuery);
 
-if ($userResult->num_rows > 0) {
-    $userId = $userResult->fetch_assoc()['id'];
+if (mysqli_num_rows($userResult) > 0) {
+    $userId = mysqli_fetch_assoc($userResult)['id'];
 
     // Fetch all orders for the user
-    $ordersStmt = $conn->prepare("
+    $ordersQuery = "
         SELECT id, total_amount, purchase_date 
         FROM purchases 
-        WHERE user_id = ?
+        WHERE user_id = '$userId'
         ORDER BY purchase_date DESC
-    ");
-    $ordersStmt->bind_param("i", $userId);
-    $ordersStmt->execute();
-    $ordersResult = $ordersStmt->get_result();
+    ";
+    $ordersResult = mysqli_query($conn, $ordersQuery);
 
     // Store the orders in an array
     $orders = [];
-    while ($order = $ordersResult->fetch_assoc()) {
+    while ($order = mysqli_fetch_assoc($ordersResult)) {
         $orders[] = $order;
     }
 } else {
     die("User not found.");
 }
-
 ?>
 
 <!DOCTYPE html>

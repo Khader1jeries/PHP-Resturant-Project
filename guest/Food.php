@@ -1,14 +1,7 @@
 <?php
-include "../config/phpdb.php";
-// Fetch all products from the database
-$photosPath = "../photos/food_images/"; // Path to your images folder
-$stmt = $conn->prepare("SELECT id, name, price, path, kind, stock FROM products"); // Ensure 'kind' is selected
-$stmt->execute();
-$result = $stmt->get_result();
-$products = $result->fetch_all(MYSQLI_ASSOC);
-
-$stmt->close();
-$conn->close();
+include "Service/product_service.php";
+$photosPath = "../photos/drinks_images/"; // Path to your images folder
+$products = fetchProducts($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">

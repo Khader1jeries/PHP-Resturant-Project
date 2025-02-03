@@ -1,5 +1,5 @@
 <?php
-require 'dompdf\dompdf\autoload.inc.php'; // Correct path to Dompdf autoload
+require 'dompdf/dompdf/autoload.inc.php'; // Correct path to Dompdf autoload
 
 use Dompdf\Dompdf;
 
@@ -18,31 +18,23 @@ if ($order_id <= 0) {
 $order_query = "SELECT p.id, p.purchase_date, p.total_amount, c.firstname, c.lastname 
                 FROM purchases p 
                 JOIN clientusers c ON p.user_id = c.id
-                WHERE p.id = ?";
-$stmt = $conn->prepare($order_query);
-$stmt->bind_param("i", $order_id);
-$stmt->execute();
-$order_result = $stmt->get_result();
-$stmt->close();
+                WHERE p.id = '$order_id'";
+$order_result = mysqli_query($conn, $order_query);
 
-if ($order_result->num_rows == 0) {
+if (mysqli_num_rows($order_result) == 0) {
     die("Order not found.");
 }
 
-$order = $order_result->fetch_assoc();
+$order = mysqli_fetch_assoc($order_result);
 
 // Fetch purchase details (products)
 $details_query = "SELECT pr.name, pd.quantity, pd.price
                   FROM purchase_details pd
                   JOIN products pr ON pd.product_id = pr.id
-                  WHERE pd.purchase_id = ?";
-$stmt = $conn->prepare($details_query);
-$stmt->bind_param("i", $order_id);
-$stmt->execute();
-$details_result = $stmt->get_result();
-$stmt->close();
+                  WHERE pd.purchase_id = '$order_id'";
+$details_result = mysqli_query($conn, $details_query);
 
-$conn->close();
+mysqli_close($conn);
 
 // Build the HTML content for PDF
 $html = "<h1 style='text-align: center;'>Invoice #{$order['id']}</h1>
@@ -59,7 +51,7 @@ $html = "<h1 style='text-align: center;'>Invoice #{$order['id']}</h1>
     </thead>
     <tbody>";
 
-while ($detail = $details_result->fetch_assoc()) {
+while ($detail = mysqli_fetch_assoc($details_result)) {
     $total = $detail['quantity'] * $detail['price'];
     $html .= "<tr>
                 <td>{$detail['name']}</td>

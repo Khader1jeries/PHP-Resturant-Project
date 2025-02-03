@@ -45,7 +45,6 @@
             <div class="d-flex">
                 <a href="../guest/Food.php" target="main" class="btn btn-custom">Food</a>
                 <a href="../guest/drink.php" target="main" class="btn btn-custom">Drinks</a>
-                <a href="../guest/reservation.php" target="main" class="btn btn-custom btn-reserve">Reservation</a>
                 <a href="../guest/location.php" target="main" class="btn btn-custom">Our Place</a>
                 <a href="../guest/contact_us.php" target="main" class="btn btn-custom">Contact Us</a>
             </div>

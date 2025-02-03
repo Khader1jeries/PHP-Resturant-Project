@@ -6,17 +6,59 @@ include "../config/phpdb.php";
 $query = "SELECT id, name, phone, email, message, status, submission_date FROM contact_us ORDER BY submission_date ASC";
 $result = $conn->query($query);
 
+// Function to send an email
+function sendEmail($to, $subject, $message) {
+    $headers = "From: no-reply@yourdomain.com\r\n";
+    $headers .= "Reply-To: no-reply@yourdomain.com\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+    if (mail($to, $subject, $message, $headers)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// Function to check if email exists in the clientusers table
+function emailExistsInClientUsers($conn, $email) {
+    $stmt = $conn->prepare("SELECT id FROM clientusers WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+    $exists = $stmt->num_rows > 0;
+    $stmt->close();
+    return $exists;
+}
+
 // Handle the status change request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['changeStatus'])) {
         $messageId = $_POST['messageId'];
         $newStatus = $_POST['status'];
 
+        // Fetch the current message details
+        $stmt = $conn->prepare("SELECT email, status FROM contact_us WHERE id = ?");
+        $stmt->bind_param("i", $messageId);
+        $stmt->execute();
+        $stmt->bind_result($email, $currentStatus);
+        $stmt->fetch();
+        $stmt->close();
+
         // Update status in the database
         $stmt = $conn->prepare("UPDATE contact_us SET status = ? WHERE id = ?");
         $stmt->bind_param("si", $newStatus, $messageId);
         $stmt->execute();
         $stmt->close();
+
+        // Send email if status is changed to "In Progress", email exists, and email is not in clientusers table
+        if ($newStatus == 1 && $currentStatus != 1 && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if (!emailExistsInClientUsers($conn, $email)) {
+                $subject = "Your Support Request is In Progress";
+                $message = "Hello,Your support request is now in progress. You can view the conversation and respond here:'http://localhost/php-resturant-project/guest/conversation.php?id=$messageId'>Conversation Page</a>.<br><br>Best regards,<br>Support Team";
+                mail($email, $subject, $message, $headers);
+            
+            }
+        }
 
         // Redirect to avoid form resubmission
         header("Location: support.php");
@@ -93,12 +135,13 @@ function getStatusText($statusCode) {
                                     </select>
                                     <button type="submit" name="changeStatus" class="change-status-btn">Change Status</button>
                                 </form>
-                    </td><td>
+                            </td>
+                            <td>
                                 <!-- Go to Conversation Button (Visible only when status is "In Progress") -->
                                 <?php if ($row['status'] == 1): ?>
                                     <button onclick="window.location.href='conversation.php?id=<?php echo $row['id']; ?>'" class="go-to-conversation-btn">
-    Go to Conversation
-</button>
+                                        Go to Conversation
+                                    </button>
                                 <?php endif; ?>
                             </td>
                         </tr>
