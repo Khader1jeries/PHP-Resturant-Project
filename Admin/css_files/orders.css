@@ -171,3 +171,49 @@ body {
         text-align: center;
     }
 }
+/* Form Styling */
+form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+form label {
+    font-size: 16px;
+    color: #333;
+}
+
+form input[type="number"] {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 80px; /* Adjust the width as needed */
+    transition: border-color 0.3s ease;
+}
+
+form input[type="number"]:focus {
+    border-color: #8B4513; /* Premium brown color for focus */
+    outline: none;
+}
+
+form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #A0522D; /* Slightly lighter brown for buttons */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+form button:hover {
+    background-color: #D2691E; /* Lighter brown color on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+form button:active {
+    transform: translateY(0); /* Reset lift effect when clicked */
+}

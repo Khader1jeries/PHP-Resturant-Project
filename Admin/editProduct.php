@@ -162,9 +162,10 @@ $conn->close();
                                     <option value="2" <?= $product['kind'] == 2 ? 'selected' : '' ?>>Food</option>
                                 </select>
 
-                                <label for="image">Upload New Image:</label>
-                                <input type="file" id="image" name="image">
-
+                                <div class="file-input-container">
+                                    <label for="image">Upload New Image:</label>
+                                    <input type="file" id="image" name="image">
+                                </div>
                                 <button type="submit">Update Product</button>
                                 <button type="submit" name="delete" onclick="return confirm('Are you sure you want to delete this product?');">Delete Product</button>
                             </form>
