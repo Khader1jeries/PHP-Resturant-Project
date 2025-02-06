@@ -14,7 +14,7 @@ if (isset($_SESSION['username'])) {
     // Query the database to get the user details from the clientusers table
     $query = "SELECT id, username, firstname, lastname, email, phone FROM clientusers WHERE username = '$username'";
     $result = mysqli_query($conn, $query);
-
+    
     if ($result && mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result); // Fetch the user details
     } else {

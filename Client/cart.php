@@ -106,9 +106,13 @@ if (isset($_SESSION['username'])) {
             </table>
 
             <div class="cart-actions">
-                <span class="total-price">Total: ₪<?php echo number_format($total, 2); ?></span>
+            <span class="total-price">Total: ₪<?php echo number_format($total, 2); ?></span>
+            <?php if (empty($stockWarnings)): ?>
                 <a href="checkout.php" class="cta-button">Proceed to Checkout</a>
-                <a href="order_details.php" class="cta-button">View Your Orders</a>
+            <?php else: ?>
+                <span style="color: red;">Fix stock issues before proceeding to checkout.</span>
+            <?php endif; ?>
+            <a href="order_details.php" class="cta-button">View Your Orders</a>
             </div>
         <?php else: ?>
             <p>Your cart is empty. <a href="food.php" class="cta-button">Shop Now</a><a href="orders.php" class="cta-button" style="margin-left: 5px;">View All Orders</a>
