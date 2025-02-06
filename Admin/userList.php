@@ -18,13 +18,35 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_client_user'])
         if ($row['open_purchases'] > 0) {
             $_SESSION['message'] = "Cannot delete user. They have open purchases.";
         } else {
-            // Prepare and execute the delete query for clientusers
-            $query = "DELETE FROM clientusers WHERE username = '$username'";
-            
-            if (mysqli_query($conn, $query)) {
-                $_SESSION['message'] = "Client user deleted successfully.";
-            } else {
-                $_SESSION['message'] = "Error deleting client user: " . mysqli_error($conn);
+            // Begin a transaction to ensure atomicity
+            mysqli_begin_transaction($conn);
+
+            try {
+                // First, delete all purchases associated with the user
+                $deletePurchasesQuery = "DELETE FROM purchases WHERE user_id = (SELECT id FROM clientusers WHERE username = '$username')";
+                if (!mysqli_query($conn, $deletePurchasesQuery)) {
+                    throw new Exception("Error deleting purchases: " . mysqli_error($conn));
+                }
+
+                // Second, delete all login history associated with the user's email
+                $deleteLoginHistoryQuery = "DELETE FROM client_login_history WHERE email = (SELECT email FROM clientusers WHERE username = '$username')";
+                if (!mysqli_query($conn, $deleteLoginHistoryQuery)) {
+                    throw new Exception("Error deleting login history: " . mysqli_error($conn));
+                }
+
+                // Finally, delete the user
+                $deleteUserQuery = "DELETE FROM clientusers WHERE username = '$username'";
+                if (!mysqli_query($conn, $deleteUserQuery)) {
+                    throw new Exception("Error deleting client user: " . mysqli_error($conn));
+                }
+
+                // Commit the transaction if all queries succeed
+                mysqli_commit($conn);
+                $_SESSION['message'] = "Client user, associated purchases, and login history deleted successfully.";
+            } catch (Exception $e) {
+                // Rollback the transaction in case of any error
+                mysqli_rollback($conn);
+                $_SESSION['message'] = $e->getMessage();
             }
         }
     } else {
@@ -41,22 +63,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_admin_user']))
     $username = $_POST['username'] ?? null;
 
     if ($username && $username !== $currentAdminUsername) { // Prevent self-deletion
-        // Check if the user has open purchases
-        $checkQuery = "SELECT COUNT(*) as open_purchases FROM purchases WHERE user_id = (SELECT id FROM adminusers WHERE username = '$username') AND done = 0";
-        $checkResult = mysqli_query($conn, $checkQuery);
-        $row = mysqli_fetch_assoc($checkResult);
-
-        if ($row['open_purchases'] > 0) {
-            $_SESSION['message'] = "Cannot delete user. They have open purchases.";
+        // Prepare and execute the delete query for adminusers
+        $query = "DELETE FROM adminusers WHERE username = '$username'";
+        
+        if (mysqli_query($conn, $query)) {
+            $_SESSION['message'] = "Admin user deleted successfully.";
         } else {
-            // Prepare and execute the delete query for adminusers
-            $query = "DELETE FROM adminusers WHERE username = '$username'";
-            
-            if (mysqli_query($conn, $query)) {
-                $_SESSION['message'] = "Admin user deleted successfully.";
-            } else {
-                $_SESSION['message'] = "Error deleting admin user: " . mysqli_error($conn);
-            }
+            $_SESSION['message'] = "Error deleting admin user: " . mysqli_error($conn);
         }
     } else {
         $_SESSION['message'] = "You cannot delete yourself.";
@@ -172,13 +185,13 @@ if (isset($_SESSION['message'])) {
                                     <input type="hidden" name="username" value="<?php echo htmlspecialchars($user['username']); ?>">
                                     <button type="submit" name="delete_client_user" onclick="return confirm('Are you sure you want to delete this client user?');">Delete</button>
                                 </form>
-                                </td>
-                                <td>    
+                            </td>
+                            <td>    
                                 <!-- Login History Button -->
                                 <a href="login_history.php?username=<?php echo urlencode($user['username']); ?>">
                                     <button>Login History</button>
                                 </a>
-                                </td>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -224,8 +237,8 @@ if (isset($_SESSION['message'])) {
                                         <button type="submit" name="delete_admin_user" onclick="return confirm('Are you sure you want to delete this admin user?');">Delete</button>
                                     </form>
                                 <?php endif; ?>
-                                </td>
-                                <td>
+                            </td>
+                            <td>
                                 <!-- Login History Button -->
                                 <a href="login_history.php?username=<?php echo urlencode($user['username']); ?>">
                                     <button>Login History</button>
