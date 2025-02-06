@@ -12,119 +12,82 @@ if (!isset($_SESSION['form_data'])) {
         'phone' => '',
         'password' => '',
         'dob' => '',
-        'user_type' => 'client' // Default user type
+        'user_type' => 'client'
     ];
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['create_user'])) {
-    // Retrieve form values
-    $username = $_POST['username'] ?? null;
-    $firstname = $_POST['firstname'] ?? null;
-    $lastname = $_POST['lastname'] ?? null;
-    $email = $_POST['email'] ?? null;
-    $phone = $_POST['phone'] ?? null;
-    $password = $_POST['password'] ?? null;
-    $dob = $_POST['dob'] ?? null;
-    $repassword = $_POST['repassword'] ?? null;
-    $user_type = $_POST['user_type'] ?? 'client'; // Default to 'client' if not set
+    $username = $_POST['username'];
+    $firstname = $_POST['firstname'];
+    $lastname = $_POST['lastname'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $password = $_POST['password'];
+    $dob = $_POST['dob'];
+    $repassword = $_POST['repassword'];
+    $user_type = $_POST['user_type'] ?? 'client';
 
-    // Store form data in session
-    $_SESSION['form_data'] = [
-        'username' => $username,
-        'firstname' => $firstname,
-        'lastname' => $lastname,
-        'email' => $email,
-        'phone' => $phone,
-        'password' => $password,
-        'dob' => $dob,
-        'user_type' => $user_type
-    ];
+    $_SESSION['form_data'] = compact('username', 'firstname', 'lastname', 'email', 'phone', 'password', 'dob', 'user_type');
 
-    // Validate required fields
-    $required_fields = [$username, $firstname, $lastname, $email, $phone, $password, $dob, $repassword];
-    if (in_array(null, $required_fields, true)) {
-        echo "<p class='error-message'>Please fill out all required fields.</p>";
+    if ($password !== $repassword) {
+        echo "<p class='error-message'>Error: Passwords do not match.</p>";
+    } elseif (!preg_match("/^\d{10}$/", $phone)) {
+        echo "<p class='error-message'>Error: Phone number must be exactly 10 digits.</p>";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<p class='error-message'>Error: Invalid email format.</p>";
+    } elseif (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $dob)) {
+        echo "<p class='error-message'>Error: Invalid date format. Please use YYYY-MM-DD.</p>";
     } else {
-        // Validate password match
-        if ($password !== $repassword) {
-            echo "<p class='error-message'>Error: Passwords do not match.</p>";
-        }
-        // Validate phone number
-        elseif (!preg_match("/^\d{10}$/", $phone)) {
-            echo "<p class='error-message'>Error: Phone number must be exactly 10 digits.</p>";
-        }
-        // Validate email
-        elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo "<p class='error-message'>Error: Invalid email format.</p>";
-        }
-        // Validate date of birth (basic format check)
-        elseif (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $dob)) {
-            echo "<p class='error-message'>Error: Invalid date format. Please use YYYY-MM-DD.</p>";
-        }
-        // Validate date of birth (not in the future and at least 18 years old)
-        else {
-            $today = new DateTime(); // Current date
-            $birthdate = new DateTime($dob); // User's birthdate
-            $age = $today->diff($birthdate)->y; // Calculate age
-            if ($birthdate > $today) {
-                echo "<p class='error-message'>Error: Date of birth cannot be in the future.</p>";
-            } elseif ($age < 18) {
-                echo "<p class='error-message'>Error: You must be at least 18 years old to sign up.</p>";
-            } else {
-                // Check if the username or email exists in the other table
-                $stmt = $conn->prepare("
-                    SELECT username, email FROM clientusers WHERE username = ? OR email = ?
-                    UNION
-                    SELECT username, email FROM adminusers WHERE username = ? OR email = ?
-                ");
-                $stmt->bind_param("ssss", $username, $email, $username, $email);
-                $stmt->execute();
-                $stmt->store_result();
-                if ($stmt->num_rows > 0) {
-                    // Fetch the results to determine which table the user exists in
-                    $stmt->bind_result($existing_username, $existing_email);
-                    $stmt->fetch();
-                    if ($existing_username === $username) {
-                        echo "<p class='error-message'>Error: Username already exists in the system.</p>";
-                    } elseif ($existing_email === $email) {
-                        echo "<p class='error-message'>Error: Email already exists in the system.</p>";
-                    }
-                } else {
-                    // Insert new user into the appropriate table
-                    if ($user_type === 'admin') {
-                        $stmt = $conn->prepare("INSERT INTO adminusers (username, firstname, lastname, email, phone, password, dob) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                    } else {
-                        $stmt = $conn->prepare("INSERT INTO clientusers (username, firstname, lastname, email, phone, password, dob) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                    }
-                    $stmt->bind_param("sssssss", $username, $firstname, $lastname, $email, $phone, $password, $dob);
-                    if ($stmt->execute()) {
-                        // Clear form data after successful registration
-                        $_SESSION['form_data'] = [
-                            'username' => '',
-                            'firstname' => '',
-                            'lastname' => '',
-                            'email' => '',
-                            'phone' => '',
-                            'password' => '',
-                            'dob' => '',
-                            'user_type' => 'client'
-                        ];
-                        echo "<p class='success-message'>User created successfully!</p>";
-                    } else {
-                        echo "<p class='error-message'>Error: " . $stmt->error . "</p>";
-                    }
+        $today = new DateTime();
+        $birthdate = new DateTime($dob);
+        $age = $today->diff($birthdate)->y;
+
+        if ($birthdate > $today) {
+            echo "<p class='error-message'>Error: Date of birth cannot be in the future.</p>";
+        } elseif ($age < 18) {
+            echo "<p class='error-message'>Error: You must be at least 18 years old to sign up.</p>";
+        } else {
+            // Check if the username or email exists
+            $query = "SELECT username, email FROM clientusers WHERE username = '$username' OR email = '$email'
+                      UNION
+                      SELECT username, email FROM adminusers WHERE username = '$username' OR email = '$email'";
+            $result = mysqli_query($conn, $query);
+
+            if (mysqli_num_rows($result) > 0) {
+                $row = mysqli_fetch_assoc($result);
+                if ($row['username'] === $username) {
+                    echo "<p class='error-message'>Error: Username already exists in the system.</p>";
+                } elseif ($row['email'] === $email) {
+                    echo "<p class='error-message'>Error: Email already exists in the system.</p>";
                 }
-                $stmt->close();
+            } else {
+                $table = ($user_type === 'admin') ? 'adminusers' : 'clientusers';
+                $query = "INSERT INTO $table (username, firstname, lastname, email, phone, password, dob) 
+                          VALUES ('$username', '$firstname', '$lastname', '$email', '$phone', '$password', '$dob')";
+                
+                if (mysqli_query($conn, $query)) {
+                    $_SESSION['form_data'] = [
+                        'username' => '',
+                        'firstname' => '',
+                        'lastname' => '',
+                        'email' => '',
+                        'phone' => '',
+                        'password' => '',
+                        'dob' => '',
+                        'user_type' => 'client'
+                    ];
+                    echo "<p class='success-message'>User created successfully!</p>";
+                } else {
+                    echo "<p class='error-message'>Error: " . mysqli_error($conn) . "</p>";
+                }
             }
         }
     }
 }
 
-// Close the connection safely
-if (isset($conn) && $conn instanceof mysqli) {
-    $conn->close();
-}
+mysqli_close($conn);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

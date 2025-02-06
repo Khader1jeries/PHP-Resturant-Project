@@ -4,7 +4,7 @@ include "../config/phpdb.php";
 
 // Fetch all messages from the contact_us table
 $query = "SELECT id, name, phone, email, message, status, submission_date FROM contact_us ORDER BY submission_date ASC";
-$result = $conn->query($query);
+$result = mysqli_query($conn, $query);
 
 // Function to send an email
 function sendEmail($to, $subject, $message) {
@@ -12,51 +12,39 @@ function sendEmail($to, $subject, $message) {
     $headers .= "Reply-To: no-reply@yourdomain.com\r\n";
     $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 
-    if (mail($to, $subject, $message, $headers)) {
-        return true;
-    } else {
-        return false;
-    }
+    return mail($to, $subject, $message, $headers);
 }
 
 // Function to check if email exists in the clientusers table
 function emailExistsInClientUsers($conn, $email) {
-    $stmt = $conn->prepare("SELECT id FROM clientusers WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $stmt->store_result();
-    $exists = $stmt->num_rows > 0;
-    $stmt->close();
-    return $exists;
+    $query = "SELECT id FROM clientusers WHERE email = '$email'";
+    $result = mysqli_query($conn, $query);
+    return mysqli_num_rows($result) > 0;
 }
 
 // Handle the status change request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['changeStatus'])) {
-        $messageId = $_POST['messageId'];
-        $newStatus = $_POST['status'];
+        $messageId = intval($_POST['messageId']);
+        $newStatus = intval($_POST['status']);
 
         // Fetch the current message details
-        $stmt = $conn->prepare("SELECT email, status FROM contact_us WHERE id = ?");
-        $stmt->bind_param("i", $messageId);
-        $stmt->execute();
-        $stmt->bind_result($email, $currentStatus);
-        $stmt->fetch();
-        $stmt->close();
+        $query = "SELECT email, status FROM contact_us WHERE id = $messageId";
+        $result = mysqli_query($conn, $query);
+        $row = mysqli_fetch_assoc($result);
+        $email = $row['email'] ?? null;
+        $currentStatus = $row['status'] ?? null;
 
         // Update status in the database
-        $stmt = $conn->prepare("UPDATE contact_us SET status = ? WHERE id = ?");
-        $stmt->bind_param("si", $newStatus, $messageId);
-        $stmt->execute();
-        $stmt->close();
+        $updateQuery = "UPDATE contact_us SET status = $newStatus WHERE id = $messageId";
+        mysqli_query($conn, $updateQuery);
 
         // Send email if status is changed to "In Progress", email exists, and email is not in clientusers table
         if ($newStatus == 1 && $currentStatus != 1 && filter_var($email, FILTER_VALIDATE_EMAIL)) {
             if (!emailExistsInClientUsers($conn, $email)) {
                 $subject = "Your Support Request is In Progress";
-                $message = "Hello,Your support request is now in progress. You can view the conversation and respond here:'http://localhost/php-resturant-project/guest/conversation.php?id=$messageId'>Conversation Page</a>.<br><br>Best regards,<br>Support Team";
-                mail($email, $subject, $message, $headers);
-            
+                $message = "Hello, Your support request is now in progress. You can view the conversation and respond here: 'http://localhost/php-resturant-project/guest/conversation.php?id=$messageId'.<br><br>Best regards,<br>Support Team";
+                sendEmail($email, $subject, $message);
             }
         }
 
@@ -112,12 +100,12 @@ function getStatusText($statusCode) {
                     <th>Message</th>
                     <th>Status</th>
                     <th>Actions</th>
-                    <th>Converstion</th>
+                    <th>Conversation</th>
                 </tr>
             </thead>
             <tbody>
-                <?php if ($result && $result->num_rows > 0): ?>
-                    <?php while ($row = $result->fetch_assoc()): ?>
+                <?php if ($result && mysqli_num_rows($result) > 0): ?>
+                    <?php while ($row = mysqli_fetch_assoc($result)): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($row['submission_date']); ?></td>
                             <td><?php echo htmlspecialchars($row['name']); ?></td>
@@ -148,7 +136,7 @@ function getStatusText($statusCode) {
                     <?php endwhile; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="6">No contact messages found.</td>
+                        <td colspan="7">No contact messages found.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>

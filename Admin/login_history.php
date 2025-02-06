@@ -14,31 +14,25 @@ if (!$username) {
 $history = [];
 
 // Query for client login history
-$stmt = $conn->prepare("SELECT date, success FROM client_login_history WHERE username = ? ORDER BY date DESC");
-$stmt->bind_param("s", $username);
-$stmt->execute();
-$result = $stmt->get_result();
+$query = "SELECT date, success FROM client_login_history WHERE username = '$username' ORDER BY date DESC";
+$result = mysqli_query($conn, $query);
 
-while ($row = $result->fetch_assoc()) {
+while ($row = mysqli_fetch_assoc($result)) {
     $row['user_type'] = 'Client';
     $history[] = $row;
 }
-$stmt->close();
 
 // Query for admin login history
-$stmt = $conn->prepare("SELECT date, success FROM admin_login_history WHERE username = ? ORDER BY date DESC");
-$stmt->bind_param("s", $username);
-$stmt->execute();
-$result = $stmt->get_result();
+$query = "SELECT date, success FROM admin_login_history WHERE username = '$username' ORDER BY date DESC";
+$result = mysqli_query($conn, $query);
 
-while ($row = $result->fetch_assoc()) {
+while ($row = mysqli_fetch_assoc($result)) {
     $row['user_type'] = 'Admin';
     $history[] = $row;
 }
-$stmt->close();
 
 // Close the database connection
-$conn->close();
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>

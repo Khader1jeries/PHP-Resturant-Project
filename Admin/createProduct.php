@@ -1,5 +1,6 @@
 <?php
 include "../config/phpdb.php";
+
 // Handle form submission for creating a product
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
@@ -19,18 +20,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
                 // Insert the new product into the database
                 $path = basename($_FILES['image']['name']);
-                $stmt = $conn->prepare("INSERT INTO products (name, price, path, kind, stock) VALUES (?, ?, ?, ?, ?)");
-                $stmt->bind_param("sdsii", $name, $price, $path, $kind, $stock);
+                $query = "INSERT INTO products (name, price, path, kind, stock) 
+                          VALUES ('$name', '$price', '$path', '$kind', '$stock')";
 
-                if ($stmt->execute()) {
+                if (mysqli_query($conn, $query)) {
                     echo "<script>alert('Product created successfully!');</script>";
-                    // Refresh the page to reflect changes
                     echo "<script>window.location.href = 'createProduct.php';</script>";
                 } else {
-                    echo "<script>alert('Error creating product: " . $stmt->error . "');</script>";
+                    echo "<script>alert('Error creating product: " . mysqli_error($conn) . "');</script>";
                 }
-
-                $stmt->close();
             } else {
                 die("Error uploading image.");
             }
@@ -42,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$conn->close();
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -50,18 +48,16 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css_files/createProduct.css"> <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="css_files/createProduct.css">
     <link rel="stylesheet" href="css_files/navbar.css">
     <title>Create Product</title>
 </head>
 <body style="margin-left: 16.5%;">
-    <!-- Include Navbar -->
     <?php require 'navbar.php'; ?>
 
     <div class="container">
         <h1>Create Product</h1>
 
-        <!-- Create Product Form -->
         <div class="create-form">
             <form action="createProduct.php" method="POST" enctype="multipart/form-data">
                 <label for="name">Product Name:</label>

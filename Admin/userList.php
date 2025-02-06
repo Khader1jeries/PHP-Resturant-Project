@@ -10,17 +10,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_client_user'])
     $username = $_POST['username'] ?? null;
 
     if ($username) {
-        // Prepare and execute the delete query for clientusers
-        $stmt = $conn->prepare("DELETE FROM clientusers WHERE username = ?");
-        $stmt->bind_param("s", $username);
+        // Check if the user has open purchases
+        $checkQuery = "SELECT COUNT(*) as open_purchases FROM purchases WHERE user_id = (SELECT id FROM clientusers WHERE username = '$username') AND done = 0";
+        $checkResult = mysqli_query($conn, $checkQuery);
+        $row = mysqli_fetch_assoc($checkResult);
 
-        if ($stmt->execute()) {
-            $_SESSION['message'] = "Client user deleted successfully.";
+        if ($row['open_purchases'] > 0) {
+            $_SESSION['message'] = "Cannot delete user. They have open purchases.";
         } else {
-            $_SESSION['message'] = "Error deleting client user: " . $stmt->error;
+            // Prepare and execute the delete query for clientusers
+            $query = "DELETE FROM clientusers WHERE username = '$username'";
+            
+            if (mysqli_query($conn, $query)) {
+                $_SESSION['message'] = "Client user deleted successfully.";
+            } else {
+                $_SESSION['message'] = "Error deleting client user: " . mysqli_error($conn);
+            }
         }
-
-        $stmt->close();
     } else {
         $_SESSION['message'] = "Invalid request.";
     }
@@ -35,17 +41,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_admin_user']))
     $username = $_POST['username'] ?? null;
 
     if ($username && $username !== $currentAdminUsername) { // Prevent self-deletion
-        // Prepare and execute the delete query for adminusers
-        $stmt = $conn->prepare("DELETE FROM adminusers WHERE username = ?");
-        $stmt->bind_param("s", $username);
+        // Check if the user has open purchases
+        $checkQuery = "SELECT COUNT(*) as open_purchases FROM purchases WHERE user_id = (SELECT id FROM adminusers WHERE username = '$username') AND done = 0";
+        $checkResult = mysqli_query($conn, $checkQuery);
+        $row = mysqli_fetch_assoc($checkResult);
 
-        if ($stmt->execute()) {
-            $_SESSION['message'] = "Admin user deleted successfully.";
+        if ($row['open_purchases'] > 0) {
+            $_SESSION['message'] = "Cannot delete user. They have open purchases.";
         } else {
-            $_SESSION['message'] = "Error deleting admin user: " . $stmt->error;
+            // Prepare and execute the delete query for adminusers
+            $query = "DELETE FROM adminusers WHERE username = '$username'";
+            
+            if (mysqli_query($conn, $query)) {
+                $_SESSION['message'] = "Admin user deleted successfully.";
+            } else {
+                $_SESSION['message'] = "Error deleting admin user: " . mysqli_error($conn);
+            }
         }
-
-        $stmt->close();
     } else {
         $_SESSION['message'] = "You cannot delete yourself.";
     }
@@ -55,51 +67,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_admin_user']))
     exit();
 }
 
-// Handle form submission to add a new user
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_user'])) {
-    // Safely retrieve form values using null coalescing operator
-    $username = $_POST['username'] ?? null;
-    $firstname = $_POST['firstname'] ?? null;
-    $lastname = $_POST['lastname'] ?? null;
-    $email = $_POST['email'] ?? null;
-    $phone = $_POST['phone'] ?? null;
-    $password = $_POST['password'] ?? null; // No hashing for password here
-
-    // Check for null values before proceeding
-    if ($username && $firstname && $lastname && $email && $phone && $password) {
-        // Check if the username already exists
-        $stmt = $conn->prepare("SELECT username FROM clientusers WHERE username = ?");
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $stmt->store_result();
-        
-        if ($stmt->num_rows > 0) {
-            // Username already exists, display an error message
-            echo "<p style='color: red; text-align: center;'>Error: The username is already taken. Please choose a different one.</p>";
-        } else {
-            // Insert the user into the database if username doesn't exist
-            $stmt = $conn->prepare("INSERT INTO clientusers (username, firstname, lastname, email, phone, password) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssss", $username, $firstname, $lastname, $email, $phone, $password);
-
-            if ($stmt->execute()) {
-                echo "<p style='color: green; text-align: center;'>Sign-up successful! You can now log in.</p>";
-            } else {
-                echo "<p style='color: red; text-align: center;'>Error: " . $stmt->error . "</p>";
-            }
-        }
-
-        $stmt->close();
-    } else {
-        echo "<p style='color: red; text-align: center;'>Please fill out all required fields.</p>";
-    }
-}
-
 // Query the database for all client users automatically when the page loads
 $clientUsers = [];
-$result = $conn->query("SELECT username, firstname, lastname, email, phone, password, dob FROM clientusers ORDER BY firstname ASC");
+$result = mysqli_query($conn, "SELECT username, firstname, lastname, email, phone, password, dob FROM clientusers ORDER BY firstname ASC");
 
-if ($result && $result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
+if ($result && mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
         // Calculate age based on DOB
         if (!empty($row['dob'])) {
             $dob = new DateTime($row['dob']);
@@ -117,10 +90,10 @@ if ($result && $result->num_rows > 0) {
 
 // Query the database for all admin users automatically when the page loads
 $adminUsers = [];
-$result = $conn->query("SELECT username, firstname, lastname, email, phone, password, dob FROM adminusers ORDER BY firstname ASC");
+$result = mysqli_query($conn, "SELECT username, firstname, lastname, email, phone, password, dob FROM adminusers ORDER BY firstname ASC");
 
-if ($result && $result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
+if ($result && mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
         // Calculate age based on DOB
         if (!empty($row['dob'])) {
             $dob = new DateTime($row['dob']);
@@ -137,9 +110,16 @@ if ($result && $result->num_rows > 0) {
 }
 
 // Close the connection after all operations
-$conn->close();
+mysqli_close($conn);
 ?>
-
+<?php
+// Display session message if it exists
+if (isset($_SESSION['message'])) {
+    echo "<div style='text-align: center; color: red; margin: 20px 0;'>" . $_SESSION['message'] . "</div>";
+    // Clear the message after displaying it
+    unset($_SESSION['message']);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

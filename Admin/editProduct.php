@@ -2,11 +2,9 @@
 include "../config/phpdb.php";
 
 // Fetch all products from the database
-$stmt = $conn->prepare("SELECT id, name, price, path, kind, stock FROM products");
-$stmt->execute();
-$result = $stmt->get_result();
-$products = $result->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
+$query = "SELECT id, name, price, path, kind, stock FROM products";
+$result = mysqli_query($conn, $query);
+$products = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 // Handle form submission for editing or deleting a product
 $message = '';
@@ -14,22 +12,20 @@ $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['delete'])) {
         // Handle product deletion
-        $id = $_POST['id'];
-        $stmt = $conn->prepare("DELETE FROM products WHERE id = ?");
-        $stmt->bind_param("i", $id);
-        if ($stmt->execute()) {
+        $id = intval($_POST['id']);
+        $query = "DELETE FROM products WHERE id = $id";
+        if (mysqli_query($conn, $query)) {
             $message = "<p class='success'>Product deleted successfully!</p>";
         } else {
-            $message = "<p class='error'>Error deleting product: " . htmlspecialchars($stmt->error) . "</p>";
+            $message = "<p class='error'>Error deleting product: " . htmlspecialchars(mysqli_error($conn)) . "</p>";
         }
-        $stmt->close();
     } else {
         // Handle product update
-        $id = $_POST['id'];
-        $name = $_POST['name'];
-        $price = $_POST['price'];
-        $kind = $_POST['kind'];
-        $stock = $_POST['stock'];
+        $id = intval($_POST['id']);
+        $name = mysqli_real_escape_string($conn, $_POST['name']);
+        $price = floatval($_POST['price']);
+        $kind = intval($_POST['kind']);
+        $stock = intval($_POST['stock']);
 
         if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
             $targetDir = ($kind == 2) ? "../photos/food_images/" : "../photos/drinks_images/";
@@ -40,8 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (in_array($imageFileType, $allowedTypes)) {
                 if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
                     $path = basename($_FILES['image']['name']);
-                    $stmt = $conn->prepare("UPDATE products SET name = ?, price = ?, path = ?, kind = ?, stock = ? WHERE id = ?");
-                    $stmt->bind_param("sdsiii", $name, $price, $path, $kind, $stock, $id);
+                    $query = "UPDATE products SET name = '$name', price = $price, path = '$path', kind = $kind, stock = $stock WHERE id = $id";
                 } else {
                     $message = "<p class='error'>Error uploading image.</p>";
                 }
@@ -49,20 +44,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $message = "<p class='error'>Invalid image file type.</p>";
             }
         } else {
-            $stmt = $conn->prepare("UPDATE products SET name = ?, price = ?, kind = ?, stock = ? WHERE id = ?");
-            $stmt->bind_param("sdiii", $name, $price, $kind, $stock, $id);
+            $query = "UPDATE products SET name = '$name', price = $price, kind = $kind, stock = $stock WHERE id = $id";
         }
 
-        if ($stmt->execute()) {
+        if (mysqli_query($conn, $query)) {
             $message = "<p class='success'>Product updated successfully!</p>";
         } else {
-            $message = "<p class='error'>Error updating product: " . htmlspecialchars($stmt->error) . "</p>";
+            $message = "<p class='error'>Error updating product: " . htmlspecialchars(mysqli_error($conn)) . "</p>";
         }
-        $stmt->close();
     }
 }
-$conn->close();
+
+mysqli_close($conn);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

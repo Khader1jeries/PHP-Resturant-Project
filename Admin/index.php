@@ -1,3 +1,29 @@
+<?php
+// Start session
+session_start();
+
+// Include database configuration
+include "../config/phpdb.php";
+
+// Fetch counts from the database
+$totalUsersQuery = "SELECT COUNT(*) AS total_users FROM clientusers";
+$totalOrdersQuery = "SELECT COUNT(*) AS total_orders FROM purchases";
+$totalProductsQuery = "SELECT COUNT(*) AS total_products FROM products";
+$totalAdminsQuery = "SELECT COUNT(*) AS total_admins FROM adminusers";
+
+// Execute queries
+$totalUsersResult = $conn->query($totalUsersQuery);
+$totalOrdersResult = $conn->query($totalOrdersQuery);
+$totalProductsResult = $conn->query($totalProductsQuery);
+$totalAdminsResult = $conn->query($totalAdminsQuery);
+
+// Fetch the counts
+$totalUsers = $totalUsersResult->fetch_assoc()['total_users'] ?? 0;
+$totalOrders = $totalOrdersResult->fetch_assoc()['total_orders'] ?? 0;
+$totalProducts = $totalProductsResult->fetch_assoc()['total_products'] ?? 0;
+$totalAdmins = $totalAdminsResult->fetch_assoc()['total_admins'] ?? 0;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +39,7 @@
         <!-- Main Content Area -->
         <div class="main-content">
             <header class="admin-header">
-                <h1>Welcome, <?= htmlspecialchars($user['firstname'] ?? 'Admin') ?></h1>
+                <h1>Welcome, <?= htmlspecialchars($_SESSION['firstname'] ?? 'Admin') ?></h1>
                 <a href="logout.php" class="logout-btn">Logout</a>
             </header>
 
@@ -21,16 +47,20 @@
                 <h2>Dashboard Overview</h2>
                 <div class="stats">
                     <div class="stat-card">
-                        <h3>Total Users</h3>
-                        <p>1,234</p>
+                        <h3>Total Clients</h3>
+                        <p><?= $totalUsers ?></p>
                     </div>
                     <div class="stat-card">
                         <h3>Total Orders</h3>
-                        <p>567</p>
+                        <p><?= $totalOrders ?></p>
                     </div>
                     <div class="stat-card">
                         <h3>Total Products</h3>
-                        <p>89</p>
+                        <p><?= $totalProducts ?></p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Admins</h3>
+                        <p><?= $totalAdmins ?></p>
                     </div>
                 </div>
             </div>
