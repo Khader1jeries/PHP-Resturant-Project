@@ -7,7 +7,7 @@ if (!isset($_SESSION['username'])) {
     die("You must be logged in to update your cart.");
 }
 
-// Fetch user ID from session
+//  user ID from session
 $username = $_SESSION['username'];
 $userQuery = "SELECT id FROM clientusers WHERE username = '$username'";
 $userResult = mysqli_query($conn, $userQuery);
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cart_id'], $_POST['ac
     $cartId = intval($_POST['cart_id']);
     $action = $_POST['action'];
 
-    // Fetch current quantity of the item in the cart
+    //  current quantity of the item in the cart
     $checkQuery = "SELECT quantity FROM cart WHERE id = '$cartId' AND user_id = '$userId'";
     $checkResult = mysqli_query($conn, $checkQuery);
 

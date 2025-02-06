@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css_files/navbar.css">
 </head>
 <body>
-    <!-- Include Navbar -->
+  
     <?php require 'navbar.php'; ?>
     <div style="margin-left:11%;margin-top:2%;">
     <!-- Logo Section -->

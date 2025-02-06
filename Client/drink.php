@@ -7,7 +7,7 @@ if (!isset($_SESSION['username'])) {
     die("You must be logged in to add products to your cart.");
 }
 
-// Fetch user ID from session
+//  user ID from session
 $username = $_SESSION['username'];
 $userQuery = "SELECT id FROM clientusers WHERE username = '$username'";
 $userResult = mysqli_query($conn, $userQuery);
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && isse
     }
 }
 
-// Fetch all products from the database
+//  all products from the database
 $productQuery = "SELECT id, name, price, path, kind, stock FROM products";
 $result = mysqli_query($conn, $productQuery);
 $products = mysqli_fetch_all($result, MYSQLI_ASSOC);

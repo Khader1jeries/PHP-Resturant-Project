@@ -17,14 +17,14 @@ if (!isset($_SESSION['username'])) {
 
 $username = $_SESSION['username'];
 
-// Fetch user ID based on the session username
+// user ID based on the session username
 $userQuery = "SELECT id FROM clientusers WHERE username = '$username'";
 $userResult = mysqli_query($conn, $userQuery);
 
 if (mysqli_num_rows($userResult) > 0) {
     $userId = mysqli_fetch_assoc($userResult)['id'];
 
-    // Fetch all orders for the user
+    //  all orders for the user
     $ordersQuery = "
         SELECT id, total_amount, purchase_date 
         FROM purchases 

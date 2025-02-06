@@ -1,15 +1,15 @@
 <?php
-// Include necessary configurations and database connections
+
 include "../config/phpdb.php";
 
 // Get email from URL
 $email = isset($_GET['email']) ? $_GET['email'] : '';
 
-// Fetch messages for the specific email from the contact_us table
+// messages for the specific email from the contact_us table
 $query = "SELECT id, name, phone, email, message, status, submission_date FROM contact_us WHERE email = '$email' ORDER BY submission_date ASC";
 $result = mysqli_query($conn, $query);
 
-// Function to convert status code to human-readable text
+
 function getStatusText($statusCode)
 {
     switch ($statusCode) {

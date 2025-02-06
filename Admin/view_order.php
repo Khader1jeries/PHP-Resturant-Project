@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-// Ensure the correct path to phpdb.php
-include_once "../config/phpdb.php"; // Include your database configuration file
 
-// Check if the database connection is established
+include_once "../config/phpdb.php"; 
+
+
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
@@ -15,7 +15,7 @@ if ($order_id === 0) {
     die("Invalid Order ID.");
 }
 
-// Fetch order details
+//  order details
 $order_query = "SELECT p.id, p.purchase_date, p.total_amount, c.firstname, c.lastname 
                 FROM purchases p 
                 JOIN clientusers c ON p.user_id = c.id
@@ -28,7 +28,7 @@ if (!$order_result || mysqli_num_rows($order_result) == 0) {
 
 $order = mysqli_fetch_assoc($order_result);
 
-// Fetch purchase details (products)
+//  purchase details (products)
 $details_query = "SELECT pd.product_id, pr.name, pd.quantity, pd.price
                   FROM purchase_details pd
                   JOIN products pr ON pd.product_id = pr.id

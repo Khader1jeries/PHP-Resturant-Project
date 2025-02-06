@@ -11,7 +11,7 @@ if (!isset($_GET['purchase_id']) || !isset($_SESSION['user_id'])) {
 $purchaseId = intval($_GET['purchase_id']);
 $userId = $_SESSION['user_id'];
 
-// Fetch the order details from the database
+// the order details from the database
 $sql = "SELECT pd.product_id, pd.quantity, pd.price, p.name AS product_name
         FROM purchase_details pd
         JOIN products p ON pd.product_id = p.id

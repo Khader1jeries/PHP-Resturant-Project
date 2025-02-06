@@ -1,15 +1,15 @@
 <?php
-// Include necessary configurations and database connections
+
 include "../config/phpdb.php";
 include "Service/conversation_service.php";
 
 // Get the message ID from the URL
 $messageId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-// Fetch the message details
+//  the message details
 $message = getMessageDetails($conn, $messageId);
 
-// Fetch the conversation messages
+// the conversation messages
 $conversationMessages = getConversationMessages($conn, $messageId);
 
 // Handle form submission for sending a response

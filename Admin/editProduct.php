@@ -1,7 +1,7 @@
 <?php
 include "../config/phpdb.php";
 
-// Fetch all products from the database
+// products from the database
 $query = "SELECT id, name, price, path, kind, stock FROM products";
 $result = mysqli_query($conn, $query);
 $products = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -69,10 +69,10 @@ mysqli_close($conn);
     <title>Edit Products</title>
 </head>
 <body style="margin-left: 17%;">
-    <!-- Include Navbar -->
+
     <?php require 'navbar.php'; ?>
 
-    <!-- Message Container -->
+ 
     <div id="message-container" style="text-align: center; margin-top: 20px;">
         <?php echo $message; ?>
     </div>
@@ -80,7 +80,7 @@ mysqli_close($conn);
     <div class="container">
         <h1>Edit Products</h1>
 
-        <!-- Food Menu -->
+      
         <h2>Food Menu</h2>
         <div class="food">
             <?php foreach ($products as $product): ?>

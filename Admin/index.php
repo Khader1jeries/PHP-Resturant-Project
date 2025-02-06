@@ -1,11 +1,11 @@
 <?php
-// Start session
+
 session_start();
 
-// Include database configuration
+
 include "../config/phpdb.php";
 
-// Fetch counts from the database
+//  counts from the database
 $totalUsersQuery = "SELECT COUNT(*) AS total_users FROM clientusers";
 $totalOrdersQuery = "SELECT COUNT(*) AS total_orders FROM purchases";
 $totalProductsQuery = "SELECT COUNT(*) AS total_products FROM products";
@@ -17,7 +17,7 @@ $totalOrdersResult = $conn->query($totalOrdersQuery);
 $totalProductsResult = $conn->query($totalProductsQuery);
 $totalAdminsResult = $conn->query($totalAdminsQuery);
 
-// Fetch the counts
+
 $totalUsers = $totalUsersResult->fetch_assoc()['total_users'] ?? 0;
 $totalOrders = $totalOrdersResult->fetch_assoc()['total_orders'] ?? 0;
 $totalProducts = $totalProductsResult->fetch_assoc()['total_products'] ?? 0;

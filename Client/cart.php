@@ -2,21 +2,21 @@
 session_start();
 include "../config/phpdb.php";
 
-// Fetch cart items for the logged-in user
+// cart items for the logged-in user
 $cartItems = [];
 $stockWarnings = [];
 
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 
-    // Fetch user ID based on username
+    // user ID based on username
     $userQuery = "SELECT id FROM clientusers WHERE username = '$username'";
     $userResult = mysqli_query($conn, $userQuery);
 
     if (mysqli_num_rows($userResult) > 0) {
         $userId = mysqli_fetch_assoc($userResult)['id'];
 
-        // Fetch cart items and product stock
+        //  cart items and product stock
         $cartQuery = "
             SELECT c.id AS cart_id, p.id AS product_id, p.name AS product_name, 
                    p.price, c.quantity, p.stock, p.kind

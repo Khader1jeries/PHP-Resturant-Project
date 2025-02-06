@@ -1,6 +1,4 @@
-<?php
-// PHP header
-?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -25,5 +23,5 @@
   </body>
 </html>
 <?php
-// PHP footer
+
 ?>

@@ -1,16 +1,16 @@
 <?php
-// Include necessary configurations and database connections
+
 include "../config/phpdb.php";
 
 // Get the message ID from the URL
 $messageId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-// Fetch the message details from the contact_us table
+// message details from the contact_us table
 $query = "SELECT id, name, email, message, status, submission_date FROM contact_us WHERE id = '$messageId'";
 $result = mysqli_query($conn, $query);
 $message = mysqli_fetch_assoc($result);
 
-// Fetch the conversation messages from the conversation_messages table
+// conversation messages from the conversation_messages table
 $query = "SELECT sender, message, created_at FROM conversation_messages WHERE contact_id = '$messageId' ORDER BY created_at ASC";
 $conversationResult = mysqli_query($conn, $query);
 $conversationMessages = [];

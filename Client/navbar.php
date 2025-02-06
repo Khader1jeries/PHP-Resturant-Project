@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 include "../config/phpdb.php"; // Ensure this file initializes $conn correctly
 
-// Fetch user details if logged in
+// user details if logged in
 $user = null;
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];

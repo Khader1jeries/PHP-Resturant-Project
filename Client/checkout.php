@@ -9,14 +9,14 @@ if (!isset($_SESSION['username'])) {
 
 $username = $_SESSION['username'];
 
-// Fetch user ID based on the session username
+// user ID based on the session username
 $userQuery = "SELECT id FROM clientusers WHERE username = '$username'";
 $userResult = mysqli_query($conn, $userQuery);
 
 if (mysqli_num_rows($userResult) > 0) {
     $userId = mysqli_fetch_assoc($userResult)['id'];
 
-    // Fetch cart items for the user
+    // cart items for the user
     $cartQuery = "
         SELECT c.product_id, c.quantity, p.price, p.stock 
         FROM cart c 

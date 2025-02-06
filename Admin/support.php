@@ -2,7 +2,7 @@
 // Include necessary configurations and database connections
 include "../config/phpdb.php";
 
-// Fetch all messages from the contact_us table
+// messages from the contact_us table
 $query = "SELECT id, name, phone, email, message, status, submission_date FROM contact_us ORDER BY submission_date ASC";
 $result = mysqli_query($conn, $query);
 
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $messageId = intval($_POST['messageId']);
         $newStatus = intval($_POST['status']);
 
-        // Fetch the current message details
+        // the current message details
         $query = "SELECT email, status FROM contact_us WHERE id = $messageId";
         $result = mysqli_query($conn, $query);
         $row = mysqli_fetch_assoc($result);
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Function to convert status code to human-readable text
+// Function to convert status code to readable text
 function getStatusText($statusCode) {
     switch ($statusCode) {
         case 0:
@@ -74,8 +74,8 @@ function getStatusText($statusCode) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Support - Contact Messages</title>
-    <link rel="stylesheet" href="css_files/support.css"> <!-- Link to the CSS file -->
-    <link rel="stylesheet" href="css_files/navbar.css"> <!-- Link to the navbar CSS file -->
+    <link rel="stylesheet" href="css_files/support.css">
+    <link rel="stylesheet" href="css_files/navbar.css"> 
     <style>
         .leftbar .btn {
             position: relative;

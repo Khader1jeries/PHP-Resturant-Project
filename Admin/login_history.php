@@ -10,10 +10,10 @@ if (!$username) {
     exit();
 }
 
-// Fetch login history from both tables
+// login history from both tables
 $history = [];
 
-// Query for client login history
+//client login history
 $query = "SELECT date, success FROM client_login_history WHERE username = '$username' ORDER BY date DESC";
 $result = mysqli_query($conn, $query);
 
@@ -22,7 +22,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $history[] = $row;
 }
 
-// Query for admin login history
+//  admin login history
 $query = "SELECT date, success FROM admin_login_history WHERE username = '$username' ORDER BY date DESC";
 $result = mysqli_query($conn, $query);
 
@@ -31,7 +31,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $history[] = $row;
 }
 
-// Close the database connection
+
 mysqli_close($conn);
 ?>
 

@@ -1,6 +1,4 @@
 <?php
-
-
 include "../config/phpdb.php";
 
 // Handle form submission
@@ -17,11 +15,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validate name
     if (empty($name)) {
         $errors[] = "Name is required.";
+    } elseif (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+        $errors[] = "Name can only contain letters and spaces.";
     }
 
     // Validate phone number
     if (empty($phone)) {
         $errors[] = "Phone number is required.";
+    } elseif (!preg_match("/^\d{10}$/", $phone)) {
+        $errors[] = "Phone number must be exactly 10 digits (only numbers).";
     }
 
     // Validate email
@@ -35,68 +37,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($message)) {
         $errors[] = "Message is required.";
     }
-    
-    include "../config/phpdb.php"; // Use the same database connection file
 
-// Handle form submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Collect form data
-    $name = htmlspecialchars(trim($_POST['name']));
-    $phone = htmlspecialchars(trim($_POST['phone']));
-    $email = htmlspecialchars(trim($_POST['email']));
-    $message = htmlspecialchars(trim($_POST['message']));
-
-    // Validation
-    $errors = [];
-
-    // Validate name (Ensure it's not empty and contains only letters and spaces)
-    if (empty($name)) {
-        $errors[] = "Name is required.";
-    } elseif (!preg_match("/^[a-zA-Z ]*$/", $name)) {
-        $errors[] = "Name can only contain letters and spaces.";
-    }
-
-    // Validate phone number (Ensure it's exactly 10 digits)
-    if (empty($phone)) {
-        $errors[] = "Phone number is required.";
-    } elseif (!preg_match("/^\d{10}$/", $phone)) {
-        $errors[] = "Phone number must be exactly 10 digits (only numbers).";
-    }
-
-    // Validate email (Ensure it's a valid email format)
-    if (empty($email)) {
-        $errors[] = "Email is required.";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Invalid email format.";
-    }
-
-    // Validate message (Ensure it's not empty)
-    if (empty($message)) {
-        $errors[] = "Message is required.";
-    }
-
-    // If there are no errors, process the form (e.g., save data to the database)
+    // If there are no errors, insert data into the database
     if (empty($errors)) {
-        // Prepare the SQL statement to insert data into the contact_us table
-        $stmt = $conn->prepare("INSERT INTO contact_us (name, phone, email, message) VALUES (?, ?, ?, ?)");
-        if ($stmt === false) {
-            die("Prepare failed: " . $conn->error);
-        }
+        $query = "INSERT INTO contact_us (name, phone, email, message) 
+                  VALUES ('$name', '$phone', '$email', '$message')";
 
-        $stmt->bind_param("ssss", $name, $phone, $email, $message);
-
-        // Execute the statement
-        if ($stmt->execute()) {
+        if (mysqli_query($conn, $query)) {
             $form_success = "Thank you for contacting us! We will get back to you soon.";
         } else {
             $errors[] = "An error occurred while submitting the form. Please try again.";
         }
+    }
 
-        // Close the statement
-        $stmt->close();
-    }
-    }
-    // If no errors, send the email
+    // Send email notification
     if (empty($errors)) {
         $to = "konanai0699@gmail.com"; // Replace with your email
         $subject = "Contact Form Submission from $name";
@@ -118,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

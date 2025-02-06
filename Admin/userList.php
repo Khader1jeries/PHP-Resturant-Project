@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_client_user'])
         if ($row['open_purchases'] > 0) {
             $_SESSION['message'] = "Cannot delete user. They have open purchases.";
         } else {
-            // Begin a transaction to ensure atomicity
+           
             mysqli_begin_transaction($conn);
 
             try {
@@ -122,7 +122,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     echo "<p style='color: red; text-align: center;'>No admin users found or error in query.</p>";
 }
 
-// Close the connection after all operations
+
 mysqli_close($conn);
 ?>
 <?php

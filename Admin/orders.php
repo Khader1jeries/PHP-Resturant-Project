@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-// Ensure the correct path to phpdb.php
-include_once "../config/phpdb.php"; // Include your database configuration file
+include "../config/phpdb.php"; // Include your database configuration file
 $printMode = isset($_GET['print']) && $_GET['print'] == 'true';
 // Check if the database connection is established
 if (!$conn) {
