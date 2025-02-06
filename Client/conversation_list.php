@@ -10,7 +10,8 @@ $query = "SELECT id, name, phone, email, message, status, submission_date FROM c
 $result = mysqli_query($conn, $query);
 
 // Function to convert status code to human-readable text
-function getStatusText($statusCode) {
+function getStatusText($statusCode)
+{
     switch ($statusCode) {
         case 0:
             return 'Pending';
@@ -27,21 +28,20 @@ $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Support Messages</title>
-    <link rel="stylesheet" href="../Admin/css_files/support.css"> <!-- Link to the CSS file -->
-    <link rel="stylesheet" href="css_files/navbar.css"> <!-- Link to the navbar CSS file -->
+    <link rel="stylesheet" href="css_files/navbar.css">
+    <link rel="stylesheet" href="css_files/conversation.css">
 </head>
-<body>
-    <!-- Include Navbar -->
-    <?php require 'navbar.php'; ?>
 
-    <div class="admin-container" style="margin-left: 600px;margin-top: 80px;">
+<body style="background-color: #F5F5DC;">
+    <?php require 'navbar.php'; ?>
+    <div class="admin-container">
         <h1>Support Messages</h1>
         <p>View your submitted inquiries below.</p>
-
         <table class="messages-table">
             <thead>
                 <tr>
@@ -63,7 +63,8 @@ $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
                         <td><?php echo getStatusText($row['status']); ?></td>
                         <td>
                             <?php if ($row['status'] == 1): ?>
-                                <button onclick="window.location.href='conversation.php?id=<?php echo $row['id']; ?>'" class="go-to-conversation-btn">
+                                <button onclick="window.location.href='conversation.php?id=<?php echo $row['id']; ?>'"
+                                    class="go-to-conversation-btn">
                                     Go to Conversation
                                 </button>
                             <?php endif; ?>
@@ -74,4 +75,5 @@ $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
         </table>
     </div>
 </body>
+
 </html>

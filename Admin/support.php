@@ -132,7 +132,7 @@ function getStatusText($statusCode) {
                                         <option value="0" <?php echo $row['status'] == 0 ? 'selected' : ''; ?>>Open</option>
                                         <option value="1" <?php echo $row['status'] == 1 ? 'selected' : ''; ?>>In Progress</option>
                                         <option value="2" <?php echo $row['status'] == 2 ? 'selected' : ''; ?>>Closed</option>
-                                    </select>
+                                    </select><br>
                                     <button type="submit" name="changeStatus" class="change-status-btn">Change Status</button>
                                 </form>
                             </td>

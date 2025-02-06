@@ -1,0 +1,99 @@
+/* General Styles */
+body {
+    font-family: 'Georgia', serif;
+    background-color: #F5F5DC; /* Light beige background for contrast */
+    color: #5A3A22; /* Dark brown text color */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Admin Container Styles */
+.admin-container {
+    width: 90%;
+    max-width: 1200px;
+    margin-top: 80px; /* Add margin to avoid overlap with the fixed navbar */
+    padding: 20px;
+    background-color: #FFF8E7; /* Light beige background for the container */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.admin-container h1 {
+    font-size: 2.5rem;
+    color: #8B4513; /* Premium brown for headings */
+    margin-bottom: 20px;
+}
+
+.admin-container p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #5A3A22; /* Dark brown text color */
+}
+
+/* Messages Table Styles */
+.messages-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.messages-table th,
+.messages-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #D2B48C; /* Light brown border */
+}
+
+.messages-table th {
+    background-color: #8B4513; /* Premium brown for table headers */
+    color: #FFF;
+    font-weight: bold;
+}
+
+.messages-table tbody tr:hover {
+    background-color: #F5DEB3; /* Light brown hover effect */
+}
+
+.messages-table td {
+    color: #5A3A22; /* Dark brown text color */
+}
+
+/* Button Styles */
+.go-to-conversation-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #A0522D; /* Slightly lighter brown for buttons */
+    color: #FFF;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.go-to-conversation-btn:hover {
+    background-color: #D2691E; /* Lighter brown on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .admin-container {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .messages-table th,
+    .messages-table td {
+        padding: 8px;
+    }
+
+    .go-to-conversation-btn {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+}

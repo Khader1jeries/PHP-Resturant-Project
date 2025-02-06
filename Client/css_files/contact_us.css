@@ -1,0 +1,183 @@
+/* General Styles */
+body.contact-page {
+    font-family: 'Georgia', serif;
+    background-color: #F5F5DC; /* Light beige background for contrast */
+    color: #5A3A22; /* Dark brown text color */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Navbar Styles */
+.contact-page .navbar {
+    display: flex;
+    justify-content: center; /* Center the navbar horizontally */
+    align-items: center; /* Center the navbar vertically */
+    background-color: #8B4513; /* Premium brown background */
+    padding: 10px 20px;
+    width: 100%;
+    position: fixed; /* Fix the navbar at the top */
+    top: 0; /* Position at the top of the screen */
+    left: 0;
+    z-index: 1000; /* Ensure the navbar is above other content */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
+/* Navbar Links */
+.contact-page .navbar a {
+    color: #FFF; /* White text for contrast */
+    text-decoration: none;
+    margin: 0 15px; /* Space between links */
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.contact-page .navbar a:hover {
+    color: #D2B48C; /* Light brown on hover */
+}
+
+/* Contact Section */
+.contact-page .contact {
+    margin-top: 80px; /* Add margin to avoid overlap with the fixed navbar */
+    text-align: center;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.contact-page .contact h1 {
+    color: #8B4513; /* Premium brown for headings */
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.contact-page .contact h3 {
+    color: #5A3A22; /* Dark brown for subheadings */
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.contact-page .contact p {
+    color: #5A3A22; /* Dark brown for text */
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Contact Form Box */
+.contact-page .contact-form {
+    background-color: #FFF8DC; /* Light cream background for the form */
+    border: 2px solid #D2B48C; /* Light brown border */
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.contact-page .contact-form h2 {
+    color: #8B4513; /* Premium brown for headings */
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.contact-page .contact-form input,
+.contact-page .contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #D2B48C; /* Light brown border */
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #FFF; /* White background for inputs */
+    color: #5A3A22; /* Dark brown text color */
+}
+
+.contact-page .contact-form textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.contact-page .contact-form .submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #A0522D; /* Slightly lighter brown for buttons */
+    color: #FFF;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-page .contact-form .submit-btn:hover {
+    background-color: #D2691E; /* Lighter brown on hover */
+}
+
+/* Success and Error Messages */
+.contact-page .success-message {
+    color: #228B22; /* Green for success messages */
+    text-align: center;
+    margin-top: 20px;
+}
+
+.contact-page .error-messages {
+    color: #FF0000; /* Red for error messages */
+    text-align: center;
+    list-style-type: none;
+    padding: 0;
+}
+/* Hover Animation for Contact Image */
+.contact-page .contact-img {
+    mix-blend-mode: color-burn;
+    width: 280px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.contact-page .contact-img:hover {
+    transform: scale(0.9); /* Slightly enlarge the image */
+    opacity: 0.9; /* Slightly reduce opacity */
+}
+
+/* Hover Animation for Icons */
+.contact-page .icon {
+    mix-blend-mode: color-burn;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.contact-page .icon:hover {
+    transform: scale(0.90); /* Slightly enlarge the icon */
+    filter: brightness(1.2); /* Increase brightness */
+}
+
+/* Hover Animation for Links */
+.contact-page a {
+    color: #8B4513; /* Premium brown for links */
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.contact-page a:hover {
+    color: #D2691E; /* Lighter brown on hover */
+    transform: translateY(-2px); /* Slightly move the link up */
+}
+
+.contact-page .conversation-btn{
+    padding: 10px;
+    background-color: #A0522D; /* Slightly lighter brown for buttons */
+    color: #FFF;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}

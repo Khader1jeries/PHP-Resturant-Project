@@ -18,23 +18,31 @@ if (isset($_SESSION['username'])) {
 
         // Fetch cart items and product stock
         $cartQuery = "
-            SELECT c.id AS cart_id, p.id AS product_id, p.name AS product_name, p.price, c.quantity, p.stock
+            SELECT c.id AS cart_id, p.id AS product_id, p.name AS product_name, 
+                   p.price, c.quantity, p.stock, p.kind
             FROM cart c 
             JOIN products p ON c.product_id = p.id 
-            WHERE c.user_id = '$userId'";
-        
+            WHERE c.user_id = '$userId'
+            ORDER BY p.kind ASC, p.id ASC";
+
         $cartResult = mysqli_query($conn, $cartQuery);
-        $cartItems = mysqli_fetch_all($cartResult, MYSQLI_ASSOC);
+        if (!$cartResult) {
+            die("Error in query: " . mysqli_error($conn));
+        }
+
+        $cartItems = [];
+        while ($row = mysqli_fetch_assoc($cartResult)) {
+            $cartItems[] = $row;
+        }
 
         // Check stock availability
         foreach ($cartItems as &$item) {
             if ($item['quantity'] > $item['stock']) {
                 $stockWarnings[$item['cart_id']] = "Not enough stock for " . htmlspecialchars($item['product_name']) . ". Available: " . $item['stock'];
-
-                // Prevent quantity from going above stock limit
-                $item['quantity'] = $item['stock'];
+                $item['quantity'] = $item['stock']; // Prevent exceeding stock
             }
         }
+        unset($item); // Break reference with the last item
     }
 }
 ?>
@@ -45,7 +53,6 @@ if (isset($_SESSION['username'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Cart</title>
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css_files/cart.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>

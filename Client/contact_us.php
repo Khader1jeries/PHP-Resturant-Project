@@ -73,12 +73,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../css_files/contact_us.css" />
+    <link rel="stylesheet" type="text/css" href="css_files/contact_us.css" />
     <title>Contact Us</title>
 </head>
 <body class="contact-page">
     <?php require 'navbar.php'; ?>
-    <div style="text-align: center; margin-top: 200px;">
+    <div style="text-align: center; margin-top: 6%; margin-bottom: 1%;">
     <form action="conversation_list.php" method="get">
         <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
         <button type="submit" class="conversation-btn">
