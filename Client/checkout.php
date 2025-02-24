@@ -27,50 +27,54 @@ if (mysqli_num_rows($userResult) > 0) {
     $cartItems = mysqli_fetch_all($cartResult, MYSQLI_ASSOC);
 
     if (!empty($cartItems)) {
-        // Start transaction
-        mysqli_begin_transaction($conn);
+        // Calculate total amount
+        $totalAmount = 0;
+        foreach ($cartItems as $item) {
+            $totalAmount += $item['price'] * $item['quantity'];
+        }
 
-        try {
-            // Calculate total amount
-            $totalAmount = array_reduce($cartItems, function ($sum, $item) {
-                return $sum + ($item['price'] * $item['quantity']);
-            }, 0);
+        // Insert a new purchase record
+        $purchaseQuery = "INSERT INTO purchases (user_id, total_amount, purchase_date) VALUES ('$userId', '$totalAmount', NOW())";
+        $purchaseResult = mysqli_query($conn, $purchaseQuery);
 
-            // Insert a new purchase record
-            $purchaseQuery = "INSERT INTO purchases (user_id, total_amount, purchase_date) VALUES ('$userId', '$totalAmount', NOW())";
-            mysqli_query($conn, $purchaseQuery);
+        if ($purchaseResult) {
             $purchaseId = mysqli_insert_id($conn);
 
             // Insert cart items into purchase_details and update stock
+            $checkoutFailed = false;
             foreach ($cartItems as $item) {
                 // Check if there's enough stock
                 if ($item['quantity'] > $item['stock']) {
-                    throw new Exception("Not enough stock for product ID " . $item['product_id']);
+                    $checkoutFailed = true;
+                    die("Not enough stock for product ID " . $item['product_id']);
                 }
 
                 // Insert purchase details
                 $detailsQuery = "INSERT INTO purchase_details (purchase_id, product_id, quantity, price) VALUES ('$purchaseId', '{$item['product_id']}', '{$item['quantity']}', '{$item['price']}')";
-                mysqli_query($conn, $detailsQuery);
+                $detailsResult = mysqli_query($conn, $detailsQuery);
 
                 // Update product stock
                 $updateStockQuery = "UPDATE products SET stock = stock - '{$item['quantity']}' WHERE id = '{$item['product_id']}'";
                 mysqli_query($conn, $updateStockQuery);
+
+                // If any part of the checkout process fails, stop further processing
+                if (!$detailsResult) {
+                    $checkoutFailed = true;
+                    die("Error inserting purchase details.");
+                }
             }
 
-            // Clear the cart
-            $clearCartQuery = "DELETE FROM cart WHERE user_id = '$userId'";
-            mysqli_query($conn, $clearCartQuery);
+            if (!$checkoutFailed) {
+                // Clear the cart
+                $clearCartQuery = "DELETE FROM cart WHERE user_id = '$userId'";
+                mysqli_query($conn, $clearCartQuery);
 
-            // Commit transaction
-            mysqli_commit($conn);
-
-            // Redirect to success page
-            header("Location: purchase_success.php?purchase_id=" . $purchaseId);
-            exit();
-        } catch (Exception $e) {
-            // Rollback transaction on error
-            mysqli_rollback($conn);
-            die("Checkout failed: " . $e->getMessage());
+                // Redirect to success page
+                header("Location: purchase_success.php?purchase_id=" . $purchaseId);
+                exit();
+            }
+        } else {
+            die("Error inserting purchase.");
         }
     } else {
         die("Your cart is empty.");

@@ -2,7 +2,7 @@
 include "../config/phpdb.php";
 
 function fetchProducts($conn) {
-    $query = "SELECT id, name, price, path, kind, stock FROM products"; // Ensure 'kind' is selected
+    $query = "SELECT id, name, price, path, kind, stock FROM products";
     $result = $conn->query($query);
 
     if (!$result) {

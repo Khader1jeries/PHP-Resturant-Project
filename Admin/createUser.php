@@ -27,7 +27,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['create_user'])) {
     $repassword = $_POST['repassword'];
     $user_type = $_POST['user_type'] ?? 'client';
 
-    $_SESSION['form_data'] = compact('username', 'firstname', 'lastname', 'email', 'phone', 'password', 'dob', 'user_type');
+    // Set session variables for form data manually
+    $_SESSION['form_data']['username'] = $username;
+    $_SESSION['form_data']['firstname'] = $firstname;
+    $_SESSION['form_data']['lastname'] = $lastname;
+    $_SESSION['form_data']['email'] = $email;
+    $_SESSION['form_data']['phone'] = $phone;
+    $_SESSION['form_data']['password'] = $password;
+    $_SESSION['form_data']['dob'] = $dob;
+    $_SESSION['form_data']['user_type'] = $user_type;
 
     if ($password !== $repassword) {
         echo "<p class='error-message'>Error: Passwords do not match.</p>";

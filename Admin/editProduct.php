@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // Handle product update
         $id = intval($_POST['id']);
-        $name = mysqli_real_escape_string($conn, $_POST['name']);
+        $name = trim($_POST['name']);
         $price = floatval($_POST['price']);
         $kind = intval($_POST['kind']);
         $stock = intval($_POST['stock']);
@@ -57,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 mysqli_close($conn);
 ?>
+
 
 
 <!DOCTYPE html>

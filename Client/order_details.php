@@ -69,10 +69,6 @@ $orderDetails = mysqli_query($conn, $sql);
 
         <!-- Updated button link -->
         <a href="orders.php" class="cta-button">Back to Orders</a>
-        <a href="generate_invoice.php?order_id=<?php echo $purchaseId ?>" class="cta-button">
-    Download Invoice
-</a>
-
     </div>
 </body>
 </html>

@@ -18,35 +18,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_client_user'])
         if ($row['open_purchases'] > 0) {
             $_SESSION['message'] = "Cannot delete user. They have open purchases.";
         } else {
-           
-            mysqli_begin_transaction($conn);
-
-            try {
-                // First, delete all purchases associated with the user
-                $deletePurchasesQuery = "DELETE FROM purchases WHERE user_id = (SELECT id FROM clientusers WHERE username = '$username')";
-                if (!mysqli_query($conn, $deletePurchasesQuery)) {
-                    throw new Exception("Error deleting purchases: " . mysqli_error($conn));
-                }
-
-                // Second, delete all login history associated with the user's email
+            // Delete all purchases associated with the user
+            $deletePurchasesQuery = "DELETE FROM purchases WHERE user_id = (SELECT id FROM clientusers WHERE username = '$username')";
+            if (!mysqli_query($conn, $deletePurchasesQuery)) {
+                $_SESSION['message'] = "Error deleting purchases: " . mysqli_error($conn);
+            } else {
+                // Delete all login history associated with the user's email
                 $deleteLoginHistoryQuery = "DELETE FROM client_login_history WHERE email = (SELECT email FROM clientusers WHERE username = '$username')";
                 if (!mysqli_query($conn, $deleteLoginHistoryQuery)) {
-                    throw new Exception("Error deleting login history: " . mysqli_error($conn));
+                    $_SESSION['message'] = "Error deleting login history: " . mysqli_error($conn);
+                } else {
+                    // Finally, delete the user
+                    $deleteUserQuery = "DELETE FROM clientusers WHERE username = '$username'";
+                    if (!mysqli_query($conn, $deleteUserQuery)) {
+                        $_SESSION['message'] = "Error deleting client user: " . mysqli_error($conn);
+                    } else {
+                        $_SESSION['message'] = "Client user, associated purchases, and login history deleted successfully.";
+                    }
                 }
-
-                // Finally, delete the user
-                $deleteUserQuery = "DELETE FROM clientusers WHERE username = '$username'";
-                if (!mysqli_query($conn, $deleteUserQuery)) {
-                    throw new Exception("Error deleting client user: " . mysqli_error($conn));
-                }
-
-                // Commit the transaction if all queries succeed
-                mysqli_commit($conn);
-                $_SESSION['message'] = "Client user, associated purchases, and login history deleted successfully.";
-            } catch (Exception $e) {
-                // Rollback the transaction in case of any error
-                mysqli_rollback($conn);
-                $_SESSION['message'] = $e->getMessage();
             }
         }
     } else {
@@ -121,7 +110,6 @@ if ($result && mysqli_num_rows($result) > 0) {
 } else {
     echo "<p style='color: red; text-align: center;'>No admin users found or error in query.</p>";
 }
-
 
 mysqli_close($conn);
 ?>
