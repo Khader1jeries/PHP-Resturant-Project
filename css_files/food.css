@@ -1,0 +1,112 @@
+/* General Styles */
+body.food-page {
+    font-family: 'Georgia', serif;
+    background-color: #F5F5DC; /* Light beige background for contrast */
+    color: #5A3A22; /* Dark brown text color */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Navbar Styles */
+.food-page .navbar {
+    display: flex;
+    justify-content: center; /* Center the navbar horizontally */
+    align-items: center; /* Center the navbar vertically */
+    background-color: #8B4513; /* Premium brown background */
+    padding: 10px 20px;
+    width: 100%;
+    position: fixed; /* Fix the navbar at the top */
+    top: 0; /* Position at the top of the screen */
+    left: 0;
+    z-index: 1000; /* Ensure the navbar is above other content */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
+/* Navbar Links */
+.food-page .navbar a {
+    color: #FFF; /* White text for contrast */
+    text-decoration: none;
+    margin: 0 15px; /* Space between links */
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.food-page .navbar a:hover {
+    color: #D2B48C; /* Light brown on hover */
+}
+
+/* Food Menu Container */
+.food-page .food {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    margin-top: 80px; /* Add margin to avoid overlap with the fixed navbar */
+}
+
+/* Individual Food Item */
+.food-page .item {
+    background-color: #FFF8DC; /* Light cream background for items */
+    border: 2px solid #D2B48C; /* Light brown border */
+    border-radius: 10px;
+    padding: 15px;
+    width: 250px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.food-page .item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Food Image */
+.food-page .item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Tooltip Styling */
+.food-page .tooltip {
+    visibility: hidden;
+    background-color: #8B4513; /* Premium brown for tooltip */
+    color: #FFF;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: -15%; /* Move tooltip 100px further down */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.food-page .item:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Save Product Button */
+.food-page .item button {
+    background-color: #A0522D; /* Slightly lighter brown for buttons */
+    color: #FFF;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.food-page .item button:hover {
+    background-color: #D2691E; /* Lighter brown on hover */
+}

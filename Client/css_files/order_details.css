@@ -1,0 +1,107 @@
+/* General Styles */
+body {
+    font-family: 'Georgia', serif;
+    background-color: #F5F5DC; /* Light beige background */
+    color: #5A3A22; /* Dark brown text color */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+h1 {
+    color: #8B4513; /* Premium brown for headings */
+    font-size: 2.5rem;
+    margin-top: 40px;
+    text-align: center;
+}
+
+/* Order Details Container */
+.order-details-container {
+    width: 90%;
+    max-width: 1200px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+    text-align: center;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #8B4513; /* Premium brown for table headers */
+    color: white;
+    font-size: 1.1rem;
+}
+
+td {
+    font-size: 1rem;
+    color: #5A3A22;
+}
+
+tr:hover {
+    background-color: #f2f2f2;
+}
+
+/* Total Amount Row */
+td strong {
+    font-size: 1.2rem;
+    color: #A0522D; /* Lighter brown for total */
+}
+
+/* Button Styles */
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #A0522D; /* Slightly lighter brown for buttons */
+    color: #FFF;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    text-decoration: none;
+}
+
+.cta-button:hover {
+    background-color: #D2691E; /* Lighter brown on hover */
+}
+
+.cta-button:focus {
+    outline: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    table {
+        font-size: 0.9rem;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+
+    .order-details-container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+}

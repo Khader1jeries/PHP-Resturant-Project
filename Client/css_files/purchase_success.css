@@ -1,0 +1,64 @@
+/* Purchase Success Page Styles */
+body {
+    font-family: 'Georgia', serif;
+    background-color: #F5F5DC; /* Light beige background */
+    color: #fefefe; /* Dark brown text */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Ensure full height */
+    box-sizing: border-box; /* Include padding in height calculation */
+}
+
+/* Container for Success Message */
+.success-container {
+    width: 90%;
+    max-width: 600px;
+    background-color: #FFF; /* White background */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+}
+
+/* Heading Styles */
+.success-container h1 {
+    font-size: 2rem;
+    color: #8B4513; /* Brown heading */
+    margin-bottom: 20px;
+}
+
+/* Paragraph Styles */
+.success-container p {
+    font-size: 1.2rem;
+    color: #5A3A22; /* Dark brown text */
+    margin-bottom: 20px;
+}
+
+/* Buttons */
+.cta-button {
+    padding: 10px 20px;
+    background-color: #A0522D; /* Brown background */
+    color: #FFF; /* White text */
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Behave like a button */
+    margin: 10px 5px; /* Space between buttons */
+}
+
+/* Hover Effect for Buttons */
+.cta-button:hover {
+    background-color: #8B4513; /* Darker brown */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Active Button Effect */
+.cta-button:active {
+    transform: scale(0.95); /* Slight shrink effect */
+}

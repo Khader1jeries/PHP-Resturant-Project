@@ -1,12 +1,6 @@
 <?php
-// Start the session to access session variables
-session_start();
-
-// Destroy the session
-session_unset();
-session_destroy();
-
-// Redirect to the login page or home page
-header("Location: ../index.php"); // Or redirect to home.php
+session_start(); // Start the session
+session_destroy(); // Destroy the session
+header("Location: ../guest/log_in.php"); // Redirect to the login page
 exit();
 ?>

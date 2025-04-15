@@ -1,0 +1,84 @@
+/* General Styles */
+body {
+    font-family: 'Georgia', serif;
+    background-color: #F5F5DC; /* Light beige background for contrast */
+    color: #5A3A22; /* Dark brown text color */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Orders Container */
+.orders-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.orders-container h1 {
+    font-size: 2.5rem;
+    color: #8B4513; /* Premium brown for headings */
+    margin-bottom: 30px;
+}
+
+/* Table Styles */
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+
+.orders-table th, .orders-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 1.2rem;
+}
+
+.orders-table th {
+    background-color: #F7F7F7; /* Light background for headers */
+}
+
+.orders-table tbody tr:hover {
+    background-color: #f9f9f9; /* Hover effect on table rows */
+}
+
+/* Action Button Styling */
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f5ddd2; /* Slightly lighter brown for buttons */
+    color: #FFF;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.cta-button:hover {
+    background-color: #f8b98b; /* Lighter brown on hover */
+}
+
+/* No Orders Text */
+.orders-container p {
+    font-size: 1.2rem;
+    color: #8B4513;
+    margin-top: 20px;
+}
+
+.orders-container a {
+    color: #8B4513;
+    text-decoration: none;
+}
+
+.orders-container a:hover {
+    color: #D2691E;
+}

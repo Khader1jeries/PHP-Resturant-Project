@@ -1,61 +1,180 @@
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(-135deg, wheat, gray);
-  height: 735px;
-  overflow: hidden;
+/* General Styles */
+body.signin-page {
+  font-family: 'Georgia', serif;
+  background-color: #F5F5DC; /* Light beige background for contrast */
+  color: #5A3A22; /* Dark brown text color */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
 }
 
-.container {
-  width: 450px;
-  margin: 0 auto;
-  margin-top: 200px;
-  background: #fff;
-  border-radius: 15px;
-  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
-  padding-bottom: 30px;
+/* Navbar Styles */
+.signin-page .navbar {
+  display: flex;
+  justify-content: center; /* Center the navbar horizontally */
+  align-items: center; /* Center the navbar vertically */
+  background-color: #8B4513; /* Premium brown background */
+  padding: 10px 20px;
+  width: 100%;
+  position: fixed; /* Fix the navbar at the top */
+  top: 0; /* Position at the top of the screen */
+  left: 0;
+  z-index: 1000; /* Ensure the navbar is above other content */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
 }
-h2 {
-  font-size: 35px;
-  font-weight: 600;
+
+/* Navbar Links */
+.signin-page .navbar a {
+  color: #FFF; /* White text for contrast */
+  text-decoration: none;
+  margin: 0 15px; /* Space between links */
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.signin-page .navbar a:hover {
+  color: #D2B48C; /* Light brown on hover */
+}
+
+/* Lock Message */
+.signin-page .lock-message {
   text-align: center;
-  line-height: 100px;
-  color: #fff;
-  user-select: none;
-  border-radius: 15px 15px 0 0;
-  background: linear-gradient(-135deg, wheat, gray);
-}
-input[type="text"],
-input[type="password"] {
-  margin-left: 10px;
-  width: 40%;
-  margin-left: 15px;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  margin-top: 20%;
+  color: #8B4513; /* Premium brown for text */
 }
 
-input[type="submit"] {
-  color: black;
+.signin-page .lock-message h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.signin-page .lock-message button {
+  background-color: #A0522D; /* Slightly lighter brown for buttons */
+  color: #FFF;
   border: none;
-  margin-left: 17px;
-  width: 420px;
-  border-radius: 20px;
-  padding: 15px;
-  padding-left: 0;
-  margin-top: 10px;
-  font-size: 20px;
-  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 5px;
   cursor: pointer;
-  background: linear-gradient(-135deg, wheat, gray);
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
-input:hover {
-  box-shadow: rgba(49, 49, 49, 0.35) 0 -25px 18px -14px inset,
-    rgba(49, 49, 49, 0.35) 0 1px 2px, rgba(49, 49, 49, 0.35) 0 2px 4px,
-    rgba(49, 49, 49, 0.35) 0 4px 8px, rgba(81, 81, 81, 0.25) 0 8px 16px,
-    rgba(97, 97, 97, 0.25) 0 16px 32px;
-  transform: scale(0.95);
-  transition: 0.8s ease;
+.signin-page .lock-message button:hover {
+  background-color: #D2691E; /* Lighter brown on hover */
+}
+
+/* Container for Sign-In Form */
+.signin-page .container {
+  background-color: #FFF8DC; /* Light cream background for the form */
+  border: 2px solid #D2B48C; /* Light brown border */
+  border-radius: 10px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  margin-top: 180px; /* Add margin to avoid overlap with the fixed navbar */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.signin-page .container h2 {
+  color: #8B4513; /* Premium brown for headings */
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Form Inputs */
+.signin-page input[type="text"],
+.signin-page input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #D2B48C; /* Light brown border */
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #FFF; /* White background for inputs */
+  color: #5A3A22; /* Dark brown text color */
+}
+
+.signin-page input[type="text"]::placeholder,
+.signin-page input[type="password"]::placeholder {
+  color: #A0522D; /* Slightly lighter brown for placeholders */
+}
+
+/* Submit Button */
+.signin-page input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #A0522D; /* Slightly lighter brown for buttons */
+  color: #FFF;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.signin-page input[type="submit"]:hover {
+  background-color: #D2691E; /* Lighter brown on hover */
+}
+
+/* Forgot Password Section */
+.signin-page #forgotPasswordText {
+  color: #8B4513; /* Premium brown for links */
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.signin-page #forgotPasswordText:hover {
+  color: #D2691E; /* Lighter brown on hover */
+}
+
+.signin-page #forgotPasswordForm {
+  margin-top: 10px;
+}
+
+.signin-page #forgotPasswordForm label {
+  color: #5A3A22; /* Dark brown for text */
+  font-size: 1rem;
+}
+
+.signin-page #forgotPasswordForm input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #D2B48C; /* Light brown border */
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #FFF; /* White background for inputs */
+  color: #5A3A22; /* Dark brown text color */
+}
+
+.signin-page #forgotPasswordForm input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #A0522D; /* Slightly lighter brown for buttons */
+  color: #FFF;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.signin-page #forgotPasswordForm input[type="submit"]:hover {
+  background-color: #D2691E; /* Lighter brown on hover */
+}
+
+.forgot-link {
+  color: #007bff; /* Blue color for the link */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  text-decoration: underline; /* Underline to indicate it's a clickable link */
+  font-size: 14px; /* Adjust font size as needed */
+  transition: color 0.3s ease; /* Smooth transition on hover */
+}
+
+.forgot-link:hover {
+  color: #0056b3; /* Darker blue color on hover */
 }

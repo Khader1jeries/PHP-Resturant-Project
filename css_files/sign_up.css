@@ -1,126 +1,155 @@
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(-135deg, wheat, gray);
-    height: 100%;
+/* General Styles */
+body.signup-page {
+    font-family: 'Georgia', serif;
+    background-color: #F5F5DC; /* Light beige background for contrast */
+    color: #5A3A22; /* Dark brown text color */
     margin: 0;
-    overflow: scroll;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
 }
 
-.container {
-    width: 560px;
-    margin: 0 auto;
-    margin-top: 100px;
-    margin-bottom: 18px;
-    background: #fff;
-    border-radius: 15px;
-    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
-    padding-bottom: 30px;
+/* Navbar Styles */
+.signup-page .navbar {
+    display: flex;
+    justify-content: center; /* Center the navbar horizontally */
+    align-items: center; /* Center the navbar vertically */
+    background-color: #8B4513; /* Premium brown background */
+    padding: 10px 20px;
+    width: 100%;
+    position: fixed; /* Fix the navbar at the top */
+    top: 0; /* Position at the top of the screen */
+    left: 0;
+    z-index: 1000; /* Ensure the navbar is above other content */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
 }
 
-h2 {
-    font-size: 35px;
-    font-weight: 600;
+/* Navbar Links */
+.signup-page .navbar a {
+    color: #FFF; /* White text for contrast */
+    text-decoration: none;
+    margin: 0 15px; /* Space between links */
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.signup-page .navbar a:hover {
+    color: #D2B48C; /* Light brown on hover */
+}
+
+/* Container for Sign-Up Form */
+.signup-page .container {
+    background-color: #FFF8DC; /* Light cream background for the form */
+    border: 2px solid #D2B48C; /* Light brown border */
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    max-width: 600px;
+    margin-top: 180px; /* Add margin to avoid overlap with the fixed navbar */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.signup-page .container h2 {
+    color: #8B4513; /* Premium brown for headings */
+    font-size: 2rem;
+    margin-bottom: 20px;
     text-align: center;
-    color: black;
-    user-select: none;
-    border-radius: 15px 15px 0 0;
-    background: linear-gradient(-135deg, wheat, gray);
-    padding: 10px 0;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-    width: 80%;
+/* Form Inputs */
+.signup-page input[type="text"],
+.signup-page input[type="email"],
+.signup-page input[type="date"],
+.signup-page input[type="password"] {
+    width: 100%;
     padding: 10px;
-    margin: 10px auto;
-    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    border: 1px solid #D2B48C; /* Light brown border */
     border-radius: 5px;
-    display: block;
+    font-size: 1rem;
+    background-color: #FFF; /* White background for inputs */
+    color: #5A3A22; /* Dark brown text color */
 }
 
-input[type="submit"] {
-    color: black;
-    border: none;
-    width: 80%;
-    border-radius: 20px;
-    padding: 15px;
-    margin-top: 20px;
-    font-size: 20px;
-    font-weight: 500;
-    cursor: pointer;
-    background: linear-gradient(-135deg, wheat, gray);
-    transition: all 0.3s ease;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.signup-page input[type="text"]::placeholder,
+.signup-page input[type="email"]::placeholder,
+.signup-page input[type="password"]::placeholder {
+    color: #A0522D; /* Slightly lighter brown for placeholders */
 }
 
-input[type="submit"]:hover {
-    box-shadow: rgba(49, 49, 49, 0.35) 0 -25px 18px -14px inset,
-        rgba(49, 49, 49, 0.35) 0 1px 2px, rgba(49, 49, 49, 0.35) 0 2px 4px,
-        rgba(49, 49, 49, 0.35) 0 4px 8px, rgba(81, 81, 81, 0.25) 0 8px 16px,
-        rgba(97, 97, 97, 0.25) 0 16px 32px;
-    transform: scale(0.95);
-    transition: 0.8s ease;
-}
-
-table {
-    width: 80%;
-    margin: 20px auto;
-    border-collapse: collapse;
-}
-
-table, th, td {
-    border: 1px solid #ccc;
-}
-
-th, td {
+/* Submit Button */
+.signup-page input[type="submit"] {
+    width: 100%;
     padding: 10px;
+    background-color: #A0522D; /* Slightly lighter brown for buttons */
+    color: #FFF;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signup-page input[type="submit"]:hover {
+    background-color: #D2691E; /* Lighter brown on hover */
+}
+
+/* Show/Hide Users Button */
+.signup-page button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #A0522D; /* Slightly lighter brown for buttons */
+    color: #FFF;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.signup-page button[type="submit"]:hover {
+    background-color: #D2691E; /* Lighter brown on hover */
+}
+
+/* Users Table */
+.signup-page table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.signup-page table th,
+.signup-page table td {
+    padding: 10px;
+    border: 1px solid #D2B48C; /* Light brown border */
     text-align: left;
 }
 
-th {
-    background: linear-gradient(-135deg, wheat, gray);
-    color: white;
+.signup-page table th {
+    background-color: #8B4513; /* Premium brown for table headers */
+    color: #FFF; /* White text for contrast */
 }
 
-button {
-    position: relative;
-    left: 37%;
-    background-color:rgb(52, 52, 52);
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.signup-page table tr:nth-child(even) {
+    background-color: #FFF8DC; /* Light cream background for even rows */
+}
+
+.signup-page table tr:nth-child(odd) {
+    background-color: #FFF; /* White background for odd rows */
+}
+
+/* Success and Error Messages */
+.signup-page .success-message {
+    color: #228B22; /* Green for success messages */
+    text-align: center;
     margin-top: 20px;
 }
 
-button:hover {
-    background-color:rgb(0, 0, 0);
-}
-
-/* Custom Scrollbar Styling */
-body::-webkit-scrollbar {
-    width: 12px;  /* Scrollbar width */
-}
-
-body::-webkit-scrollbar-track {
-    background: linear-gradient(-135deg, wheat, gray);  /* Scrollbar track background matching the page */
-    border-radius: 10px;
-}
-
-body::-webkit-scrollbar-thumb {
-    background: linear-gradient(-135deg, rgb(63, 63, 63), rgb(182, 165, 132));  /* Green thumb with a gradient effect */
-    border-radius: 10px;
-    border: 3px solid rgba(0, 0, 0, 0.2);  /* Slight border around the thumb */
-}
-
-body::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(-135deg, rgb(0, 0, 0), rgb(182, 165, 132));  /* Darker green when hovered */
-}
-
-body::-webkit-scrollbar-corner {
-    background: transparent; /* No corner background */
+.signup-page .error-message {
+    color: #FF0000; /* Red for error messages */
+    text-align: center;
+    margin-top: 20px;
 }

@@ -1,0 +1,153 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    min-height: 100vh; /* Make sure the body takes full height */
+}
+
+.order-details-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin-left: 14%; /* Ensure the content doesn’t overlap with the sidebar */
+    width: calc(100% - 250px); /* Adjust the width to avoid overlap with sidebar */
+    background-color: #fff;
+}
+
+.order-details-container h1 {
+    font-size: 28px;
+    color: #8B4513; /* Premium brown color */
+    margin-bottom: 20px;
+}
+
+.order-details-container h2 {
+    font-size: 24px;
+    color: #8B4513;
+    margin-bottom: 10px;
+}
+
+.order-details-container p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.order-details-container h3 {
+    font-size: 22px;
+    color: #8B4513;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Table Styles for Order Details */
+.order-details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.order-details-table th, .order-details-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.order-details-table th {
+    background-color: #8B4513; /* Premium brown color */
+    color: #fff;
+}
+
+.order-details-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.order-details-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.order-details-table td {
+    font-size: 16px;
+}
+
+/* Back to Orders Button */
+.cta-button {
+    padding: 12px 20px;
+    background-color: #A0522D;
+    max-width: 110px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-top: 20px;
+    display: inline-block;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cta-button:hover {
+    background-color: #D2691E;
+    transform: translateY(-2px);
+}
+
+.cta-button:active {
+    transform: translateY(0);
+}
+
+/* Sidebar (Leftbar) */
+.leftbar {
+    background-color: #8B4513; /* Premium brown color */
+    padding: 20px;
+    height: 100vh;
+    width: 250px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    z-index: 1000; /* Ensure sidebar stays on top */
+}
+
+.leftbar .logo {
+    mix-blend-mode: color-burn;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.leftbar .logo img {
+    width: 200px;
+    height: auto;
+}
+
+.leftbar .btn {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.leftbar .btn a {
+    text-decoration: none;
+}
+
+.leftbar .btn .button {
+    width: 100%;
+    padding: 12px 20px;
+    color: #fff;
+    background-color: #A0522D;
+    border: none;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.leftbar .btn .button:hover {
+    background-color: #D2691E;
+    transform: translateY(-2px);
+}
+
+.leftbar .btn .button:active {
+    transform: translateY(0);
+}
