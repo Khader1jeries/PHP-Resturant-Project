@@ -1,4 +1,3 @@
-
 # 🍽️ PHP Restaurant Project
 
 A simple PHP-based web application for managing a restaurant with distinct portals for guests, clients, and admins. This system includes user-facing functionality as well as administrative management features.
@@ -32,15 +31,18 @@ PHP-Resturant-Project/
 ## 🛠️ Installation Guide
 
 1. **Clone the repository**
+
    ```bash
-   git clone https://github.com/your-username/PHP-Resturant-Project.git
+   git clone https://github.com/Khader1jeries/PHP-Resturant-Project.git
    ```
 
 2. **Import the SQL database**
+
    - Open your MySQL manager (like phpMyAdmin).
    - Import `php_db.sql` into a new database (e.g., `restaurant_db`).
 
 3. **Configure database connection**
+
    - Update database credentials in the `config/` directory.
 
 4. **Run the project**
@@ -54,6 +56,7 @@ PHP-Resturant-Project/
 ## 📷 Screenshots
 
 You can add screenshots of:
+
 - Guest homepage
 - Admin dashboard
 - Menu and reservation forms
